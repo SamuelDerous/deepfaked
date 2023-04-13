@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="322.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.RegisterController">
+   <children>
+      <Label layoutX="82.0" layoutY="14.0" text="Aanmelden">
+         <font>
+            <Font size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="12.0" layoutY="112.0" text="Wanneer ben je geboren?" />
+      <DatePicker fx:id="dtBirthDate" layoutX="12.0" layoutY="137.0" onInputMethodTextChanged="#codeEntered" onKeyPressed="#codeEntered" onKeyReleased="#codeEntered" onKeyTyped="#codeEntered" prefHeight="26.0" prefWidth="291.0" />
+      <Label layoutX="12.0" layoutY="171.0" prefHeight="18.0" prefWidth="283.0" text="Je geboortedatum wordt niet openbaar weergegeven.">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="12.0" layoutY="228.0" text="E-mailadres/gebruikersnaam" />
+      <TextField id="txtUserName" fx:id="txtUser" layoutX="14.0" layoutY="252.0" onInputMethodTextChanged="#codeEntered" onKeyTyped="#codeEntered" prefHeight="26.0" prefWidth="291.0" promptText="E-mail/gebruikersnaam" />
+      <PasswordField id="txtPassword" fx:id="txtPassword" layoutX="12.0" layoutY="289.0" onInputMethodTextChanged="#codeEntered" onKeyTyped="#codeEntered" prefHeight="26.0" prefWidth="291.0" promptText="Wachtwoord" />
+      <PasswordField id="txtPassword" fx:id="txtConfirm" layoutX="12.0" layoutY="325.0" onInputMethodTextChanged="#codeEntered" onKeyTyped="#codeEntered" prefHeight="26.0" prefWidth="291.0" promptText="Bevestig wachtwoord" />
+      <Button id="btnNext" fx:id="btnNext" disable="true" layoutX="13.0" layoutY="411.0" mnemonicParsing="false" onAction="#makeGamer" prefHeight="44.0" prefWidth="292.0" text="Volgende" />
+      <Hyperlink id="txtRegister" layoutX="196.0" layoutY="473.0" onAction="#showLoginScreen" text="Inloggen" />
+      <Label layoutX="58.0" layoutY="476.0" text="Heb je al een account" />
+      <Label fx:id="lblError" layoutX="13.0" layoutY="66.0" prefHeight="46.0" prefWidth="291.0" textAlignment="CENTER" textFill="#e80a0a" wrapText="true" />
+      <TextFlow fx:id="flTerms" layoutX="15.0" layoutY="368.0" prefHeight="26.0" prefWidth="292.0" style="fx-font-size: 8;" />
+   </children>
+</Pane>

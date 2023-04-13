@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="be.zenodotus_Deepfaked_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>Database.model.Account</class>
+    <class>Database.model.Deepfake</class>
+    <class>Database.model.Questionchoice</class>
+    <class>Database.model.Feedbackvalue</class>
+    <class>Database.model.Question</class>
+    <class>Database.model.Type</class>
+    <class>Database.model.Savesession</class>
+    <class>Database.model.Mission</class>
+    <class>Database.model.Gamer</class>
+    <class>Database.model.Task</class>
+    <class>Database.model.Learningobjective</class>
+    <class>Database.model.Goal</class>
+    <class>Database.model.Choice</class>
+    <class>Database.model.Consequence</class>
+    <class>Database.model.Tool</class>
+    <class>Database.model.Subject</class>
+    <class>Database.model.Gamesession</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/u549090867_Deepfaked?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="SDLPetra007"/>
+    </properties>
+  </persistence-unit>
+</persistence>

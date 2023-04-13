@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="730.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.AnalyticsController">
+   <children>
+      <Label layoutX="32.0" layoutY="63.0" text="Vooruitgang" />
+      <Label layoutX="32.0" layoutY="284.0" text="Badges" />
+      <Label layoutX="528.0" layoutY="63.0" text="Klassement" />
+      <PieChart fx:id="chartProgress" layoutX="32.0" layoutY="94.0" prefHeight="190.0" prefWidth="472.0" />
+      <ScrollPane fx:id="pnBadges" layoutX="32.0" layoutY="318.0" prefHeight="346.0" prefWidth="472.0" />
+      <TableView fx:id="lstLeaderBoard" layoutX="528.0" layoutY="94.0" prefHeight="570.0" prefWidth="358.0" stylesheets="@../../../assets/border.css">
+        <columns>
+          <TableColumn fx:id="colUserName" prefWidth="156.0" text="Gebruikersnaam" />
+          <TableColumn fx:id="colFollowers" prefWidth="76.0" text="Volgers" />
+          <TableColumn fx:id="colMoney" prefWidth="121.0" text="Verdiend loon" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnClose" layoutX="834.0" layoutY="689.0" mnemonicParsing="false" onAction="#closeScreen" text="Sluiten" />
+      <Label layoutX="450.0" layoutY="28.0" scaleX="3.0" scaleY="3.0" text="Analyse" />
+   </children>
+</Pane>

@@ -1,0 +1,121 @@
+.pageHeader_tikTok
+{
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0;
+}
+
+a
+{
+  text-decoration: none;
+    color: #000;
+}
+
+ul
+{
+    list-style: none;
+    padding-left: 0;
+}
+
+.text-pink
+{
+    color: #fe2c55;
+}
+
+.text-blue
+{
+    color: rgb(32, 213, 236);
+}
+
+.btn-danger
+{
+    background-color: #fe2c55 !important;
+    border-color: #fe2c55 !important;
+}
+
+.btn-outline-danger
+{
+    border-color: #fe2c55 !important;
+    color: #fe2c55;
+}
+
+.btn-outline-danger:hover, .btn-danger:hover
+{
+    background-color: #fe2c55 !important;
+}
+
+.search_tikTok
+{
+    display: flex;
+    align-items: center;
+    border: 1px solid #cccccc;
+    border-radius: 20px;
+    background-color: #dadada;
+    max-width: 50%;
+    margin: auto;
+}
+
+.search_tikTok_input
+{
+    border: none;
+    border-radius: 20px;
+    background-color: #dadada;
+}
+
+.search_tikTok_input:hover, .search_tikTok_input:active, .search_tikTok_input:focus
+{
+    border: none;
+    box-shadow: none;
+    background-color: #dadada;
+}
+
+.search_tikTok_icon
+{
+    display: block;
+    padding: 10px;
+    border-left: 1px solid #adadad;
+}
+
+.suggestedAccountIcon
+{
+    width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    margin-right: 10px;
+}
+
+.actions_tikTok
+{
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.tikTok_screen_img
+{
+    height: 700px;
+    border-radius: 10px;
+}
+
+.side-icon {
+    float: left;
+}
+
+.profile-logo-img {
+  overflow: hidden;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+
+.profile-logo-img-header {
+  overflow: hidden;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}

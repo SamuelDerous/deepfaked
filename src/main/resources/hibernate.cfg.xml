@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/u549090867_deepfaked</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">SDLPetra007</property>
+    <property name="hibernate.connection.pool_size">5</property>
+    
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="hibernate.c3p0.max_size">20</property>
+    <property name="hibernate.c3p0.acquire_increment">1</property>
+    <property name="hibernate.c3p0.idle_test_period">60</property>
+    <property name="hibernate.c3p0.max_statements">50</property>
+    <property name="hibernate.c3p0.timeout">30</property>
+    
+    <property name="show_sql">false</property>
+    
+    <mapping class="com.mycompany.deepfaked.database.model.Account"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Choice"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Consequence"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Deepfake"/>
+    <mapping class="com.mycompany.deepfaked.database.model.FeedbackValue"/>
+    <mapping class="com.mycompany.deepfaked.database.model.GameSession"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Gamer"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Goal"/>
+    <mapping class="com.mycompany.deepfaked.database.model.LearningObjective"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Mission"/>
+    <mapping class="com.mycompany.deepfaked.database.model.ProgressDeepfake" />
+    <mapping class="com.mycompany.deepfaked.database.model.ProgressMission" />
+    <mapping class="com.mycompany.deepfaked.database.model.QuestionChoice"/>
+    <mapping class="com.mycompany.deepfaked.database.model.QuestionChoicePK"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Question"/>
+    <mapping class="com.mycompany.deepfaked.database.model.SaveSession"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Subject"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Task"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Tool"/>
+    <mapping class="com.mycompany.deepfaked.database.model.Type"/>
+    
+  </session-factory>
+</hibernate-configuration>
