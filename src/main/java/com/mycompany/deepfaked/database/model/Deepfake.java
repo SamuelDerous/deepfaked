@@ -23,12 +23,13 @@ public class Deepfake {
     @Basic
     @Column(name = "mission", nullable = false)
     private int mission;
-    @Basic
-    @Column(name = "consequence", nullable = false)
-    private int consequence;
-    @Basic
-    @Column(name = "value", nullable = false)
-    private int value;
+    @ManyToOne
+    @JoinColumn(name = "consequence", nullable = false)
+    private Consequence consequence;
+    
+    @ManyToOne
+    @JoinColumn(name = "value", nullable = false)
+    private FeedbackValue value;
 
     public int getVideoId() {
         return videoId;
@@ -70,19 +71,19 @@ public class Deepfake {
         this.mission = mission;
     }
 
-    public int getConsequence() {
+    public Consequence getConsequence() {
         return consequence;
     }
 
-    public void setConsequence(int consequence) {
+    public void setConsequence(Consequence consequence) {
         this.consequence = consequence;
     }
 
-    public int getValue() {
+    public FeedbackValue getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(FeedbackValue value) {
         this.value = value;
     }
 

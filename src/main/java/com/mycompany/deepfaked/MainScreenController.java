@@ -26,12 +26,10 @@ import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SingleSelectionModel;
@@ -44,6 +42,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -54,8 +53,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -99,6 +96,7 @@ public class MainScreenController implements Initializable {
     
     private List<Deepfake> deepfakes;
     private Deepfake deepfake;
+    private boolean deepfakeCorrect;
     
     @FXML
     private TabPane tbPaneMainScreen;
@@ -113,6 +111,7 @@ public class MainScreenController implements Initializable {
     
     @FXML
     private ScrollPane scrollTasks;
+    
     
     @FXML
     private Tab tbInformation;
@@ -137,13 +136,26 @@ public class MainScreenController implements Initializable {
     
     @FXML
     private ToggleButton tgGPT;
+    
+    @FXML
+    private Tab tbPersonal;
+    
+    @FXML
+    private Button btnNext;
+    
+    @FXML
+    private AnchorPane anchorPersonal;
+    //@FXML
+    private WebView webviewPersonal;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        tbPaneMainScreen.getTabs().remove(tbPersonal);
         gamer = LoginController.getGamer();
         pnTasks = new Pane();
+        
         //pnTasks.setPrefHeight(200);
         scrollTasks.setVisible(false);
         scrollTasks.getStylesheets().add(this.getClass().getClassLoader().getResource("assets/border.css").toString());
@@ -166,9 +178,20 @@ public class MainScreenController implements Initializable {
         /*for(int i = 0; i < deepfakes.size(); i++) {
             System.out.println(deepfakes.get(i).getLocation());
         }*/
+        createTiktokDeepfake();
+        
+     
+                
+    }
+    
+    private void createTiktokDeepfake() {
+        btnReal.setSelected(false);
+        btnFake.setSelected(false);
         btnReal.setDisable(true);
         btnFake.setDisable(true);
+        deepfake = getRandomDeepfake();
         WebEngine webEngine = webviewTiktok.getEngine();
+        webEngine.loadContent("");
         webEngine.load(this.getClass().getClassLoader().getResource("assets/html/tiktokMovie.html").toString());
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
             if (newState == State.SUCCEEDED) {
@@ -182,7 +205,6 @@ public class MainScreenController implements Initializable {
             }
             userImg.setAttribute("src", avatar);
             Account account = getRandomAccount();
-            deepfake = getRandomDeepfake();
             Element accountImg = document.getElementById("accountImg");
             Element accountName = document.getElementById("accountName");
             Element deepfakeInformation = document.getElementById("deepfakeInformation");
@@ -195,9 +217,6 @@ public class MainScreenController implements Initializable {
         }
     }
 });
-        
-     
-                
     }
     
     private Account getRandomAccount() {
@@ -248,9 +267,9 @@ public class MainScreenController implements Initializable {
         //System.out.println(btnFake.isSelected());
         if((deepfake.getReal() == 1 && btnReal.isSelected()) ||
                 (deepfake.getReal() == 0 && btnFake.isSelected())) {
-                System.out.println("correct");
+                deepfakeCorrect = true;
         } else {
-            System.out.println("not correct");
+            deepfakeCorrect = false;
         }
         showQuestions(event);
         /*WebEngine tiktok = webviewTiktok.getEngine();
@@ -395,40 +414,7 @@ public class MainScreenController implements Initializable {
                 //System.out.println(deepfake.getLabel());
                 SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
                 selectionModel.select(tbTiktok);
-                CompletedTask.resetCounter();
-                tasks = TaskDao.getTasksForDeepfake(deepfake);
-                //tasks = new ArrayList<>();
-                /*completedTasks = tasks.stream().collect(Collectors.toMap(Function.identity(), (a) -> Boolean.FALSE));
-                for(Task task : tasks) {
-                    System.out.println(completedTasks.get(task));
-                }*/
-                double value = 20;
-                double plus = 0;
-                if(!tasks.isEmpty()) {
-                    for(int j = 0; j < tasks.size(); j++) {
-                        System.out.println(tasks.get(j).getId() + " " + tasks.get(j).getText());
-                    }
-                    //Label lblTask = new Label("\u2022\t" + tasks.get(0).getText());
-                    //ImageView imageComplete = new ImageView(new Image(getClass().getClassLoader().getResource("assets/icons/checknotcomplete.png").toString()));
-                    //imageComplete.setTranslateX(220);
-                    tasks.get(0).getImage().setTranslateY(value + plus - 5);
-                    tasks.get(0).getImage().setOnMouseClicked((MouseEvent e) -> {
-                        completeTask(0);
-                    });
-                    tasks.get(0).getLabel().setOnMouseClicked((MouseEvent e) -> {
-                        completeTask(0);
-                    });
-                    //lblTask.setTranslateX(10);
-                    tasks.get(0).getLabel().setTranslateY(value + plus);
-                    
-                    pnTasks.getChildren().add(tasks.get(0).getLabel());
-                    pnTasks.getChildren().add(tasks.get(0).getImage());
-                }
-                scrollTasks.setContent(pnTasks);
-                scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-                scrollTasks.setVisible(true);
-                tglTasks.setDisable(false);
-                tgGPT.setDisable(false);
+                setTaskPane();
                 
                 
                 /*root.getChildren().add(btnYes);
@@ -455,17 +441,53 @@ public class MainScreenController implements Initializable {
         //addUINode()
     }
     
+    private void setTaskPane() {
+        pnTasks.setPrefHeight(50);
+        pnTasks.setMaxHeight(50);
+        CompletedTask.resetCounter();
+        pnTasks.getChildren().clear();
+        //tasks.clear();
+        System.out.println(deepfake.getLabel());
+                tasks = TaskDao.getTasksForDeepfake(deepfake);
+                //tasks = new ArrayList<>();
+                /*completedTasks = tasks.stream().collect(Collectors.toMap(Function.identity(), (a) -> Boolean.FALSE));
+                for(Task task : tasks) {
+                    System.out.println(completedTasks.get(task));
+                }*/
+                double value = 20;
+                double plus = 0;
+                if(!tasks.isEmpty()) {
+                    //Label lblTask = new Label("\u2022\t" + tasks.get(0).getText());
+                    //ImageView imageComplete = new ImageView(new Image(getClass().getClassLoader().getResource("assets/icons/checknotcomplete.png").toString()));
+                    //imageComplete.setTranslateX(220);
+                    tasks.get(0).getImage().setTranslateY(value + plus - 5);
+                    tasks.get(0).getImage().setOnMouseClicked((MouseEvent e) -> {
+                        completeTask(0);
+                    });
+                    tasks.get(0).getLabel().setOnMouseClicked((MouseEvent e) -> {
+                        completeTask(0);
+                    });
+                    //lblTask.setTranslateX(10);
+                    tasks.get(0).getLabel().setTranslateY(value + plus);
+                    
+                    pnTasks.getChildren().add(tasks.get(0).getLabel());
+                    pnTasks.getChildren().add(tasks.get(0).getImage());
+                }
+                scrollTasks.setContent(pnTasks);
+                scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+                scrollTasks.setVisible(true);
+                tglTasks.setDisable(false);
+                tgGPT.setDisable(false);
+                
+    }
+    
     private void showQuestions(ActionEvent event) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("questions.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 600); 
-        Stage stage = new Stage();
-        stage.setTitle("Questions");
-        stage.setScene(scene);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(
-            ((Node)event.getSource()).getScene().getWindow());
-        stage.show();
+        QuestionsController controller = new QuestionsController(this);
         questions = QuestionDao.getQuestionsForDeepfake(deepfake);
+    }
+    
+    public ToggleButton getParent() {
+        return btnReal;
     }
     
     private void handler() {
@@ -531,11 +553,120 @@ public class MainScreenController implements Initializable {
         System.out.println("height: " + height);
         scrollTasks.setContent(pnTasks);
         scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        
+    }
+    
+    @FXML
+    protected void loadNext() {
+        //if(deepfakes == null || deepfakes.isEmpty()) {
+            Intro intro = new Intro(this);
+            Intro.getStage().close();
+        /*} else {
+            createTiktokDeepfake();
+            tbTiktok.setDisable(false);
+            SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
+            selectionModel.select(tbTiktok);
+            setTaskPane();
+        }*/
+    }
+    
+    public void createPersonalTiktok() {
+        tbPaneMainScreen.getTabs().add(tbPersonal);
+        scrollTasks.setVisible(false);
+        tglTasks.setSelected(false);
+        tglTasks.setDisable(true);
+        pnGPT.setVisible(false);
+        tgGPT.setSelected(false);
+        tgGPT.setDisable(true);
+        tbTiktok.setDisable(true);
+        isGPTPressed = false;
+        isProfessorPressed = false;
+        System.out.print("test tiktok");
+        SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
+        selectionModel.select(tbPersonal);
+        webviewPersonal = new WebView();
+        webviewPersonal.setPrefSize(706, 492);
+        anchorPersonal.getChildren().add(webviewPersonal);
+        WebEngine webEngine = webviewPersonal.getEngine();
+        webEngine.loadContent("");
+        webEngine.load(this.getClass().getClassLoader().getResource("assets/html/result.html").toString());
+        webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
+            if (newState == State.SUCCEEDED) {
+                
+                Document document = webEngine.getDocument();
+                int amount = 0;
+                int comments = 20;
+                int sharing = 0;
+                if(deepfakeCorrect) {
+                    amount = deepfake.getValue().getFollowers();
+                    comments = amount - 40;
+                    sharing = 150;
+                    webEngine.executeScript("comments[0] = \"Je bent een legende\";" 
+                            + "comments[1] = \"Wow, dit is helemaal nieuw voor me\";"
+                            + "comments[2] = \"Geweldig dat je dit onder onze aandacht brengt\";"
+                            + "comments[3] = \"*Neemt zijn kaak op van de vloer*\";"
+                            + "comments[4] = \"Ik heb deze video al 600 keer bekeken!\";"
+                            + "comments[5] = \"OMG, dit is zo belangrijk!\";"
+                            + "comments[6] = \"Jij bent de belangrijkste persoon op Tiktok!\";"
+                            + "comments[7] = \"Kon het niet meer met iemand eens zijn dan met jou!\";"
+                            + "comments[8] = \"Tiktok is geen wedstrijd, maar jij hebt toch gewonnen!\";"
+                            + "comments[9] = \"Wow, dit is het belangrijkste dat iemand ooit op Tiktok heeft verspreid\";"
+                            + "comments[10] = \"Dit ga ik delen!\";"
+                            + "comments[11] = \"Iedereen moet dit weten!\";"
+                            + "comments[12] = \"*Maakt een buiging*\";");
+                } else {
+                    webEngine.executeScript("comments[0] = \"Maak toch iemand anders iets wijs\";" 
+                            + "comments[1] = \"Allez, weer iemand die denkt het licht uitegevonden te hebben\";"
+                            + "comments[2] = \"Ga toch van Tiktok af\";"
+                            + "comments[3] = \"Dit is zo nep wat jij zegt!\";"
+                            + "comments[4] = \"Ik geloof er geen snars van\";"
+                            + "comments[5] = \"Man, niemand gelooft jou!\";"
+                            + "comments[6] = \"Ik denk dat ik dommer ben geworden sinds ik jouw bericht heb gezien\";"
+                            + "comments[7] = \"Geef je dagjob maar nog niet op\";"
+                            + "comments[8] = \"Jou volgt toch niemand?\";"
+                            + "comments[9] = \"Als je denkt hiermee volgers aan te trekken...\";"
+                            + "comments[10] = \"Dit is zo beschamend!\";"
+                            + "comments[11] = \"Hoe oud ben jij, vijf?\";"
+                            + "comments[12] = \"Dit zou verboden moeten worden\";");
+                }
+                webEngine.executeScript("runner()");
+                webEngine.executeScript("" + 
+                "setInterval(function() {if(fol < " + amount + ") {followers.innerHTML = fol + 1; fol++;}}, 10);" +
+                "setInterval(function() {if(com < " + comments + ") {comment.innerHTML = com + 1; com++;}}, 10);" +
+                "setInterval(function() {if(shar < " + sharing + ") {sharing.innerHTML = shar + 1; shar++;}}, 10);");
+                if(document != null) {
+                    Element userImg = document.getElementById("userImg");
+                    String source = userImg.getAttribute("src");
+                    String avatar = gamer.getAvatar();
+                    if(avatar == null || avatar.isBlank()) {
+                        avatar = "https://divedigital.id/wp-content/uploads/2022/07/1-Blank-TikTok-Default-PFP.jpg";
+                    }
+                    userImg.setAttribute("src", avatar);
+                    
+                    //deepfake = getRandomDeepfake();
+                    Element accountImg = document.getElementById("accountImg");
+                    Element accountName = document.getElementById("accountName");
+                    Element deepfakeInformation = document.getElementById("deepfakeInformation");
+                    Element videoSource = document.getElementById("sourceVideo");
+                    accountImg.setAttribute("src", avatar);
+                    accountName.setTextContent(gamer.getUserName());
+                    deepfakeInformation.setTextContent(deepfake.getLabel());
+                    videoSource.setAttribute("src", deepfake.getLocation());
+                    
+            //deepfakeInformation.setTextContent(deepfake.getLabel());
+            //videoSource.setAttribute("src", deepfake.getLocation());
+            //System.out.println(videoSource.getAttribute("src"));
+                }
+            }
+        });
+        //tbPersonal.
     }
     
     public static List<Question> getQuestions() {
         return questions;
     }
+
+    
     
             
     

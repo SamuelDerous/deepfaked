@@ -2,23 +2,35 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.QuestionsController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane fx:id="pnQuestionsField" prefHeight="600.0" prefWidth="700.0" style="-fx-background-image: url('assets/textures/me.jpg'); -fx-background-repeat: no-repeat; -fx-background-size: stretch">
+      <Pane fx:id="pnQuestionsField" prefHeight="740.0" prefWidth="885.0" style="-fx-background-image: url('assets/textures/me.jpg'); -fx-background-repeat: no-repeat; -fx-background-size: stretch">
          <children>
-            <ImageView fitHeight="248.0" fitWidth="700.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="233.0" fitWidth="800.0" layoutX="82.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../assets/textures/dialog-translucent.png" />
                </image>
             </ImageView>
-            <Label fx:id="lblQuestion" layoutX="25.0" layoutY="62.0" prefHeight="173.0" prefWidth="652.0" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="btnReady" layoutX="639.0" layoutY="561.0" mnemonicParsing="false" text="Klaar" />
-            <ImageView fx:id="btnContinue" fitHeight="96.0" fitWidth="52.0" layoutX="634.0" layoutY="238.0" onMouseClicked="#continuePressed" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="lblQuestion" layoutX="106.0" layoutY="63.0" prefHeight="173.0" prefWidth="652.0" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="btnReady" layoutX="711.0" layoutY="598.0" mnemonicParsing="false" onAction="checkAnswers" text="Klaar" />
+            <ImageView fx:id="btnContinue" fitHeight="96.0" fitWidth="52.0" layoutX="732.0" layoutY="236.0" onMouseClicked="continuePressed" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../assets/textures/key-C.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lblMore" layoutX="53.0" layoutY="706.0" prefHeight="17.0" prefWidth="666.0" textFill="#f5f3f3" />
+            <ScrollPane fx:id="pnInformation" hbarPolicy="NEVER" layoutX="53.0" layoutY="638.0" opacity="0.67" prefHeight="64.0" prefWidth="692.0" visible="false">
+              <content>
+                <AnchorPane fx:id="lblInformation" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+              </content>
+            </ScrollPane>
+            <ImageView fx:id="btnNextQuestion" fitHeight="96.0" fitWidth="52.0" layoutX="719.0" layoutY="670.0" onMouseClicked="nextQuestion" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../assets/textures/key-C.png" />
                </image>

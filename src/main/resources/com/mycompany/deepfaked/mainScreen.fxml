@@ -40,6 +40,15 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab fx:id="tbPersonal" text="Personal Tiktok">
+               <content>
+                  <AnchorPane fx:id="anchorPersonal" minHeight="0.0" minWidth="0.0" prefHeight="507.0" prefWidth="700.0">
+                     <children>
+                        <Button fx:id="btnNext" layoutX="239.0" layoutY="509.0" mnemonicParsing="false" onAction="#loadNext" prefHeight="39.0" prefWidth="230.0" text="Volgende" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
       <ProgressBar fx:id="prDeepfake" layoutY="686.0" prefHeight="18.0" prefWidth="700.0" progress="0.0" />

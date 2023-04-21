@@ -18,6 +18,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,6 +34,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -42,11 +44,35 @@ import javafx.util.Duration;
  */
 public class Intro {
     
+    private final MainScreenController mainScreenController;
+    
+    private static Stage stage;
+    
+    private Stage introStage;
+    
     //var i;
     
     private String intro;
     private String whole;
     private static Mission mission;
+    
+    public Intro() {
+        mainScreenController = new MainScreenController();
+    }
+    
+    public Intro(MainScreenController controller) {
+        this.mainScreenController = controller;
+            //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("questions.fxml"));
+            //fxmlLoader.setController(this);
+            //Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
+            introStage = new Stage();
+            introStage.setTitle("Missies");
+            introStage.setScene(sceneMissionPlay());
+            
+            introStage.show();
+        
+
+    }
 
     public static Mission getMission() {
         return mission;
@@ -249,7 +275,7 @@ public class Intro {
                 mission = missionsGet;
                 try {
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("mainScreen.fxml"));
-                Stage stage = new Stage();
+                stage = new Stage();
                 Scene scenetest = new Scene(fxmlLoader.load(), 700, 700);
                 stage.setScene(scenetest);
                 stage.show();
@@ -315,6 +341,8 @@ public class Intro {
     
     
     
+    
+    
    /* @Override
     protected void initUI() {
         Text intro = new Text("Hello, this is Sam!");
@@ -333,6 +361,10 @@ public class Intro {
     /*public static void main(String[] args) {
         //launch(args);
     }*/
+
+    public static Stage getStage() {
+        return stage;
+    }
     
     
 }

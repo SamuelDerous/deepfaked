@@ -16,6 +16,13 @@ ul
     padding-left: 0;
 }
 
+.centered {
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  transform: translate(-20%, -20%);
+}
+
 .text-pink
 {
     color: #fe2c55;

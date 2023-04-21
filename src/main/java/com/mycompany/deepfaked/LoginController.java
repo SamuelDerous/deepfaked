@@ -166,6 +166,11 @@ public class LoginController implements Initializable {
         }
         //HelloApplication.getStage().setScene(scene);
     }
+    
+    public static void makePersonalTab() {
+        
+    }
+    
 
     public static Stage getIntroStage() {
         return introStage;

@@ -15,13 +15,10 @@ public class Choice {
     @Basic
     @Column(name = "answer", nullable = false, length = -1)
     private String answer;
-    @Basic
-    @Column(name = "consequence", nullable = false)
-    private int consequence;
+    @ManyToOne
+    @JoinColumn(name = "consequence", nullable = false)
+    private Consequence consequence;
     
-    @ManyToMany
-    Set<QuestionChoice> questionstoChoice;
-
     public int getChoiceId() {
         return choiceId;
     }
@@ -38,20 +35,12 @@ public class Choice {
         this.answer = answer;
     }
 
-    public int getConsequence() {
+    public Consequence getConsequence() {
         return consequence;
     }
 
-    public void setConsequence(int consequence) {
+    public void setConsequence(Consequence consequence) {
         this.consequence = consequence;
-    }
-
-    public Set<QuestionChoice> getQuestionstoChoice() {
-        return questionstoChoice;
-    }
-
-    public void setQuestionstoChoice(Set<QuestionChoice> questionstoChoice) {
-        this.questionstoChoice = questionstoChoice;
     }
 
     @Override

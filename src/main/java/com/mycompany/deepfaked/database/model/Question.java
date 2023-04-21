@@ -27,9 +27,11 @@ public class Question {
     @Basic
     @Column(name = "multi", nullable = false)
     private int multi;
-    @Basic
-    @Column(name = "value", nullable = false)
-    private int value;
+    //@Basic
+    //@Column(name = "value", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "value", nullable = false)
+    private FeedbackValue value;
     
     /*@ManyToMany(fetch = FetchType.EAGER)
     //@JoinTable(name="QuestionChoice")
@@ -89,11 +91,11 @@ public class Question {
         this.multi = multi;
     }
 
-    public int getValue() {
+    public FeedbackValue getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(FeedbackValue value) {
         this.value = value;
     }
 
