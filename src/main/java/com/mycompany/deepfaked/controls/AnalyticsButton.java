@@ -7,6 +7,7 @@ package com.mycompany.deepfaked.controls;
 import com.mycompany.deepfaked.App;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
@@ -24,8 +25,9 @@ public class AnalyticsButton extends Button {
         super();
         ImageView iw = new ImageView(new Image(getClass().getClassLoader().getResource("assets/icons/analyticsImage.png").toString()));
         this.setGraphic(iw);
-        this.setPrefWidth(60);
-        this.setPrefHeight(60);
+        this.setPrefWidth(64);
+        this.setPrefHeight(64);
+        this.setPadding(new Insets(0.5, 0.5, 0.5, 0.5));
         this.setOnAction((event) -> {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("analytics.fxml"));

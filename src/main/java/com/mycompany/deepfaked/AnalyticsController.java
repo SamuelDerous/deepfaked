@@ -23,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -72,7 +73,6 @@ public class AnalyticsController implements Initializable {
         URL resourceGray = getClass().getClassLoader().getResource("assets/icons/award-gray.png");
         List<Gamer> gamers = GamerDao.getGamers();
         ObservableList<Gamer> testList = FXCollections.observableList(gamers);
-        System.out.println(testList.size());
         List<Pane> badgePanels = new ArrayList<>();
         List<Mission> missions = MissionsDao.getMissions();
         List<Mission> completedMissions = ProgressMissionDao.getMissionsforGamer(LoginController.getGamer());
@@ -125,6 +125,18 @@ public class AnalyticsController implements Initializable {
         colUserName.setCellValueFactory(new PropertyValueFactory<>("userName"));
         colFollowers.setCellValueFactory(new PropertyValueFactory<>("followers"));
         colMoney.setCellValueFactory(new PropertyValueFactory<>("money"));
+        colMoney.setCellFactory(col -> 
+            new TableCell<Gamer, Double>() {
+                @Override
+                public void updateItem(Double money, boolean empty) {
+                    super.updateItem(money, empty);
+                    if(empty) {
+                        setText("");
+                    } else {
+                        setText(String.format("€ %.2f", money));
+                    }
+                }
+            });
         lstLeaderBoard.setItems(testList);
         double progress = (completedMissions.size() * 100) / missions.size();
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(

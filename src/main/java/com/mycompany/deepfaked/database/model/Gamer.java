@@ -28,11 +28,11 @@ public class Gamer {
     private LocalDate birthdate;
     @Basic
     @Column(name = "money", nullable = true, precision = 2)
-    private BigDecimal money;
+    private double money;
     @Basic
     @Column(name = "followers", nullable = true)
     private Integer followers;
-
+    
     public int getGamerId() {
         return gamerId;
     }
@@ -73,11 +73,11 @@ public class Gamer {
         this.birthdate = birthdate;
     }
 
-    public BigDecimal getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(BigDecimal money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 

@@ -18,8 +18,8 @@
                </image>
             </ImageView>
             <Label fx:id="lblQuestion" layoutX="106.0" layoutY="63.0" prefHeight="173.0" prefWidth="652.0" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="btnReady" layoutX="711.0" layoutY="598.0" mnemonicParsing="false" onAction="checkAnswers" text="Klaar" />
-            <ImageView fx:id="btnContinue" fitHeight="96.0" fitWidth="52.0" layoutX="732.0" layoutY="236.0" onMouseClicked="continuePressed" pickOnBounds="true" preserveRatio="true">
+            <Button fx:id="btnReady" layoutX="711.0" layoutY="598.0" mnemonicParsing="false" onAction="#checkAnswers" text="Klaar" />
+            <ImageView fx:id="btnContinue" fitHeight="96.0" fitWidth="52.0" layoutX="732.0" layoutY="236.0" onMouseClicked="#continuePressed" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../assets/textures/key-C.png" />
                </image>
@@ -30,7 +30,7 @@
                 <AnchorPane fx:id="lblInformation" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
               </content>
             </ScrollPane>
-            <ImageView fx:id="btnNextQuestion" fitHeight="96.0" fitWidth="52.0" layoutX="719.0" layoutY="670.0" onMouseClicked="nextQuestion" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btnNextQuestion" fitHeight="96.0" fitWidth="52.0" layoutX="719.0" layoutY="670.0" onMouseClicked="#nextQuestion" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../assets/textures/key-C.png" />
                </image>

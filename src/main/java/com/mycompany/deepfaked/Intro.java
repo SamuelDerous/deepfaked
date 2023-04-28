@@ -6,7 +6,9 @@ package com.mycompany.deepfaked;
 
 import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.database.dao.MissionsDao;
+import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
 import com.mycompany.deepfaked.database.model.Mission;
+import com.mycompany.deepfaked.database.model.ProgressMission;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -254,6 +256,7 @@ public class Intro {
         int teller = 0;
         int heightTeller = 0;
         Button btnMission;
+        List<Mission> progressMissions = ProgressMissionDao.getMissionsforGamer(LoginController.getGamer());
         for(int i = 0; i < missions.size(); i++) {
             final Mission missionsGet = missions.get(i);
             final String description = missions.get(i).getDescription();
@@ -276,7 +279,7 @@ public class Intro {
                 try {
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("mainScreen.fxml"));
                 stage = new Stage();
-                Scene scenetest = new Scene(fxmlLoader.load(), 700, 700);
+                Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);
                 stage.setScene(scenetest);
                 stage.show();
                 LoginController.getIntroStage().hide();
@@ -285,6 +288,12 @@ public class Intro {
                 ex.printStackTrace();
             }
             });
+            if(progressMissions.contains(missionsGet)) {
+                btnMission.setDisable(true);
+                
+            } else {
+                btnMission.setDisable(false);
+            }
             teller++;
             missionButtons.add(btnMission);
             //heightTeller++;

@@ -11,12 +11,12 @@ public class ProgressMission {
     @Id
     @Column(name = "progressId", nullable = false)
     private int progressId;
-    @Basic
-    @Column(name = "gamer", nullable = false)
-    private int gamer;
-    @Basic
-    @Column(name = "mission", nullable = false)
-    private int mission;
+    @ManyToOne
+    @JoinColumn(name = "gamer", nullable = false)
+    private Gamer gamer;
+    @ManyToOne
+    @JoinColumn(name = "mission", nullable = false)
+    private Mission mission;
 
     public int getProgressId() {
         return progressId;
@@ -26,19 +26,19 @@ public class ProgressMission {
         this.progressId = progressId;
     }
 
-    public int getGamer() {
+    public Gamer getGamer() {
         return gamer;
     }
 
-    public void setGamer(int gamer) {
+    public void setGamer(Gamer gamer) {
         this.gamer = gamer;
     }
 
-    public int getMission() {
+    public Mission getMission() {
         return mission;
     }
 
-    public void setMission(int mission) {
+    public void setMission(Mission mission) {
         this.mission = mission;
     }
 

@@ -17,7 +17,7 @@ public class FeedbackValue {
     private int followers;
     @Basic
     @Column(name = "money", nullable = false, precision = 2)
-    private BigDecimal money;
+    private double money;
 
     public int getValueId() {
         return valueId;
@@ -35,11 +35,11 @@ public class FeedbackValue {
         this.followers = followers;
     }
 
-    public BigDecimal getMoney() {
+    public double getMoney() {
         return money;
     }
 
-    public void setMoney(BigDecimal money) {
+    public void setMoney(double money) {
         this.money = money;
     }
 

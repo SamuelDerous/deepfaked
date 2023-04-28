@@ -11,12 +11,12 @@ public class ProgressDeepfake {
     @Id
     @Column(name = "progressId", nullable = false)
     private int progressId;
-    @Basic
-    @Column(name = "gamer", nullable = false)
-    private int gamer;
-    @Basic
-    @Column(name = "deepfake", nullable = false)
-    private int deepfake;
+    @ManyToOne
+    @JoinColumn(name = "gamer", nullable = false)
+    private Gamer gamer;
+    @ManyToOne
+    @JoinColumn(name = "deepfake", nullable = false)
+    private Deepfake deepfake;
 
     public int getProgressId() {
         return progressId;
@@ -26,19 +26,19 @@ public class ProgressDeepfake {
         this.progressId = progressId;
     }
 
-    public int getGamer() {
+    public Gamer getGamer() {
         return gamer;
     }
 
-    public void setGamer(int gamer) {
+    public void setGamer(Gamer gamer) {
         this.gamer = gamer;
     }
 
-    public int getDeepfake() {
+    public Deepfake getDeepfake() {
         return deepfake;
     }
 
-    public void setDeepfake(int deepfake) {
+    public void setDeepfake(Deepfake deepfake) {
         this.deepfake = deepfake;
     }
 

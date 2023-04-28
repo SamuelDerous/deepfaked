@@ -19,26 +19,26 @@ import org.hibernate.query.Query;
  *
  * @author ZENODotus
  */
-public class ProgressMissionDao {
+public class ProgressDeepfakeDao {
     
-    public static List<Mission> getMissionsforGamer(Gamer gamer) {
+    public static List<Deepfake> getCompletedDeepfakesforGamer(Gamer gamer) {
         SessionFactory factory = DeepfakedFactory.getSessionFactory();
         try (Session session = factory.openSession()) {
-            ProgressMission mission;
-            String hql = "select mission from ProgressMission where gamer = :gamer";
-            Query query = session.createQuery(hql, Mission.class);
+            //ProgressDeepfake deepfak;
+            String hql = "select deepfake from ProgressDeepfake where gamer = :gamer";
+            Query query = session.createQuery(hql, Deepfake.class);
             query.setParameter("gamer", gamer);
             return query.getResultList();
         }
     }
     
-     public static boolean addCompletedMissionForGamer(Gamer gamer, Mission mission) {
+    public static boolean addCompletedDeepfakeForGamer(Gamer gamer, Deepfake deepfake) {
         SessionFactory factory = DeepfakedFactory.getSessionFactory();
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            ProgressMission progress = new ProgressMission();
+            ProgressDeepfake progress = new ProgressDeepfake();
             progress.setGamer(gamer);
-            progress.setMission(mission);
+            progress.setDeepfake(deepfake);
             session.saveOrUpdate(progress);
             session.getTransaction().commit();
             return true;

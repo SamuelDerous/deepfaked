@@ -1,6 +1,5 @@
 package com.mycompany.deepfaked;
 
-import com.almasb.fxgl.app.GameApplication;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

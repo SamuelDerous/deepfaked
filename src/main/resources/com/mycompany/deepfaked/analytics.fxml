@@ -23,6 +23,6 @@
         </columns>
       </TableView>
       <Button fx:id="btnClose" layoutX="834.0" layoutY="689.0" mnemonicParsing="false" onAction="#closeScreen" text="Sluiten" />
-      <Label layoutX="450.0" layoutY="28.0" scaleX="3.0" scaleY="3.0" text="Analyse" />
+      <Label layoutX="450.0" layoutY="28.0" maxHeight="-Infinity" maxWidth="-Infinity" scaleX="3.0" scaleY="3.0" text="Analyse" />
    </children>
 </Pane>

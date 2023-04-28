@@ -4,8 +4,13 @@
  */
 package com.mycompany.deepfaked;
 
+import com.mycompany.deepfaked.controls.AnalyticsButton;
+import com.mycompany.deepfaked.controls.FactCheckPane;
 import com.mycompany.deepfaked.database.dao.AccountDao;
 import com.mycompany.deepfaked.database.dao.DeepfakeDao;
+import com.mycompany.deepfaked.database.dao.GamerDao;
+import com.mycompany.deepfaked.database.dao.ProgressDeepfakeDao;
+import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
 import com.mycompany.deepfaked.database.dao.QuestionDao;
 import com.mycompany.deepfaked.database.dao.TaskDao;
 import com.mycompany.deepfaked.database.model.Account;
@@ -13,11 +18,15 @@ import com.mycompany.deepfaked.database.model.CompletedTask;
 import com.mycompany.deepfaked.database.model.Deepfake;
 import com.mycompany.deepfaked.database.model.Gamer;
 import com.mycompany.deepfaked.database.model.Mission;
+import com.mycompany.deepfaked.database.model.ProgressMission;
 import com.mycompany.deepfaked.database.model.Question;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -31,6 +40,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
@@ -66,6 +76,10 @@ public class MainScreenController implements Initializable {
     
     private static List<Question> questions;
     
+    private final Image imageProfessor = new Image(getClass().getClassLoader().getResource("assets/avatars/professor.Jpg").toString());
+    private final Image imageProfessorRevert = new Image(getClass().getClassLoader().getResource("assets/avatars/professorRevert.Jpg").toString());
+        
+    
     private EventHandler<KeyEvent> keyHandler;
     private EventHandler<MouseEvent> mouseHandler;
     private ImageView keyImage;
@@ -99,6 +113,9 @@ public class MainScreenController implements Initializable {
     private boolean deepfakeCorrect;
     
     @FXML
+    private AnchorPane anchorRoot;
+    
+    @FXML
     private TabPane tbPaneMainScreen;
 
     @FXML
@@ -121,6 +138,9 @@ public class MainScreenController implements Initializable {
     
     @FXML
     private ToggleButton tglTasks;
+    
+    @FXML
+    private ImageView btnProfessor;
     
     @FXML
     private TextField txtMessage;
@@ -147,11 +167,37 @@ public class MainScreenController implements Initializable {
     private AnchorPane anchorPersonal;
     //@FXML
     private WebView webviewPersonal;
+    
+    @FXML
+    private ProgressBar prDeepfake;
+    
+    @FXML
+    private ProgressBar prMission;
+    
+    @FXML
+    private ToggleButton tglFactCheck;
+    
+    private boolean isFactCheckPressed;
+    
+    private FactCheckPane factCheckPane;
+    
+    private int progressDeepfake;
+    private int progressMission;
+    private int progress;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        AnalyticsButton analyticsButton = new AnalyticsButton();
+        System.out.println(anchorRoot.getPrefWidth());
+        analyticsButton.setTranslateX(anchorRoot.getPrefWidth() - 150);
+        analyticsButton.setTranslateY(12);
+        anchorRoot.getChildren().add(analyticsButton);
+        prMission.setProgress(0);
+        progress = 0;
+        //progressDeepfake = 0; //DeepfakeDao.getDeepfakesForMission(mission).size();
+        prDeepfake.setProgress(0);
         tbPaneMainScreen.getTabs().remove(tbPersonal);
         gamer = LoginController.getGamer();
         pnTasks = new Pane();
@@ -166,10 +212,43 @@ public class MainScreenController implements Initializable {
         mission = Intro.getMission();
         tbInformation.setContent(paneMissionPlay());
         deepfakes = DeepfakeDao.getDeepfakesForMission(mission);
+        
+        List<Deepfake> newList = new ArrayList<>();
+        List<Deepfake> completedDeepfakes = ProgressDeepfakeDao.getCompletedDeepfakesforGamer(gamer);
+        for(Deepfake deep : deepfakes) {
+            boolean istaken = false;
+            for(Deepfake completed : completedDeepfakes) {
+                if(deep.getVideoId() == completed.getVideoId()) {
+                    progress += TaskDao.getTasksForDeepfake(deep).size();
+                    progress += QuestionDao.getQuestionsForDeepfake(deep).size();
+                    istaken = true;
+                }
+                
+            }
+            progressMission += TaskDao.getTasksForDeepfake(deep).size();
+            progressMission += QuestionDao.getQuestionsForDeepfake(deep).size();
+            if(!istaken) {
+                newList.add(deep);
+            }
+            
+        }
+        deepfakes.clear();
+        deepfakes.addAll(newList);
+        
+        prMission.setProgress(progress * 1.0 / progressMission);
+        
         isProfessorPressed = false;
         isGPTPressed = false;
+        isFactCheckPressed = false;
+        factCheckPane = new FactCheckPane();
+        factCheckPane.initializeList();
+        factCheckPane.createPane();
+        factCheckPane.getFactCheckPane().setVisible(false);
+        anchorRoot.getChildren().add(factCheckPane.getFactCheckPane());
+        
         //isTaskComplete = false;
         tglTasks.setDisable(true);
+        tglFactCheck.setDisable(true);
         tgGPT.setDisable(true);
         chatBox.setPadding(new Insets(10, 10, 10, 10));
         scrollMessage.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -190,6 +269,9 @@ public class MainScreenController implements Initializable {
         btnReal.setDisable(true);
         btnFake.setDisable(true);
         deepfake = getRandomDeepfake();
+        progressDeepfake = TaskDao.getTasksForDeepfake(deepfake).size();
+        progressDeepfake += QuestionDao.getQuestionsForDeepfake(deepfake).size();
+        
         WebEngine webEngine = webviewTiktok.getEngine();
         webEngine.loadContent("");
         webEngine.load(this.getClass().getClassLoader().getResource("assets/html/tiktokMovie.html").toString());
@@ -306,11 +388,19 @@ public class MainScreenController implements Initializable {
     @FXML
     protected void showTasks() {
         if(isProfessorPressed) {
+            btnProfessor.setImage(imageProfessorRevert);
             scrollTasks.setVisible(true);
         } else {
+            btnProfessor.setImage(imageProfessor);
             scrollTasks.setVisible(false);
         }
         isProfessorPressed = !isProfessorPressed;
+    }
+    
+    @FXML
+    protected void showFactChecks() {
+        isFactCheckPressed = !isFactCheckPressed;
+        factCheckPane.getFactCheckPane().setVisible(isFactCheckPressed);
     }
     
     public Pane paneMissionPlay() {
@@ -477,7 +567,10 @@ public class MainScreenController implements Initializable {
                 scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
                 scrollTasks.setVisible(true);
                 tglTasks.setDisable(false);
+                isProfessorPressed = true;
+                showTasks();
                 tgGPT.setDisable(false);
+                tglFactCheck.setDisable(false);
                 
     }
     
@@ -502,7 +595,6 @@ public class MainScreenController implements Initializable {
         double height = 20;
         if (tasks.get(index).isCompleted()) {
             for(int t = index + 1; t < tasks.size(); t++) {
-                System.out.println("t: " + t);
                 tasks.get(t).setCompleted(false);
                 tasks.get(t).setImage(new Image(CompletedTask.NOT_COMPLETE));
                 pnTasks.getChildren().remove(tasks.get(t).getLabel());
@@ -530,7 +622,6 @@ public class MainScreenController implements Initializable {
         int amountOfCompleted = 0;
         for(int i = 1; i < tasks.size(); i++) {
                     if(tasks.get(i).isCompleted()) {
-                        System.out.println(tasks.get(i).getLabel().getHeight());
                         height += tasks.get(i).getLabel().getHeight() + 20;
                         amountOfCompleted++;
                     } else if (tasks.get(i - 1).isCompleted()) {
@@ -539,6 +630,8 @@ public class MainScreenController implements Initializable {
                         
                     }
                 }
+        prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / progressDeepfake));
+        prMission.setProgress(prMission.getProgress() + (1.0 / progressMission));
         if(amountOfCompleted == tasks.size() - 1) {
             btnReal.setDisable(false);
             btnFake.setDisable(false);
@@ -555,19 +648,36 @@ public class MainScreenController implements Initializable {
         scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         
     }
+
+    public void setPrDeepfakeProgress() {
+        prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / progressDeepfake));
+        prMission.setProgress(prMission.getProgress() + (1.0 / progressMission));
+    }
+    
+    
     
     @FXML
     protected void loadNext() {
-        //if(deepfakes == null || deepfakes.isEmpty()) {
+        ProgressDeepfakeDao.addCompletedDeepfakeForGamer(gamer, deepfake);
+        double totalMoney = QuestionsController.getMoney();
+        int totalFollowers = QuestionsController.getFollowers();
+        if(deepfakeCorrect) {
+            totalMoney += deepfake.getValue().getMoney();
+            totalFollowers += deepfake.getValue().getFollowers();
+        }
+        GamerDao.addValue(gamer, totalMoney, totalFollowers);
+        if(deepfakes == null || deepfakes.isEmpty()) {
+            ProgressMissionDao.addCompletedMissionForGamer(gamer, mission);
             Intro intro = new Intro(this);
             Intro.getStage().close();
-        /*} else {
+        } else {
             createTiktokDeepfake();
             tbTiktok.setDisable(false);
             SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
             selectionModel.select(tbTiktok);
             setTaskPane();
-        }*/
+        }
+        prDeepfake.setProgress(0);
     }
     
     public void createPersonalTiktok() {

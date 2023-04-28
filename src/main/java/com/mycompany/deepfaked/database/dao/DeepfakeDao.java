@@ -22,7 +22,7 @@ public class DeepfakeDao {
         SessionFactory factory = DeepfakedFactory.getSessionFactory();
         try (Session session = factory.openSession()) {
             String hql = "from Deepfake where mission = :mission";
-            Query query = session.createQuery(hql, Gamer.class);
+            Query query = session.createQuery(hql, Deepfake.class);
             query.setParameter("mission", mission.getMissionId());
             return query.getResultList();
         }

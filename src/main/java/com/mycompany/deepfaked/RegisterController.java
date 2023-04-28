@@ -174,7 +174,7 @@ public class RegisterController implements Initializable {
             gamer.setPassword(BCrypt.hashpw(txtPassword.getText().trim(), BCrypt.gensalt()));
             gamer.setBirthdate(dtBirthDate.getValue());
             gamer.setFollowers(0);
-            gamer.setMoney(new BigDecimal("0.00"));
+            gamer.setMoney(0.0);
             if(GamerDao.createGamer(gamer)) {
                 showAvatarScreen();
             } else {

@@ -6,6 +6,7 @@ package com.mycompany.deepfaked.database.dao;
 
 import com.mycompany.deepfaked.database.factory.DeepfakedFactory;
 import com.mycompany.deepfaked.database.model.Gamer;
+import java.math.BigDecimal;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -51,6 +52,20 @@ public class GamerDao {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
             session.saveOrUpdate(gamer);
+            session.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+    
+    public static boolean addValue(Gamer gamer, double money, int followers) {
+        SessionFactory factory = DeepfakedFactory.getSessionFactory();
+        try (Session session = factory.openSession()) {
+            gamer.setMoney(gamer.getMoney() + money);
+            gamer.setFollowers(gamer.getFollowers() + followers);
+            session.beginTransaction();
+            session.update(gamer);
             session.getTransaction().commit();
             return true;
         } catch (Exception ex) {

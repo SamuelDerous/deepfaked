@@ -200,7 +200,7 @@ public class QuestionsController implements Initializable {
             for(ToggleButton button : buttons) {
                 if(button.isSelected()) {
                     if(choices.get(i).getCorrect() == 1) {
-                        money += question.getValue().getMoney().doubleValue();
+                        money += question.getValue().getMoney();
                         followers += question.getValue().getFollowers();
                     }
                     information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback());
@@ -213,7 +213,7 @@ public class QuestionsController implements Initializable {
         btnNextQuestion.setVisible(true);
         btnReady.setVisible(false);
         pnInformation.setVisible(true);
-        
+        mainScreenController.setPrDeepfakeProgress();
     }
     
     @FXML
@@ -298,5 +298,15 @@ public class QuestionsController implements Initializable {
             alert.hide();
         }
     }
+
+    public static double getMoney() {
+        return money;
+    }
+
+    public static int getFollowers() {
+        return followers;
+    }
+    
+    
     
 }
