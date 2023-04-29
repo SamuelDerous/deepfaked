@@ -41,7 +41,7 @@ public class GamerDao {
     public static List<Gamer> getGamers() {
         SessionFactory factory = DeepfakedFactory.getSessionFactory();
         try (Session session = factory.openSession()) {
-            String hql = "from Gamer order by followers, money desc, userName asc";
+            String hql = "from Gamer order by followers desc, money desc, userName asc";
             Query query = session.createQuery(hql, Gamer.class);
             return query.getResultList();
         }

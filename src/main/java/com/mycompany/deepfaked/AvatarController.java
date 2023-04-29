@@ -21,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,10 +36,12 @@ import javafx.stage.FileChooser;
  */
 public class AvatarController implements Initializable {
     
-    private List<ImageView> maleImages = new ArrayList<>();
-    private List<ImageView> femaleImages = new ArrayList<>();
+    private List<ImageView> humanImages = new ArrayList<>();
+    private List<ImageView> otherImages = new ArrayList<>();
     
     private String selectedURL;
+    
+    @FXML private ScrollPane scrollAvatar;
     
     @FXML
     private FlowPane flowAvatar;
@@ -58,17 +62,18 @@ public class AvatarController implements Initializable {
         String preamble = "src/main/resources/";    
         String directory = "assets/avatars";
         File dir = new File(preamble + directory + "/" + gender + "/");
-        List<String> maleFiles = new ArrayList<>();
-        List<String> femaleFiles = new ArrayList<>();
-        maleFiles = Arrays.asList(dir.list(
+        List<String> humanFiles = new ArrayList<>();
+        List<String> otherFiles = new ArrayList<>();
+        humanFiles = Arrays.asList(dir.list(
             new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
                     return name.endsWith(".png");
                 }
             }));
-        for(String maleFile : maleFiles) {
-            URL resource = getClass().getClassLoader().getResource(directory + "/" + gender + "/" + maleFile);
+        for(String humanFile : humanFiles) {
+            URL resource = getClass().getClassLoader().getResource(directory + "/" + gender + "/" + humanFile);
+            System.out.println(resource.toString());
             ImageView image = new ImageView(new Image(resource.toString()));
             image.setFitHeight(100);
             image.setFitWidth(100);
@@ -79,14 +84,17 @@ public class AvatarController implements Initializable {
                 imageSelected.setImage(test);
             
             });
-            if(gender.equals("male")) {
-                maleImages.add(image);
+            if(gender.equals("human")) {
+                humanImages.add(image);
             } else {
-                femaleImages.add(image);
+                otherImages.add(image);
             }
             flowAvatar.getChildren().add(image);
             
         }
+        scrollAvatar.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+        scrollAvatar.setHbarPolicy(ScrollBarPolicy.NEVER);
+        scrollAvatar.setContent(flowAvatar);
         
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -97,15 +105,15 @@ public class AvatarController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        initImages("male");
+        initImages("human");
     }
     
     @FXML
     protected void showAvatars(ActionEvent event) {
-        if(cmbGender.getValue().equals("Vrouwelijk")) {
-            initImages("female");
+        if(cmbGender.getValue().equals("Andere")) {
+            initImages("other");
         } else {
-            initImages("male");
+            initImages("human");
         }
     }
     

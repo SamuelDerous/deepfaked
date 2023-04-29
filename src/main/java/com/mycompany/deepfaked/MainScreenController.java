@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -79,7 +80,8 @@ public class MainScreenController implements Initializable {
     private final Image imageProfessor = new Image(getClass().getClassLoader().getResource("assets/avatars/professor.Jpg").toString());
     private final Image imageProfessorRevert = new Image(getClass().getClassLoader().getResource("assets/avatars/professorRevert.Jpg").toString());
         
-    
+    private double incMoney, totalMoney;
+    private int incFollowers, totalFollowers;
     private EventHandler<KeyEvent> keyHandler;
     private EventHandler<MouseEvent> mouseHandler;
     private ImageView keyImage;
@@ -177,6 +179,12 @@ public class MainScreenController implements Initializable {
     @FXML
     private ToggleButton tglFactCheck;
     
+    @FXML
+    private Label lblMoney;
+    
+    @FXML
+    private Label lblFollowers;
+    
     private boolean isFactCheckPressed;
     
     private FactCheckPane factCheckPane;
@@ -189,6 +197,7 @@ public class MainScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         AnalyticsButton analyticsButton = new AnalyticsButton();
         System.out.println(anchorRoot.getPrefWidth());
         analyticsButton.setTranslateX(anchorRoot.getPrefWidth() - 150);
@@ -200,6 +209,8 @@ public class MainScreenController implements Initializable {
         prDeepfake.setProgress(0);
         tbPaneMainScreen.getTabs().remove(tbPersonal);
         gamer = LoginController.getGamer();
+        lblMoney.setText("€ " + gamer.getMoney() + "0");
+        lblFollowers.setText("" + gamer.getFollowers());
         pnTasks = new Pane();
         
         //pnTasks.setPrefHeight(200);
@@ -666,6 +677,7 @@ public class MainScreenController implements Initializable {
             totalFollowers += deepfake.getValue().getFollowers();
         }
         GamerDao.addValue(gamer, totalMoney, totalFollowers);
+        
         if(deepfakes == null || deepfakes.isEmpty()) {
             ProgressMissionDao.addCompletedMissionForGamer(gamer, mission);
             Intro intro = new Intro(this);
@@ -697,6 +709,36 @@ public class MainScreenController implements Initializable {
         webviewPersonal = new WebView();
         webviewPersonal.setPrefSize(706, 492);
         anchorPersonal.getChildren().add(webviewPersonal);
+        //lblMoney.setText("€ " + QuestionsController.getMoney() + "0");
+        //lblFollowers.setText("" + QuestionsController.getFollowers());
+        totalMoney = gamer.getMoney() + QuestionsController.getMoney();
+        totalFollowers = gamer.getFollowers() + QuestionsController.getFollowers();
+        if(deepfakeCorrect) {
+            totalMoney += deepfake.getValue().getMoney();
+            totalFollowers += deepfake.getValue().getFollowers();
+        }
+        incMoney = gamer.getMoney();
+        incFollowers = gamer.getFollowers();
+        Timeline timelineMoney = new Timeline(new KeyFrame(Duration.millis(20), (ActionEvent event) -> {
+             if(incMoney < totalMoney) {
+                 lblMoney.setText("€ " + ++incMoney + "0");
+                 
+             }
+        }));
+         
+         Timeline timelineFollowers = new Timeline(new KeyFrame(Duration.millis(20), (ActionEvent event) -> {
+            if(incFollowers < totalFollowers) {
+                lblFollowers.setText("" + ++incFollowers);
+                
+            }
+        }));
+         timelineMoney.setCycleCount(Animation.INDEFINITE);
+        timelineFollowers.setCycleCount(Animation.INDEFINITE);
+        
+         timelineMoney.play();
+         timelineFollowers.play();
+        
+         
         WebEngine webEngine = webviewPersonal.getEngine();
         webEngine.loadContent("");
         webEngine.load(this.getClass().getClassLoader().getResource("assets/html/result.html").toString());

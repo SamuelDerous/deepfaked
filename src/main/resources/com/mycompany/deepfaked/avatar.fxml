@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,16 +22,20 @@
       </Label>
       <Button id="btnNext" fx:id="btnNext" layoutX="13.0" layoutY="493.0" mnemonicParsing="false" onAction="#saveAvatar" prefHeight="44.0" prefWidth="292.0" text="Volgende" />
       <Label layoutX="18.0" layoutY="343.0" prefHeight="17.0" prefWidth="282.0" text="Of kies er zelf een:" />
-      <ChoiceBox fx:id="cmbGender" layoutX="18.0" layoutY="60.0" onAction="#showAvatars" prefHeight="25.0" prefWidth="202.0" value="Mannelijk">
+      <ChoiceBox fx:id="cmbGender" layoutX="18.0" layoutY="60.0" onAction="#showAvatars" prefHeight="25.0" prefWidth="202.0" value="Menselijk">
           <items>
               <FXCollections fx:factory="observableArrayList">
-                  <String fx:value="Mannelijk" />
-                  <String fx:value="Vrouwelijk" />
+                  <String fx:value="Menselijk" />
+                  <String fx:value="Andere" />
               </FXCollections>
           </items>
       </ChoiceBox>
       <TextField layoutX="18.0" layoutY="372.0" prefHeight="25.0" prefWidth="282.0" />
-      <FlowPane fx:id="flowAvatar" alignment="CENTER" hgap="5.0" layoutX="18.0" layoutY="119.0" prefHeight="200.0" prefWidth="282.0" vgap="5.0" />
+      <ScrollPane fx:id="scrollAvatar" layoutX="18.0" layoutY="119.0">
+         <content>
+            <FlowPane fx:id="flowAvatar" alignment="CENTER" hgap="5.0" prefHeight="200.0" prefWidth="282.0" vgap="5.0" />
+         </content>
+      </ScrollPane>
       <ImageView fx:id="imageSelected" fitHeight="74.0" fitWidth="100.0" layoutX="109.0" layoutY="407.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="btnOpen" layoutX="240.0" layoutY="56.0" mnemonicParsing="false" onAction="#openAvatar" prefHeight="25.0" prefWidth="32.0">
          <graphic>
