@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="240.0" prefWidth="338.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="com.mycompany.deepfaked.DeepfakeDetectionController">
+   <children>
+      <Label layoutX="60.0" layoutY="42.0" prefHeight="17.0" prefWidth="232.0" text="Scanning video" textAlignment="CENTER">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="progressScanVideo" layoutX="28.0" layoutY="127.0" prefHeight="18.0" prefWidth="292.0" progress="0.0" />
+      <Label layoutX="22.0" layoutY="167.0" prefHeight="17.0" prefWidth="124.0" text="Label" />
+      <Label layoutX="22.0" layoutY="191.0" prefHeight="17.0" prefWidth="124.0" text="Label" />
+   </children>
+</AnchorPane>

@@ -144,6 +144,7 @@ public class LoginController implements Initializable {
         lblError.setText("");
         Gamer newGamer = GamerDao.getGamer(txtUsername.getText());
         String errorMessage = "";
+        if(newGamer != null) {
         try {
         if(BCrypt.checkpw(txtPassword.getText(), newGamer.getPassword())) {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("intro.fxml"));
@@ -163,6 +164,10 @@ public class LoginController implements Initializable {
             errorMessage = "Er is iets fout gegaan. Probeer het later opnieuw.";
             lblError.setText(errorMessage);
             ex.printStackTrace();
+        }
+        } else {
+            errorMessage = "Je login is niet correct.";
+            lblError.setText(errorMessage);
         }
         //HelloApplication.getStage().setScene(scene);
     }

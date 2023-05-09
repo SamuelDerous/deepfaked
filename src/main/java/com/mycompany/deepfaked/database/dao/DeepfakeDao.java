@@ -27,4 +27,13 @@ public class DeepfakeDao {
             return query.getResultList();
         }
     }
+    
+    public static List<Deepfake> getAllDeepfakes() {
+        SessionFactory factory = DeepfakedFactory.getSessionFactory();
+        try (Session session = factory.openSession()) {
+            String hql = "from Deepfake where mission = :mission";
+            Query query = session.createQuery(hql, Deepfake.class);
+            return query.getResultList();
+        }
+    }
 }

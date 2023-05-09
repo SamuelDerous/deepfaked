@@ -5,7 +5,8 @@
 package com.mycompany.deepfaked;
 
 import com.mycompany.deepfaked.controls.AnalyticsButton;
-import com.mycompany.deepfaked.controls.FactCheckPane;
+import com.mycompany.deepfaked.controls.DeepfakeDetectionPane;
+import com.mycompany.deepfaked.controls.WebsitePane;
 import com.mycompany.deepfaked.database.dao.AccountDao;
 import com.mycompany.deepfaked.database.dao.DeepfakeDao;
 import com.mycompany.deepfaked.database.dao.GamerDao;
@@ -18,17 +19,14 @@ import com.mycompany.deepfaked.database.model.CompletedTask;
 import com.mycompany.deepfaked.database.model.Deepfake;
 import com.mycompany.deepfaked.database.model.Gamer;
 import com.mycompany.deepfaked.database.model.Mission;
-import com.mycompany.deepfaked.database.model.ProgressMission;
 import com.mycompany.deepfaked.database.model.Question;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -83,6 +81,7 @@ public class MainScreenController implements Initializable {
     private double incMoney, totalMoney;
     private int incFollowers, totalFollowers;
     private EventHandler<KeyEvent> keyHandler;
+    private EventHandler<KeyEvent> escapeHandler;
     private EventHandler<MouseEvent> mouseHandler;
     private ImageView keyImage;
     private Timeline testTime;
@@ -124,6 +123,8 @@ public class MainScreenController implements Initializable {
     private WebView webviewTiktok;
     
     private Pane pnTasks;
+    
+    private DeepfakeDetectionPane pnScanning;
     
     @FXML
     private Pane pnGPT;
@@ -180,6 +181,12 @@ public class MainScreenController implements Initializable {
     private ToggleButton tglFactCheck;
     
     @FXML
+    private ToggleButton tglDeepfakeDetection;
+    
+    @FXML
+    private ToggleButton tglSearchEngines;
+    
+    @FXML
     private Label lblMoney;
     
     @FXML
@@ -187,11 +194,21 @@ public class MainScreenController implements Initializable {
     
     private boolean isFactCheckPressed;
     
-    private FactCheckPane factCheckPane;
+    private boolean isSearchEnginePressed;
+    
+    private boolean isScanningPressed;
+    
+    private boolean isScanningCreated;
+    
+    private WebsitePane factCheckPane;
+    
+    private WebsitePane searchEnginePane;
     
     private int progressDeepfake;
     private int progressMission;
     private int progress;
+    
+    private int begin;
     /**
      * Initializes the controller class.
      */
@@ -212,6 +229,8 @@ public class MainScreenController implements Initializable {
         lblMoney.setText("€ " + gamer.getMoney() + "0");
         lblFollowers.setText("" + gamer.getFollowers());
         pnTasks = new Pane();
+        isScanningPressed = false;
+        isScanningCreated = false;
         
         //pnTasks.setPrefHeight(200);
         scrollTasks.setVisible(false);
@@ -222,6 +241,12 @@ public class MainScreenController implements Initializable {
         //pnTasks.getChildren().add(new Label("Dit is een test"));
         mission = Intro.getMission();
         tbInformation.setContent(paneMissionPlay());
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+        if (newScene != null) {
+          root.getScene().addEventHandler(KeyEvent.KEY_PRESSED, escapeHandler);
+        }
+      });
+        
         deepfakes = DeepfakeDao.getDeepfakesForMission(mission);
         
         List<Deepfake> newList = new ArrayList<>();
@@ -251,16 +276,23 @@ public class MainScreenController implements Initializable {
         isProfessorPressed = false;
         isGPTPressed = false;
         isFactCheckPressed = false;
-        factCheckPane = new FactCheckPane();
-        factCheckPane.initializeList();
-        factCheckPane.createPane();
-        factCheckPane.getFactCheckPane().setVisible(false);
-        anchorRoot.getChildren().add(factCheckPane.getFactCheckPane());
+        isSearchEnginePressed = false;
+        factCheckPane = new WebsitePane();
+        factCheckPane.createPane("factcheck", 96, 80);
+        factCheckPane.getPane().setVisible(false);
+        anchorRoot.getChildren().add(factCheckPane.getPane());
+        
+        searchEnginePane = new WebsitePane();
+        searchEnginePane.createPane("searchEngine", 256, 80);
+        searchEnginePane.getPane().setVisible(false);
+        anchorRoot.getChildren().add(searchEnginePane.getPane());
         
         //isTaskComplete = false;
         tglTasks.setDisable(true);
         tglFactCheck.setDisable(true);
         tgGPT.setDisable(true);
+        tglDeepfakeDetection.setDisable(true);
+        tglSearchEngines.setDisable(true);
         chatBox.setPadding(new Insets(10, 10, 10, 10));
         scrollMessage.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollMessage.setContent(chatBox);
@@ -395,6 +427,36 @@ public class MainScreenController implements Initializable {
         }
         
     }
+    
+    @FXML
+    protected void showScanning() {
+        isScanningPressed = !isScanningPressed;
+        System.out.println("test");
+        createScanning();
+        /*if(isscanningPressed) {
+            createScanning();
+        } else {
+            pnGPT.setVisible(false);
+        }*/
+        
+    }
+    
+    private void createScanning() {
+        if(isScanningPressed) {
+            if(!isScanningCreated) {
+                isScanningCreated = true;
+                pnScanning = new DeepfakeDetectionPane(deepfake);
+                pnScanning.createPane(178, 80);
+                pnScanning.getPane().setVisible(true);
+                anchorRoot.getChildren().add(pnScanning.getPane());
+               
+            } else {
+                pnScanning.getPane().setVisible(true);
+            }
+        } else {
+            pnScanning.getPane().setVisible(false);
+        }
+    }
 
     @FXML
     protected void showTasks() {
@@ -411,7 +473,13 @@ public class MainScreenController implements Initializable {
     @FXML
     protected void showFactChecks() {
         isFactCheckPressed = !isFactCheckPressed;
-        factCheckPane.getFactCheckPane().setVisible(isFactCheckPressed);
+        factCheckPane.getPane().setVisible(isFactCheckPressed);
+    }
+    
+    @FXML
+    protected void showSearchEngines() {
+        isSearchEnginePressed = !isSearchEnginePressed;
+        searchEnginePane.getPane().setVisible(isSearchEnginePressed);
     }
     
     public Pane paneMissionPlay() {
@@ -455,9 +523,10 @@ public class MainScreenController implements Initializable {
         newText.setPrefWidth(550);
         SimpleBooleanProperty test;
         test = new SimpleBooleanProperty(true);
+        var i = new SimpleIntegerProperty(0);
         
         //test.bind(Bindings.when);
-        var i = new SimpleIntegerProperty(0);
+        
         root.getChildren().add(dialogImage);
         root.getChildren().add(newText);
         root.getChildren().add(keyImage);
@@ -465,6 +534,7 @@ public class MainScreenController implements Initializable {
         testTime = new Timeline(new KeyFrame(Duration.millis(20), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                //i.set(i.get() + 1);
                 whole += intro.charAt(i.get());
                 newText.setText(whole);
                 //String[] lineArray = newText.getText().split("\n");
@@ -489,11 +559,41 @@ public class MainScreenController implements Initializable {
         };
         testTime.setCycleCount(Timeline.INDEFINITE);
         testTime.play();
+        begin = 0;
+        escapeHandler = (KeyEvent key) -> {
+            if(key.getCode() == KeyCode.ESCAPE) {
+                if(intro.length() < value) {
+                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
+                    long timestamp = System.currentTimeMillis();
+                testTime.stop();
+                PauseTransition pause = new PauseTransition(Duration.seconds(10));
+                pause.setOnFinished(event -> {
+                    
+                    tbTiktok.setDisable(false);
+                    SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
+                    selectionModel.select(tbTiktok);
+                    setTaskPane();
+                });
+                pause.play();
+                } else {
+                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
+                    begin = value - 1;
+                    keyImage.setVisible(true);
+                testTime.pause();
+                value = 2 * value;
+                root.getScene().addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+                keyImage.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
+                }
+                
+
+            }
+        };
+        
         
         i.addListener((ov, prevStatus, newStatus) -> {
             //System.out.println(newStatus.intValue());
             //System.out.println(prevStatus.intValue());
-           
+            
             if((newStatus.intValue() > value) && intro.charAt(i.get()) == ' ') {
                 keyImage.setVisible(true);
                 testTime.pause();
@@ -503,19 +603,27 @@ public class MainScreenController implements Initializable {
                 
                 
             }
-            if(newStatus.intValue() == intro.length() - 1) {
+            if((newStatus.intValue() >= intro.length())) {
+                System.out.println(newStatus.intValue() + " == " + intro.length());
+                //System.out.println(whole.charAt(i.get()));
+                long timestamp = System.currentTimeMillis();
                 testTime.stop();
-                tbTiktok.setDisable(false);
-                try {
-                    Thread.sleep(1500);
-                } catch(InterruptedException ie) {
-                    ie.printStackTrace();
-                }
+                PauseTransition pause = new PauseTransition(Duration.seconds(10));
+                pause.setOnFinished(event -> {
+                    
+                    tbTiktok.setDisable(false);
+                    SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
+                    selectionModel.select(tbTiktok);
+                    setTaskPane();
+                });
+                pause.play();
+                
+                /*
                 //deepfake = getRandomDeepfake();
                 //System.out.println(deepfake.getLabel());
                 SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
                 selectionModel.select(tbTiktok);
-                setTaskPane();
+                setTaskPane();*/
                 
                 
                 /*root.getChildren().add(btnYes);
@@ -581,6 +689,8 @@ public class MainScreenController implements Initializable {
                 isProfessorPressed = true;
                 showTasks();
                 tgGPT.setDisable(false);
+                tglDeepfakeDetection.setDisable(false);
+                tglSearchEngines.setDisable(false);
                 tglFactCheck.setDisable(false);
                 
     }
@@ -680,7 +790,7 @@ public class MainScreenController implements Initializable {
         
         if(deepfakes == null || deepfakes.isEmpty()) {
             ProgressMissionDao.addCompletedMissionForGamer(gamer, mission);
-            Intro intro = new Intro(this);
+            Intro intro = new Intro(this, "Geweldig gedaan. Je hebt de missie voltooid. Ga verder naar een andere missie.");
             Intro.getStage().close();
         } else {
             createTiktokDeepfake();

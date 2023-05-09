@@ -14,6 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -24,11 +25,14 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -50,7 +54,12 @@ public class Intro {
     
     private static Stage stage;
     
+    private EventHandler<KeyEvent> escapeHandler;
+    
+    
     private Stage introStage;
+    
+    EventHandler<KeyEvent> keyHandler;
     
     //var i;
     
@@ -62,14 +71,14 @@ public class Intro {
         mainScreenController = new MainScreenController();
     }
     
-    public Intro(MainScreenController controller) {
+    public Intro(MainScreenController controller, String intro) {
         this.mainScreenController = controller;
             //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("questions.fxml"));
             //fxmlLoader.setController(this);
             //Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
             introStage = new Stage();
             introStage.setTitle("Missies");
-            introStage.setScene(sceneMissionPlay());
+            introStage.setScene(sceneMissionPlay(intro));
             
             introStage.show();
         
@@ -122,7 +131,7 @@ public class Intro {
         btnYes.setScaleY(1.5);
         btnYes.setPrefWidth(50);
         btnYes.setOnAction((event) -> {
-            LoginController.getIntroStage().setScene(sceneMissionPlay());
+            LoginController.getIntroStage().setScene(sceneMissionPlay("Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:"));
         });
         Button btnNo = new Button("Neen");
         btnNo.setScaleX(1.5);
@@ -188,6 +197,24 @@ public class Intro {
         
         testTime.setCycleCount(Timeline.INDEFINITE);
         testTime.play();
+        keyHandler = (KeyEvent key) -> {
+            if(key.getCode() == KeyCode.ESCAPE) {
+                testTime.stop();
+                newText.setText(intro);
+                root.getChildren().add(btnYes);
+                root.getChildren().add(btnNo);
+                scene.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
+                    if(event.getCode() == KeyCode.J) {
+                        LoginController.getIntroStage().setScene(sceneMissionPlay("Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:"));
+                        //System.out.println("yes pressed");
+                    } else if(key.getCode() == KeyCode.N) {
+                        System.out.println("No pressed!");
+                    }
+                });
+                scene.removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+            }
+        };
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
         i.addListener((ov, prevStatus, newStatus) -> {
             //System.out.println(newStatus.intValue());
             //System.out.println(prevStatus.intValue());
@@ -197,7 +224,7 @@ public class Intro {
                 root.getChildren().add(btnNo);
                 scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
                     if(key.getCode() == KeyCode.J) {
-                        LoginController.getIntroStage().setScene(sceneMissionPlay());
+                        LoginController.getIntroStage().setScene(sceneMissionPlay("Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:"));
                         //System.out.println("yes pressed");
                     } else if(key.getCode() == KeyCode.N) {
                         System.out.println("No pressed!");
@@ -215,7 +242,7 @@ public class Intro {
         //addUINode()
     }
     
-    public Scene sceneMissionPlay() {
+    public Scene sceneMissionPlay(String intro) {
         Pane root = new Pane();
         Scene scene = new Scene(root, 700, 600);
         
@@ -248,7 +275,7 @@ public class Intro {
         //spawn("boss", 0, 0);
         //spawn("dialog", 50, getAppHeight() - 200);
         //this.getStage().getScene().getStylesheets().add(getClass().getResource("assets/border.css").toExternalForm());
-        intro = "Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:";
+        //intro = "Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:";
         
         List<Button> missionButtons = new ArrayList<>();
         double xBegin = 120;
@@ -341,6 +368,15 @@ public class Intro {
         analyticsButton.setTranslateY(5);
         root.getChildren().add(analyticsButton);
         
+        escapeHandler = (KeyEvent key) -> {
+            if(key.getCode() == KeyCode.ESCAPE) 
+            {
+                testTime.stop();
+                newText.setText(intro);
+               root.getChildren().addAll(missionButtons);
+            }
+        };
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, escapeHandler);
         return scene;
 //timer.expire();
         //addUINode()

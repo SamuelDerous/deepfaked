@@ -5,6 +5,7 @@
 package com.mycompany.deepfaked;
 
 import com.mycompany.deepfaked.database.dao.ChoiceDao;
+import com.mycompany.deepfaked.database.dao.QuestionDao;
 import com.mycompany.deepfaked.database.model.Question;
 import com.mycompany.deepfaked.database.model.QuestionChoice;
 import java.io.IOException;
@@ -130,7 +131,7 @@ public class QuestionsController implements Initializable {
          
     }
 
-    @FXML
+    /*@FXML
     protected void continuePressed() {
         questions = MainScreenController.getQuestions();
         btnContinue.setVisible(false);
@@ -138,6 +139,14 @@ public class QuestionsController implements Initializable {
         lblQuestion.setText(testQuestion.getQuestion());
         createButtons();
         
+    }*/
+    
+    @FXML
+    protected void continuePressed() {
+        questions = QuestionDao.getAllQuestions();
+        Question testQuestion = getQuestion();
+        lblQuestion.setText(testQuestion.getQuestionId() + " " + testQuestion.getQuestion());
+        createButtons();
     }
     
     private Question getQuestion() {
@@ -146,8 +155,8 @@ public class QuestionsController implements Initializable {
                 int min = 0;
                 int max = questions.size();
                 int questionNumber = (int) (Math.random() * (max - min) + min);
-                question = questions.get(questionNumber);
-                questions.remove(questionNumber);
+                question = questions.get(0); //questionNumber);
+                questions.remove(0); //questionNumber);
                 //System.out.println(question.getQuestion());
                 choices = ChoiceDao.getChoicesForQuestion(question);
                 /*for(int i = 0; i < choices.size(); i++) {
@@ -174,6 +183,7 @@ public class QuestionsController implements Initializable {
                 //buttons = new ArrayList<>();
                 for(QuestionChoice choice : choices) {
                     ToggleButton button = new ToggleButton();
+                    button.setWrapText(true);
                     if(question.getMulti() == 0) {
                         button.setToggleGroup(group);
                     }
@@ -194,33 +204,87 @@ public class QuestionsController implements Initializable {
     
     @FXML
     protected void checkAnswers() {
-        Text information = new Text();
         if(buttons != null && !buttons.isEmpty()) {
-            int i = 0;
-            for(ToggleButton button : buttons) {
-                if(button.isSelected()) {
-                    if(choices.get(i).getCorrect() == 1) {
-                        money += question.getValue().getMoney();
-                        followers += question.getValue().getFollowers();
-                    }
-                    information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback());
-                    information.wrappingWidthProperty().bind(pnInformation.widthProperty());
-                    pnInformation.setContent(information);
-                }
-                button.setDisable(true);
-                }
+            if(question.getMulti() == 1) {
+                checkMultipleAnswers();
+            } else {
+                checkSingleAnswer();
             }
+        }
+        
         btnNextQuestion.setVisible(true);
         btnReady.setVisible(false);
         pnInformation.setVisible(true);
         mainScreenController.setPrDeepfakeProgress();
     }
     
+    private void checkSingleAnswer() {
+        Text information = new Text();
+        int i = 0;
+        for(ToggleButton button : buttons) {
+                if(button.isSelected()) {
+                    if(choices.get(i).getCorrect() == 1) {
+                        money += question.getValue().getMoney();
+                        followers += question.getValue().getFollowers();
+                        Alert a = new Alert(AlertType.INFORMATION);
+                        a.setContentText("i = " + i + " Correct. Followers: " + question.getValue().getFollowers() + " Money: " + question.getValue().getMoney());
+                        a.show();
+                    }
+                    information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback());
+                    information.wrappingWidthProperty().bind(pnInformation.widthProperty());
+                    pnInformation.setContent(information);
+                }
+                button.setDisable(true);
+                i++;
+                }
+    }
+    
+    private void checkMultipleAnswers() {
+        Text information = new Text();
+        double m = 0.0;
+        int f = 0;
+        int i = 0;
+        boolean same = false;
+        List<Integer> corrects = new ArrayList<>();
+        for(ToggleButton button : buttons) {
+                if(button.isSelected()) {
+                    if(choices.get(i).getCorrect() == 1) {
+                        m += question.getValue().getMoney();
+                        f += question.getValue().getFollowers();
+                        corrects.add(i);
+                        Alert a = new Alert(AlertType.INFORMATION);
+                        a.setContentText("i = " + i + " Correct. Followers: " + question.getValue().getFollowers() + " Money: " + question.getValue().getMoney());
+                        a.show();
+                    } else {
+                        m = 0.0;
+                        f = 0;
+                    } 
+                    for(int correct : corrects) {
+                        if(correct != i) {
+                            if(choices.get(correct).getChoice().getConsequence().getFeedback().equals(
+                                choices.get(i).getChoice().getConsequence().getFeedback())) {
+                                same = true;
+                            }
+                        }
+                    }
+                    if(!same) {
+                        information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback() + "\n");
+                    }
+                    information.wrappingWidthProperty().bind(pnInformation.widthProperty());
+                    pnInformation.setContent(information);
+                }
+                money += m;
+                followers += f;
+                button.setDisable(true);
+                i++;
+                }
+    }
+    
     @FXML
     protected void nextQuestion() {
         Question testQuestion = getQuestion();
         if(testQuestion != null) {
-            lblQuestion.setText(testQuestion.getQuestion());
+            lblQuestion.setText(testQuestion.getQuestionId() + " " + testQuestion.getQuestion());
             createButtons();
             pnInformation.setVisible(false);
             btnNextQuestion.setVisible(false);

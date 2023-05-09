@@ -30,6 +30,26 @@ public class Deepfake {
     @ManyToOne
     @JoinColumn(name = "value", nullable = false)
     private FeedbackValue value;
+    
+    @Basic
+    @Column(name = "analyst", nullable = true, length = 50)
+    private String analyst;
+    
+    @Basic
+    @Column(name = "avatarify", nullable = false)
+    private double avatarify;
+    
+    @Basic
+    @Column(name = "deepware", nullable = false)
+    private double deepware;
+    @Basic
+    @Column(name = "seferbekov", nullable = false)
+    private double seferbekov;
+    @Basic
+    @Column(name = "ensemble", nullable = false)
+    private double ensemble;
+    
+    
 
     public int getVideoId() {
         return videoId;
@@ -86,6 +106,48 @@ public class Deepfake {
     public void setValue(FeedbackValue value) {
         this.value = value;
     }
+
+    public String getAnalyst() {
+        return analyst;
+    }
+
+    public void setAnalyst(String analyst) {
+        this.analyst = analyst;
+    }
+
+    public double getAvatarify() {
+        return avatarify;
+    }
+
+    public void setAvatarify(double avatarify) {
+        this.avatarify = avatarify;
+    }
+
+    public double getDeepware() {
+        return deepware;
+    }
+
+    public void setDeepware(double deepware) {
+        this.deepware = deepware;
+    }
+
+    public double getSeferbekov() {
+        return seferbekov;
+    }
+
+    public void setSeferbekov(double seferbekov) {
+        this.seferbekov = seferbekov;
+    }
+
+    public double getEnsemble() {
+        return ensemble;
+    }
+
+    public void setEnsemble(double ensemble) {
+        this.ensemble = ensemble;
+    }
+    
+    
 
     @Override
     public boolean equals(Object o) {

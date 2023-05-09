@@ -10,17 +10,17 @@ import javafx.scene.image.Image;
  *
  * @author ZENODotus
  */
-public class FactCheck {
+public class WebsiteLink {
     
     private String name;
     private String url;
     private Image image;
     
-    public FactCheck() {
+    public WebsiteLink() {
         
     }
     
-    public FactCheck(String name, String url, Image image) {
+    public WebsiteLink(String name, String url, Image image) {
         this.name = name;
         this.url = url;
         this.image = image;

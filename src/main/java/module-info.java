@@ -8,10 +8,12 @@ module com.mycompany.deepfaked {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires spring.security.crypto;
-    requires com.almasb.fxgl.all;
     requires org.json;
     
     opens com.mycompany.deepfaked to javafx.fxml;
+    opens com.mycompany.deepfaked.model to javafx.fxml;
     opens com.mycompany.deepfaked.database.model to org.hibernate.orm.core;
+    
     exports com.mycompany.deepfaked;
+    exports com.mycompany.deepfaked.database.model;
 }
