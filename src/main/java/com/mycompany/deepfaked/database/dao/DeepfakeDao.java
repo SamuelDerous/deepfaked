@@ -23,7 +23,7 @@ public class DeepfakeDao {
         try (Session session = factory.openSession()) {
             String hql = "from Deepfake where mission = :mission";
             Query query = session.createQuery(hql, Deepfake.class);
-            query.setParameter("mission", mission.getMissionId());
+            query.setParameter("mission", mission);
             return query.getResultList();
         }
     }
@@ -36,4 +36,6 @@ public class DeepfakeDao {
             return query.getResultList();
         }
     }
+    
+     
 }

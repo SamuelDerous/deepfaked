@@ -50,6 +50,11 @@ import javafx.util.Duration;
  */
 public class Intro {
     
+    private static final List<Image> ownerImages = new ArrayList<>(List.of(new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner1.jpg").toString()),
+            new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner2.jpg").toString()),
+            new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner3.jpg").toString()),
+            new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner4.jpg").toString())));
+    
     private final MainScreenController mainScreenController;
     
     private static Stage stage;
@@ -92,10 +97,10 @@ public class Intro {
     public Scene scenePlay() {
         Pane root = new Pane();
         Scene scene = new Scene(root, 700, 600);
-        
+        int randomImage = (int)(Math.random() * 3 + 1);
         URL resourceBoss = getClass().getClassLoader().getResource("assets/textures/tiktokBoss.Jpg");
             BackgroundSize backgroundSize = new BackgroundSize(scene.getWidth(), scene.getHeight(), false, false, true, true);
-            BackgroundImage bossImage = new BackgroundImage(new Image(resourceBoss.toString()), BackgroundRepeat.NO_REPEAT,
+            BackgroundImage bossImage = new BackgroundImage(ownerImages.get(randomImage), BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             //bossImage.setFitHeight(scene.getHeight());
             //bossImage.setFitWidth(scene.getWidth());
@@ -198,6 +203,7 @@ public class Intro {
         testTime.setCycleCount(Timeline.INDEFINITE);
         testTime.play();
         keyHandler = (KeyEvent key) -> {
+            if(newText.getText().length() < intro.length()) {
             if(key.getCode() == KeyCode.ESCAPE) {
                 testTime.stop();
                 newText.setText(intro);
@@ -212,6 +218,7 @@ public class Intro {
                     }
                 });
                 scene.removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+            }
             }
         };
         scene.addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
@@ -245,10 +252,11 @@ public class Intro {
     public Scene sceneMissionPlay(String intro) {
         Pane root = new Pane();
         Scene scene = new Scene(root, 700, 600);
+        int randomImage = (int)(Math.random() * 3 + 1);
         
         URL resourceBoss = getClass().getClassLoader().getResource("assets/textures/tiktokBoss.Jpg");
             BackgroundSize backgroundSize = new BackgroundSize(scene.getWidth(), scene.getHeight(), false, false, true, true);
-            BackgroundImage bossImage = new BackgroundImage(new Image(resourceBoss.toString()), BackgroundRepeat.NO_REPEAT,
+            BackgroundImage bossImage = new BackgroundImage(ownerImages.get(randomImage), BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             //bossImage.setFitHeight(scene.getHeight());
             //bossImage.setFitWidth(scene.getWidth());
@@ -369,11 +377,13 @@ public class Intro {
         root.getChildren().add(analyticsButton);
         
         escapeHandler = (KeyEvent key) -> {
+            if(newText.getText().length() < intro.length()) {
             if(key.getCode() == KeyCode.ESCAPE) 
             {
                 testTime.stop();
                 newText.setText(intro);
                root.getChildren().addAll(missionButtons);
+            }
             }
         };
         scene.addEventHandler(KeyEvent.KEY_PRESSED, escapeHandler);
@@ -410,6 +420,12 @@ public class Intro {
     public static Stage getStage() {
         return stage;
     }
+
+    public static List<Image> getOwnerImages() {
+        return ownerImages;
+    }
+    
+    
     
     
 }

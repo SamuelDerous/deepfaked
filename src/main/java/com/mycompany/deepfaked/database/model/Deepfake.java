@@ -20,9 +20,9 @@ public class Deepfake {
     @Basic
     @Column(name = "label", nullable = false, length = 255)
     private String label;
-    @Basic
-    @Column(name = "mission", nullable = false)
-    private int mission;
+    @ManyToOne
+    @JoinColumn(name = "mission", nullable = false)
+    private Mission mission;
     @ManyToOne
     @JoinColumn(name = "consequence", nullable = false)
     private Consequence consequence;
@@ -83,11 +83,11 @@ public class Deepfake {
         this.label = label;
     }
 
-    public int getMission() {
+    public Mission getMission() {
         return mission;
     }
 
-    public void setMission(int mission) {
+    public void setMission(Mission mission) {
         this.mission = mission;
     }
 

@@ -4,14 +4,19 @@
  */
 package com.mycompany.deepfaked;
 
+import com.mycompany.deepfaked.database.dao.DeepfakeDao;
 import com.mycompany.deepfaked.database.dao.GamerDao;
 import com.mycompany.deepfaked.database.dao.MissionsDao;
+import com.mycompany.deepfaked.database.dao.ProgressDeepfakeDao;
 import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
+import com.mycompany.deepfaked.database.model.Deepfake;
 import com.mycompany.deepfaked.database.model.Gamer;
 import com.mycompany.deepfaked.database.model.Mission;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -76,6 +81,25 @@ public class AnalyticsController implements Initializable {
         List<Pane> badgePanels = new ArrayList<>();
         List<Mission> missions = MissionsDao.getMissions();
         List<Mission> completedMissions = ProgressMissionDao.getMissionsforGamer(LoginController.getGamer());
+        List<Deepfake> completedDeepfakes = ProgressDeepfakeDao.getCompletedDeepfakesforGamer(LoginController.getGamer());
+        Map<Mission, Integer> totalDeepfakes = new HashMap<>();
+        Map<Mission, List<Deepfake>> completedDeeps = new HashMap<>(); 
+        for(Mission mission : missions) {
+            if(!completedMissions.contains(mission)) {
+                List<Deepfake> deeps = DeepfakeDao.getDeepfakesForMission(mission);
+                //System.out.println(deeps.size());
+                if(!deeps.isEmpty()) {
+                    totalDeepfakes.put(mission, deeps.size());
+                    completedDeeps.put(mission, new ArrayList<>());
+                }
+            }
+        }
+        for(Deepfake completed : completedDeepfakes) {
+            if(!completedMissions.contains(completed.getMission())) {
+                completedDeeps.get(completed.getMission()).add(completed);
+            }
+        }
+        //System.out.println(completedDeeps);
         double teller = 0;
         double placementY = 0;
         Pane paneBadges = new Pane();
@@ -138,7 +162,19 @@ public class AnalyticsController implements Initializable {
                 }
             });
         lstLeaderBoard.setItems(testList);
-        double progress = (completedMissions.size() * 100) / missions.size();
+        //double progress = (completedMissions.size() * 100) / missions.size();
+        int totalMissions = missions.size();
+        double deepfakeProgress = 0.0;
+        for(Map.Entry<Mission, Integer> entry : totalDeepfakes.entrySet()) {
+            deepfakeProgress += completedDeeps.get(entry.getKey()).size() * 100 / entry.getValue();
+            //System.out.println(completedDeeps.get(entry.getKey()).size() + "* 100 / " + entry.getValue() + " = " + completedDeeps.get(entry.getKey()).size() * 100 / entry.getValue() );
+            //System.out.println("mission: " + entry.getKey().getName() + "    " + completedDeeps.get(entry.getKey()).size());
+            
+            //totalMissions--;
+        }
+        //System.out.println("DeepfakeProgress = " + deepfakeProgress);
+        double progress = (completedMissions.size() * 100) + (deepfakeProgress) / totalMissions;
+        //System.out.println(progress);
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
             new PieChart.Data("Missies", 100 - progress),
             new PieChart.Data("Vervolledigd", progress));

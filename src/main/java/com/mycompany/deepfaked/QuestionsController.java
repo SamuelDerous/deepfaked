@@ -131,7 +131,7 @@ public class QuestionsController implements Initializable {
          
     }
 
-    /*@FXML
+    @FXML
     protected void continuePressed() {
         questions = MainScreenController.getQuestions();
         btnContinue.setVisible(false);
@@ -139,15 +139,15 @@ public class QuestionsController implements Initializable {
         lblQuestion.setText(testQuestion.getQuestion());
         createButtons();
         
-    }*/
+    }
     
-    @FXML
+    /*@FXML
     protected void continuePressed() {
-        questions = QuestionDao.getAllQuestions();
+        questions = QuestionDao.getQuestionsForDeepfake();
         Question testQuestion = getQuestion();
         lblQuestion.setText(testQuestion.getQuestionId() + " " + testQuestion.getQuestion());
         createButtons();
-    }
+    }*/
     
     private Question getQuestion() {
         question = null;

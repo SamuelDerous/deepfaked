@@ -142,11 +142,8 @@ public class AvatarController implements Initializable {
         if(selectedURL != null) {
             Gamer gamer = RegisterController.getGamer();
             gamer.setAvatar(selectedURL);
-            GamerDao.createGamer(gamer);
-            System.out.println("test");
-        } else {
-            System.out.println(selectedURL);
-        }
+            GamerDao.createGamer(gamer);  
+        } 
         showLoginScreen();
         
     }

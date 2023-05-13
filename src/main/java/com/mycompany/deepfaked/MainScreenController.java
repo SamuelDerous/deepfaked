@@ -73,6 +73,7 @@ import org.w3c.dom.Element;
  */
 public class MainScreenController implements Initializable {
     
+    
     private static List<Question> questions;
     
     private final Image imageProfessor = new Image(getClass().getClassLoader().getResource("assets/avatars/professor.Jpg").toString());
@@ -323,7 +324,6 @@ public class MainScreenController implements Initializable {
                 Document document = webEngine.getDocument();
                 if(document != null) {
             Element userImg = document.getElementById("userImg");
-            String source = userImg.getAttribute("src");
             String avatar = gamer.getAvatar();
             if(avatar == null || avatar.isBlank()) {
                 avatar = "https://divedigital.id/wp-content/uploads/2022/07/1-Blank-TikTok-Default-PFP.jpg";
@@ -487,10 +487,10 @@ public class MainScreenController implements Initializable {
         root.setPrefWidth(700);
         root.setPrefHeight(600);
         //Scene scene = new Scene(root, 700, 600);
-        
+        int randomImage = (int)(Math.random() * 3 + 1);
         URL resourceBoss = getClass().getClassLoader().getResource("assets/textures/tiktokBoss.Jpg");
             BackgroundSize backgroundSize = new BackgroundSize(root.getWidth(), root.getHeight(), false, false, true, true);
-            BackgroundImage bossImage = new BackgroundImage(new Image(resourceBoss.toString()), BackgroundRepeat.NO_REPEAT,
+            BackgroundImage bossImage = new BackgroundImage(Intro.getOwnerImages().get(randomImage), BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             //bossImage.setFitHeight(scene.getHeight());
             //bossImage.setFitWidth(scene.getWidth());
@@ -566,6 +566,9 @@ public class MainScreenController implements Initializable {
                     newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
                     long timestamp = System.currentTimeMillis();
                 testTime.stop();
+                keyImage.setVisible(false);
+                root.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+                keyImage.removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
                 PauseTransition pause = new PauseTransition(Duration.seconds(10));
                 pause.setOnFinished(event -> {
                     
