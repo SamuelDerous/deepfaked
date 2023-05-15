@@ -1,52 +1,20 @@
 package com.mycompany.deepfaked.database.model;
 
+import com.mycompany.deepfaked.database.dao.MissionsDao;
 import jakarta.persistence.*;
+import java.util.Iterator;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "Mission", schema = "Deepfaked", catalog = "")
-public class Mission {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "missionId", nullable = false)
-    private int missionId;
-    @Basic
-    @Column(name = "name", nullable = false, length = 55)
-    private String name;
-    @Basic
-    @Column(name = "description", nullable = true, length = -1)
-    private String description;
+public class Mission extends GameComposite {
     @Basic
     @Column(name = "introduction", nullable = false, length = -1)
     private String introduction;
     @Basic
     @Column(name = "goal", nullable = false)
     private int goal;
-
-    public int getMissionId() {
-        return missionId;
-    }
-
-    public void setMissionId(int missionId) {
-        this.missionId = missionId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public String getIntroduction() {
         return introduction;
@@ -69,11 +37,23 @@ public class Mission {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mission that = (Mission) o;
-        return missionId == that.missionId && goal == that.goal && Objects.equals(name, that.name) && Objects.equals(description, that.description) && Objects.equals(introduction, that.introduction);
+        return getId() == that.getId() && goal == that.goal && Objects.equals(getName(), that.getName()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(introduction, that.introduction);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(missionId, name, description, introduction, goal);
+        return Objects.hash(getId(), getName(), getDescription(), introduction, goal);
     }
+
+    @Override
+    public GameComponent getchild(int index) {
+        return MissionsDao.getMission(index);
+    }
+
+    @Override
+    public Iterator<? extends GameComponent> createIterator() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+   
 }

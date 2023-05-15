@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Tool {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "toolId", nullable = false)
-    private int toolId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "name", nullable = false, length = 50)
     private String name;
@@ -27,12 +27,12 @@ public class Tool {
     @Column(name = "synopsis", nullable = true, length = -1)
     private String synopsis;
 
-    public int getToolId() {
-        return toolId;
+    public int getId() {
+        return id;
     }
 
-    public void setToolId(int toolId) {
-        this.toolId = toolId;
+    public void setid(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -80,11 +80,11 @@ public class Tool {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tool that = (Tool) o;
-        return toolId == that.toolId && type == that.type && Objects.equals(name, that.name) && Objects.equals(label, that.label) && Objects.equals(description, that.description) && Objects.equals(synopsis, that.synopsis);
+        return id == that.id && type == that.type && Objects.equals(name, that.name) && Objects.equals(label, that.label) && Objects.equals(description, that.description) && Objects.equals(synopsis, that.synopsis);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(toolId, name, label, description, type, synopsis);
+        return Objects.hash(id, name, label, description, type, synopsis);
     }
 }

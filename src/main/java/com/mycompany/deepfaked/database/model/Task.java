@@ -1,22 +1,14 @@
 package com.mycompany.deepfaked.database.model;
 
 import jakarta.persistence.*;
+import java.util.Iterator;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "Task", schema = "Deepfaked", catalog = "")
-public class Task {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "taskId", nullable = false)
-    private int taskId;
-    @Basic
-    @Column(name = "name", nullable = true, length = 50)
-    private String name;
-    @Basic
-    @Column(name = "text", nullable = false, length = 255)
-    private String text;
+public class Task extends GameComposite {
+    
     @Basic
     @Column(name = "goal", nullable = false)
     private int goal;
@@ -32,38 +24,14 @@ public class Task {
     }
     
     public Task(Task task) {
-        taskId = task.getTaskId();
-        name = task.getName();
-        text = task.getText();
+        setId(task.getId());
+        setName(task.getName());
+        setDescription(task.getDescription());
         goal = task.getGoal();
         learningObjective = task.getLearningObjective();
         video = task.getVideo();
     }
     
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public int getGoal() {
         return goal;
     }
@@ -93,11 +61,21 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task that = (Task) o;
-        return taskId == that.taskId && goal == that.goal && learningObjective == that.learningObjective && video == that.video && Objects.equals(name, that.name) && Objects.equals(text, that.text);
+        return getId() == that.getId() && goal == that.goal && learningObjective == that.learningObjective && video == that.video && Objects.equals(getName(), that.getName()) && Objects.equals(getDescription(), that.getDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(taskId, name, text, goal, learningObjective, video);
+        return Objects.hash(getId(), getName(), getDescription(), goal, learningObjective, video);
+    }
+
+    @Override
+    public Iterator<? extends GameComponent> createIterator() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public GameComponent getchild(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

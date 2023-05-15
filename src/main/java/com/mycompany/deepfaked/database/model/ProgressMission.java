@@ -9,8 +9,8 @@ import java.util.Objects;
 public class ProgressMission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "progressId", nullable = false)
-    private int progressId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @ManyToOne
     @JoinColumn(name = "gamer", nullable = false)
     private Gamer gamer;
@@ -18,12 +18,12 @@ public class ProgressMission {
     @JoinColumn(name = "mission", nullable = false)
     private Mission mission;
 
-    public int getProgressId() {
-        return progressId;
+    public int getId() {
+        return id;
     }
 
-    public void setProgressId(int progressId) {
-        this.progressId = progressId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Gamer getGamer() {
@@ -47,11 +47,11 @@ public class ProgressMission {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProgressMission that = (ProgressMission) o;
-        return progressId == that.progressId && gamer == that.gamer && mission == that.mission;
+        return id == that.id && gamer == that.gamer && mission == that.mission;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(progressId, gamer, mission);
+        return Objects.hash(id, gamer, mission);
     }
 }

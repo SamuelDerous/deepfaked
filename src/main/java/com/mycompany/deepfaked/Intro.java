@@ -8,31 +8,25 @@ import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.database.dao.MissionsDao;
 import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
 import com.mycompany.deepfaked.database.model.Mission;
-import com.mycompany.deepfaked.database.model.ProgressMission;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.Tab;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -40,7 +34,6 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -49,84 +42,99 @@ import javafx.util.Duration;
  * @author ZENODotus
  */
 public class Intro {
-    
+
+    private static final String MISSIONINTRO = "Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:";
+
     private static final List<Image> ownerImages = new ArrayList<>(List.of(new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner1.jpg").toString()),
             new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner2.jpg").toString()),
             new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner3.jpg").toString()),
             new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner4.jpg").toString())));
-    
+
     private final MainScreenController mainScreenController;
-    
+
+    private ImageView dialogImage;
+
+    private List<Mission> missions;
+
+    private int height;
+
+    private Label newText;
+
+    private SimpleIntegerProperty i;
+
     private static Stage stage;
-    
-    private EventHandler<KeyEvent> escapeHandler;
-    
-    
+
+    private Pane root;
+
     private Stage introStage;
-    
+    private Scene scene;
+
     EventHandler<KeyEvent> keyHandler;
-    
-    //var i;
-    
-    private String intro;
+
     private String whole;
     private static Mission mission;
-    
+
     public Intro() {
         mainScreenController = new MainScreenController();
     }
-    
+
     public Intro(MainScreenController controller, String intro) {
         this.mainScreenController = controller;
-            //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("questions.fxml"));
-            //fxmlLoader.setController(this);
-            //Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
-            introStage = new Stage();
-            introStage.setTitle("Missies");
-            introStage.setScene(sceneMissionPlay(intro));
-            
-            introStage.show();
-        
+        //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("questions.fxml"));
+        //fxmlLoader.setController(this);
+        //Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
+        introStage = new Stage();
+        introStage.setTitle("Missies");
+        introStage.setScene(playScene(intro, false, false));
+
+        introStage.show();
 
     }
 
     public static Mission getMission() {
         return mission;
     }
-    
-    public Scene scenePlay() {
-        Pane root = new Pane();
+
+    private Scene createScene(boolean onlyText, boolean yesNo) {
+        root = new Pane();
         Scene scene = new Scene(root, 700, 600);
-        int randomImage = (int)(Math.random() * 3 + 1);
+        int randomImage = (int) (Math.random() * 3 + 1);
         URL resourceBoss = getClass().getClassLoader().getResource("assets/textures/tiktokBoss.Jpg");
-            BackgroundSize backgroundSize = new BackgroundSize(scene.getWidth(), scene.getHeight(), false, false, true, true);
-            BackgroundImage bossImage = new BackgroundImage(ownerImages.get(randomImage), BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-            //bossImage.setFitHeight(scene.getHeight());
-            //bossImage.setFitWidth(scene.getWidth());
-            root.setBackground(new Background(bossImage));
-            URL resourceDialog = getClass().getClassLoader().getResource("assets/textures/dialog-translucent.png");
-            ImageView dialogImage = new ImageView(new Image(resourceDialog.toString()));
-            dialogImage.setTranslateX(50);
-            //dialogImage.set
-            dialogImage.setTranslateY(scene.getHeight() - 200);
-            dialogImage.minWidth(800);
-            dialogImage.setFitWidth(600);
-          //  root.getChildren().add(dialogImage);
-            
-            //root.getChildren().add(bossImage);
-            //root.getChildren().add(dialogImage);
-        //getGameWorld().addEntityFactory(new GameFactory());
-        //getGameWorld().get
-        //ImageView bosImage = new I
-        //spawn("boss", 0, 0);
-        //spawn("dialog", 50, getAppHeight() - 200);
-        //this.getStage().getScene().getStylesheets().add(getClass().getResource("assets/border.css").toExternalForm());
-        intro = "Dit is de CEO van Tiktok. Momenteel worden we overspoeld door fake video's.\n";
-        intro += "Jullie zijn de beste in jullie vak, en wij hebben de beste nodig.\n";
-        intro += "Daarom hebben we een test opgesteld waar jullie tegen elkaar zullen strijden.\n";
-        intro += "De beste kan rekenen op een belangrijke functie binnen ons bedrijf.\n";
-        intro += "Als u wilt deelnemen, druk dan op de knop 'Ja' of druk op de toets 'j'.\n";
+        BackgroundSize backgroundSize = new BackgroundSize(scene.getWidth(), scene.getHeight(), false, false, true, true);
+        BackgroundImage bossImage = new BackgroundImage(ownerImages.get(randomImage), BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        //bossImage.setFitHeight(scene.getHeight());
+        //bossImage.setFitWidth(scene.getWidth());
+        root.setBackground(new Background(bossImage));
+        URL resourceDialog = getClass().getClassLoader().getResource("assets/textures/dialog-translucent.png");
+        dialogImage = new ImageView(new Image(resourceDialog.toString()));
+        dialogImage.setTranslateX(50);
+        //dialogImage.set
+        dialogImage.minWidth(800);
+        dialogImage.setFitWidth(600);
+        dialogImage.setTranslateY(scene.getHeight() - 200);
+        newText = new Label();
+        //newText.set
+        newText.setFont(Font.font(16));
+        newText.setLayoutX(60);
+        newText.setTranslateY(scene.getHeight() - 170);
+        if (!onlyText && !yesNo) {
+            missions = MissionsDao.getMissions();
+            double amount = missions.size() / 3.0;
+            height = amount > (Math.round(amount)) ? (int) amount + 1 : (int) amount;
+            dialogImage.setFitHeight((height + 1) * 60);
+            dialogImage.setTranslateY(scene.getHeight() - ((height + 1) * 60));
+            newText.setTranslateY(scene.getHeight() - (height + 1) * 50);
+        }
+        root.getChildren().add(dialogImage);
+        root.getChildren().add(newText);
+        //dialogImage.minWidth(800);
+        //dialogImage.setFitWidth(600);
+
+        return scene;
+    }
+
+    private void createYesNoButtons() {
         Button btnYes = new Button("Ja");
         btnYes.getStylesheets().add(getClass().getClassLoader().getResource("assets/border.css").toString());
         btnYes.getStyleClass().add("button-primary");
@@ -136,7 +144,7 @@ public class Intro {
         btnYes.setScaleY(1.5);
         btnYes.setPrefWidth(50);
         btnYes.setOnAction((event) -> {
-            LoginController.getIntroStage().setScene(sceneMissionPlay("Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:"));
+            LoginController.getIntroStage().setScene(playScene(MISSIONINTRO, false, false));
         });
         Button btnNo = new Button("Neen");
         btnNo.setScaleX(1.5);
@@ -149,142 +157,12 @@ public class Intro {
         btnNo.setOnAction((event) -> {
             System.out.println("no is clicked");
         });
-        /*Text newText = new Text("");
-        whole = "";
-        newText.setFont(Font.font(16));
-        newText.setTranslateX(70);
-        newText.setTranslateY(getAppHeight() - 150);
-        SimpleBooleanProperty test;
-        test = new SimpleBooleanProperty(true);
-        
-        //test.bind(Bindings.when);
-        var i = new SimpleIntegerProperty(0);
-        addUINode(newText);
-        TimerAction timer = getGameTimer().runAtIntervalWhile(() -> {
-            whole += intro.charAt(i.get());
-            newText.setText(whole);
-            i.set(i.get() + 1);
-            test.set(i.get() < intro.length());
-        }, Duration.millis(20), test);
-        i.addListener((ov, prevStatus, newStatus) -> {
-            //System.out.println(newStatus.intValue());
-            //System.out.println(prevStatus.intValue());
-            if(newStatus.intValue() == intro.length() - 1) {
-                timer.expire();
-                addUINode(btnYes);
-                addUINode(btnNo);
-                
-            }
-        });*/
-        Label newText = new Label("");
-        //newText.set
-        whole = "";
-        newText.setFont(Font.font(16));
-        newText.setLayoutX(60);
-        newText.setTranslateY(scene.getHeight() - 170);
-        //newText.set
-        SimpleBooleanProperty test;
-        test = new SimpleBooleanProperty(true);
-        
-        //test.bind(Bindings.when);
-        var i = new SimpleIntegerProperty(0);
-        root.getChildren().add(dialogImage);
-        root.getChildren().add(newText);
-        
-        Timeline testTime = new Timeline(new KeyFrame(Duration.millis(20), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                whole += intro.charAt(i.get());
-                newText.setText(whole);
-                i.set(i.get() + 1);
-            }
-        }));
-        
-        testTime.setCycleCount(Timeline.INDEFINITE);
-        testTime.play();
-        keyHandler = (KeyEvent key) -> {
-            if(newText.getText().length() < intro.length()) {
-            if(key.getCode() == KeyCode.ESCAPE) {
-                testTime.stop();
-                newText.setText(intro);
-                root.getChildren().add(btnYes);
-                root.getChildren().add(btnNo);
-                scene.addEventHandler(KeyEvent.KEY_PRESSED, (event) -> {
-                    if(event.getCode() == KeyCode.J) {
-                        LoginController.getIntroStage().setScene(sceneMissionPlay("Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:"));
-                        //System.out.println("yes pressed");
-                    } else if(key.getCode() == KeyCode.N) {
-                        System.out.println("No pressed!");
-                    }
-                });
-                scene.removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
-            }
-            }
-        };
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
-        i.addListener((ov, prevStatus, newStatus) -> {
-            //System.out.println(newStatus.intValue());
-            //System.out.println(prevStatus.intValue());
-            if(newStatus.intValue() == intro.length() - 1) {
-                testTime.stop();
-                root.getChildren().add(btnYes);
-                root.getChildren().add(btnNo);
-                scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-                    if(key.getCode() == KeyCode.J) {
-                        LoginController.getIntroStage().setScene(sceneMissionPlay("Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:"));
-                        //System.out.println("yes pressed");
-                    } else if(key.getCode() == KeyCode.N) {
-                        System.out.println("No pressed!");
-                    }
-                });
-                
-            }
-        });
-        AnalyticsButton analyticsButton = new AnalyticsButton();
-        analyticsButton.setTranslateX(root.getWidth() - analyticsButton.getPrefWidth() - 5);
-        analyticsButton.setTranslateY(5);
-        root.getChildren().add(analyticsButton);
-        return scene;
-//timer.expire();
-        //addUINode()
+        root.getChildren().add(btnYes);
+        root.getChildren().add(btnNo);
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, createYesNoEvent());
     }
-    
-    public Scene sceneMissionPlay(String intro) {
-        Pane root = new Pane();
-        Scene scene = new Scene(root, 700, 600);
-        int randomImage = (int)(Math.random() * 3 + 1);
-        
-        URL resourceBoss = getClass().getClassLoader().getResource("assets/textures/tiktokBoss.Jpg");
-            BackgroundSize backgroundSize = new BackgroundSize(scene.getWidth(), scene.getHeight(), false, false, true, true);
-            BackgroundImage bossImage = new BackgroundImage(ownerImages.get(randomImage), BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-            //bossImage.setFitHeight(scene.getHeight());
-            //bossImage.setFitWidth(scene.getWidth());
-            List<Mission> missions = MissionsDao.getMissions();
-            root.setBackground(new Background(bossImage));
-            URL resourceDialog = getClass().getClassLoader().getResource("assets/textures/dialog-translucent.png");
-            ImageView dialogImage = new ImageView(new Image(resourceDialog.toString()));
-            dialogImage.setTranslateX(50);
-            //dialogImage.set
-            double amount = missions.size() / 3.0;
-            int height = amount > (Math.round(amount)) ? (int) amount + 1 : (int) amount;
-            //System.out.println(height);
-            dialogImage.setFitHeight((height + 1) * 60);
-            dialogImage.setTranslateY(scene.getHeight() - ((height + 1) * 60));
-            dialogImage.minWidth(800);
-            dialogImage.setFitWidth(600);
-          //  root.getChildren().add(dialogImage);
-            
-            //root.getChildren().add(bossImage);
-            //root.getChildren().add(dialogImage);
-        //getGameWorld().addEntityFactory(new GameFactory());
-        //getGameWorld().get
-        //ImageView bosImage = new I
-        //spawn("boss", 0, 0);
-        //spawn("dialog", 50, getAppHeight() - 200);
-        //this.getStage().getScene().getStylesheets().add(getClass().getResource("assets/border.css").toExternalForm());
-        //intro = "Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:";
-        
+
+    private void createMissionButtons(int height) {
         List<Button> missionButtons = new ArrayList<>();
         double xBegin = 120;
         double yBegin = scene.getHeight() - (height * 50);
@@ -292,7 +170,7 @@ public class Intro {
         int heightTeller = 0;
         Button btnMission;
         List<Mission> progressMissions = ProgressMissionDao.getMissionsforGamer(LoginController.getGamer());
-        for(int i = 0; i < missions.size(); i++) {
+        for (int i = 0; i < missions.size(); i++) {
             final Mission missionsGet = missions.get(i);
             final String description = missions.get(i).getDescription();
             //System.out.println(teller + " " + heightTeller);
@@ -308,50 +186,44 @@ public class Intro {
             btnMission.setScaleX(1.5);
             btnMission.setScaleY(1.5);
             btnMission.setPrefWidth(100);
-            
+
             btnMission.setOnAction((event) -> {
                 mission = missionsGet;
                 try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("mainScreen.fxml"));
-                stage = new Stage();
-                Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);
-                stage.setScene(scenetest);
-                stage.show();
-                LoginController.getIntroStage().hide();
-                
-            } catch(IOException ex) {
-                ex.printStackTrace();
-            }
+                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("mainScreen.fxml"));
+                    stage = new Stage();
+                    Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);
+                    stage.setScene(scenetest);
+                    stage.show();
+                    LoginController.getIntroStage().hide();
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
-            if(progressMissions.contains(missionsGet)) {
+            if (progressMissions.contains(missionsGet)) {
                 btnMission.setDisable(true);
-                
+
             } else {
                 btnMission.setDisable(false);
             }
             teller++;
             missionButtons.add(btnMission);
             //heightTeller++;
-            if(((i - 1) > 0) && ((i + 1) % 3 == 0)) {
+            if (((i - 1) > 0) && ((i + 1) % 3 == 0)) {
                 teller = 0;
                 heightTeller++;
             }
         }
-        Label newText = new Label("");
-        //newText.set
+        root.getChildren().addAll(missionButtons);
+    }
+
+    public Scene playScene(String intro, boolean onlyText, boolean yesNo) {
+        scene = createScene(onlyText, yesNo);
         whole = "";
-        newText.setFont(Font.font(16));
-        newText.setLayoutX(60);
-        newText.setTranslateY(scene.getHeight() - (height + 1) * 50);
-        //newText.set
-        SimpleBooleanProperty test;
-        test = new SimpleBooleanProperty(true);
-        
         //test.bind(Bindings.when);
-        var i = new SimpleIntegerProperty(0);
-        root.getChildren().add(dialogImage);
-        root.getChildren().add(newText);
-        
+        i = new SimpleIntegerProperty(0);
+
         Timeline testTime = new Timeline(new KeyFrame(Duration.millis(20), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -360,62 +232,33 @@ public class Intro {
                 i.set(i.get() + 1);
             }
         }));
-        
+
         testTime.setCycleCount(Timeline.INDEFINITE);
         testTime.play();
         i.addListener((ov, prevStatus, newStatus) -> {
             //System.out.println(newStatus.intValue());
             //System.out.println(prevStatus.intValue());
-            if(newStatus.intValue() == intro.length() - 1) {
+            if (newStatus.intValue() == intro.length() - 1) {
                 testTime.stop();
-                root.getChildren().addAll(missionButtons);
+                if (!onlyText && yesNo) {
+                    createYesNoButtons();
+                } else if (!onlyText) {
+                    createMissionButtons(height);
+                }
             }
         });
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, createEscapeKeyHandler(testTime, intro, height, onlyText, yesNo));
+        createAnalyticsButton();
+        return scene;
+
+    }
+
+    public void createAnalyticsButton() {
         AnalyticsButton analyticsButton = new AnalyticsButton();
         analyticsButton.setTranslateX(root.getWidth() - analyticsButton.getPrefWidth() - 5);
         analyticsButton.setTranslateY(5);
         root.getChildren().add(analyticsButton);
-        
-        escapeHandler = (KeyEvent key) -> {
-            if(newText.getText().length() < intro.length()) {
-            if(key.getCode() == KeyCode.ESCAPE) 
-            {
-                testTime.stop();
-                newText.setText(intro);
-               root.getChildren().addAll(missionButtons);
-            }
-            }
-        };
-        scene.addEventHandler(KeyEvent.KEY_PRESSED, escapeHandler);
-        return scene;
-//timer.expire();
-        //addUINode()
     }
-    
-    
-    
-    
-    
-    
-    
-   /* @Override
-    protected void initUI() {
-        Text intro = new Text("Hello, this is Sam!");
-        intro.setFont(Font.font(24));
-        intro.setTranslateX(getAppWidth() - 200);
-        intro.setTranslateY(getAppHeight() - 50);
-        //intro.fillProperty().bind(getop("stageColor"));
-        //intro.textProperty().bind(getip("score").asString());
-         addUINode(intro);
-
-        //Group dpadView = getInput().createVirtualDpadView();
-
-        //addUINode(dpadView, 0, 625);
-    }*/
-    
-    /*public static void main(String[] args) {
-        //launch(args);
-    }*/
 
     public static Stage getStage() {
         return stage;
@@ -424,8 +267,36 @@ public class Intro {
     public static List<Image> getOwnerImages() {
         return ownerImages;
     }
-    
-    
-    
-    
+
+    private EventHandler<KeyEvent> createEscapeKeyHandler(Timeline timer, String intro, int height, boolean onlyText, boolean yesNo) {
+        keyHandler = (KeyEvent key) -> {
+            if (newText.getText().length() < intro.length()) {
+                if (key.getCode() == KeyCode.ESCAPE) {
+                    timer.stop();
+                    newText.setText(intro);
+                    if (!onlyText && yesNo) {
+                        createYesNoButtons();
+                    } else if (!onlyText && !yesNo) {
+                        createMissionButtons(height);
+                    }
+                    //scene.addEventHandler(KeyEvent.KEY_PRESSED, createYesNoEvent());
+                    scene.removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+                }
+            }
+        };
+        return keyHandler;
+    }
+
+    private EventHandler<KeyEvent> createYesNoEvent() {
+        EventHandler<KeyEvent> yesNoHandler = (KeyEvent key) -> {
+            if (key.getCode() == KeyCode.J) {
+                LoginController.getIntroStage().setScene(playScene(MISSIONINTRO, false, false));
+                //System.out.println("yes pressed");
+            } else if (key.getCode() == KeyCode.N) {
+                System.out.println("No pressed!");
+            }
+        };
+        return yesNoHandler;
+    }
+
 }

@@ -25,7 +25,7 @@ public class TaskDao {
             List<CompletedTask> completed = new ArrayList<>();
             String hql = "from Task where video = :video";
             Query query = session.createQuery(hql, Task.class);
-            query.setParameter("video", deepfake.getVideoId());
+            query.setParameter("video", deepfake.getId());
             List<Task> result = query.getResultList();
             CompletedTask.resetCounter();
             for(int i = 0; i < result.size(); i++) {

@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Consequence {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "consequenceId", nullable = false)
-    private int consequenceId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "feedback", nullable = false, length = -1)
     private String feedback;
@@ -18,12 +18,12 @@ public class Consequence {
     @Column(name = "readMore", nullable = true, length = 255)
     private String readMore;
 
-    public int getConsequenceId() {
-        return consequenceId;
+    public int getId() {
+        return id;
     }
 
-    public void setConsequenceId(int consequenceId) {
-        this.consequenceId = consequenceId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFeedback() {
@@ -47,11 +47,11 @@ public class Consequence {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Consequence that = (Consequence) o;
-        return consequenceId == that.consequenceId && Objects.equals(feedback, that.feedback) && Objects.equals(readMore, that.readMore);
+        return id == that.id && Objects.equals(feedback, that.feedback) && Objects.equals(readMore, that.readMore);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(consequenceId, feedback, readMore);
+        return Objects.hash(id, feedback, readMore);
     }
 }

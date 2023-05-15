@@ -10,8 +10,8 @@ import java.util.Set;
 public class Choice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "choiceId", nullable = false)
-    private int choiceId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "answer", nullable = false, length = -1)
     private String answer;
@@ -19,12 +19,12 @@ public class Choice {
     @JoinColumn(name = "consequence", nullable = false)
     private Consequence consequence;
     
-    public int getChoiceId() {
-        return choiceId;
+    public int getId() {
+        return id;
     }
 
-    public void setChoiceId(int choiceId) {
-        this.choiceId = choiceId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getAnswer() {
@@ -48,11 +48,11 @@ public class Choice {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Choice that = (Choice) o;
-        return choiceId == that.choiceId && consequence == that.consequence && Objects.equals(answer, that.answer);
+        return id == that.id && consequence == that.consequence && Objects.equals(answer, that.answer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(choiceId, answer, consequence);
+        return Objects.hash(id, answer, consequence);
     }
 }

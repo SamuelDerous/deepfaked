@@ -28,6 +28,12 @@ public class LoginController implements Initializable {
     private static Stage introStage;
     private static Stage infoStage;
     
+    private final static String INTRO =  "Dit is de CEO van Tiktok. Momenteel worden we overspoeld door fake video's.\n "
+            + "Jullie zijn de beste in jullie vak, en wij hebben de beste nodig.\n"
+            + "Daarom hebben we een test opgesteld waar jullie tegen elkaar zullen strijden.\n"
+            + "De beste kan rekenen op een belangrijke functie binnen ons bedrijf.\n"
+            + "Als u wilt deelnemen, druk dan op de knop 'Ja' of druk op de toets 'j'.\n";
+    
     private static Gamer gamer;
     
     @FXML
@@ -152,7 +158,7 @@ public class LoginController implements Initializable {
             introStage = new Stage();
             Intro test = new Intro();
             introStage.setTitle("Deepfaked");
-            introStage.setScene(test.scenePlay());
+            introStage.setScene(test.playScene(INTRO, false, true));
             introStage.show();
             gamer = newGamer;
             App.getStage().close();

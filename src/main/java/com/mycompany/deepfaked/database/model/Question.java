@@ -10,8 +10,8 @@ import java.util.Set;
 public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "questionId", nullable = false)
-    private int questionId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "question", nullable = false, length = 255)
     private String question;
@@ -43,12 +43,12 @@ public class Question {
     )
     private Set<QuestionChoice> choices;*/
 
-    public int getQuestionId() {
-        return questionId;
+    public int getId() {
+        return id;
     }
 
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getQuestion() {
@@ -104,11 +104,11 @@ public class Question {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Question that = (Question) o;
-        return questionId == that.questionId && learningObjective == that.learningObjective && video == that.video && level == that.level && multi == that.multi && value == that.value && Objects.equals(question, that.question);
+        return id == that.id && learningObjective == that.learningObjective && video == that.video && level == that.level && multi == that.multi && value == that.value && Objects.equals(question, that.question);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(questionId, question, learningObjective, video, level, multi, value);
+        return Objects.hash(id, question, learningObjective, video, level, multi, value);
     }
 }

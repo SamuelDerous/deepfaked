@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Type {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "typeId", nullable = false)
-    private int typeId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "name", nullable = false, length = 50)
     private String name;
@@ -18,12 +18,12 @@ public class Type {
     @Column(name = "description", nullable = true, length = -1)
     private String description;
 
-    public int getTypeId() {
-        return typeId;
+    public int getId() {
+        return id;
     }
 
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -47,11 +47,11 @@ public class Type {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Type that = (Type) o;
-        return typeId == that.typeId && Objects.equals(name, that.name) && Objects.equals(description, that.description);
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(typeId, name, description);
+        return Objects.hash(id, name, description);
     }
 }

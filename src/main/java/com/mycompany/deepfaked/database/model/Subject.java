@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "subjectId", nullable = false)
-    private int subjectId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "title", nullable = false, length = 55)
     private String title;
@@ -18,12 +18,12 @@ public class Subject {
     @Column(name = "description", nullable = true, length = 200)
     private String description;
 
-    public int getSubjectId() {
-        return subjectId;
+    public int getId() {
+        return id;
     }
 
-    public void setSubjectId(int subjectId) {
-        this.subjectId = subjectId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -47,11 +47,11 @@ public class Subject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subject that = (Subject) o;
-        return subjectId == that.subjectId && Objects.equals(title, that.title) && Objects.equals(description, that.description);
+        return id == that.id && Objects.equals(title, that.title) && Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subjectId, title, description);
+        return Objects.hash(id, title, description);
     }
 }

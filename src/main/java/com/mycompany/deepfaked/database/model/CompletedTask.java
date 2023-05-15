@@ -30,7 +30,7 @@ public class CompletedTask extends Task {
         //this.setText("\u2022\t" + this.getText());
         id = count.getAndIncrement();
         this.completed = false;
-        label = new Label("\u2022\t" + task.getText());
+        label = new Label("\u2022\t" + task.getDescription());
         label.setTranslateX(20);
         label.setPrefWidth(200);
         label.setFont(Font.font(16));

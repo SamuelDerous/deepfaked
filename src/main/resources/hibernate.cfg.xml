@@ -8,6 +8,7 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">SDLPetra007</property>
     <property name="hibernate.connection.pool_size">5</property>
+    <property name="hibernate.id.new_generator_mappings">false</property>
     
     <property name="hibernate.c3p0.min_size">5</property>
     <property name="hibernate.c3p0.max_size">20</property>

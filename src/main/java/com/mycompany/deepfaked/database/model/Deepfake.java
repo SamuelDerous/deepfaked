@@ -9,8 +9,8 @@ import java.util.Objects;
 public class Deepfake {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "videoId", nullable = false)
-    private int videoId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "location", nullable = false, length = 100)
     private String location;
@@ -51,12 +51,12 @@ public class Deepfake {
     
     
 
-    public int getVideoId() {
-        return videoId;
+    public int getId() {
+        return id;
     }
 
-    public void setVideoId(int videoId) {
-        this.videoId = videoId;
+    public void setid(int id) {
+        this.id = id;
     }
 
     public String getLocation() {
@@ -154,11 +154,11 @@ public class Deepfake {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Deepfake that = (Deepfake) o;
-        return videoId == that.videoId && real == that.real && mission == that.mission && consequence == that.consequence && value == that.value && Objects.equals(location, that.location) && Objects.equals(label, that.label);
+        return id == that.id && real == that.real && mission == that.mission && consequence == that.consequence && value == that.value && Objects.equals(location, that.location) && Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(videoId, location, real, label, mission, consequence, value);
+        return Objects.hash(id, location, real, label, mission, consequence, value);
     }
 }

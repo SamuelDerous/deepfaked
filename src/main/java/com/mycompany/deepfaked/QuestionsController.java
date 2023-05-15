@@ -284,7 +284,7 @@ public class QuestionsController implements Initializable {
     protected void nextQuestion() {
         Question testQuestion = getQuestion();
         if(testQuestion != null) {
-            lblQuestion.setText(testQuestion.getQuestionId() + " " + testQuestion.getQuestion());
+            lblQuestion.setText(testQuestion.getId() + " " + testQuestion.getQuestion());
             createButtons();
             pnInformation.setVisible(false);
             btnNextQuestion.setVisible(false);

@@ -255,7 +255,7 @@ public class MainScreenController implements Initializable {
         for(Deepfake deep : deepfakes) {
             boolean istaken = false;
             for(Deepfake completed : completedDeepfakes) {
-                if(deep.getVideoId() == completed.getVideoId()) {
+                if(deep.getId() == completed.getId()) {
                     progress += TaskDao.getTasksForDeepfake(deep).size();
                     progress += QuestionDao.getQuestionsForDeepfake(deep).size();
                     istaken = true;
@@ -749,7 +749,7 @@ public class MainScreenController implements Initializable {
                         height += tasks.get(i).getLabel().getHeight() + 20;
                         amountOfCompleted++;
                     } else if (tasks.get(i - 1).isCompleted()) {
-                        System.out.println(tasks.get(i).getText());
+                        System.out.println(tasks.get(i).getDescription());
                         height += tasks.get(i).getLabel().getHeight() + 20;
                         
                     }

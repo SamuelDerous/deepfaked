@@ -10,8 +10,8 @@ import java.util.Objects;
 public class SaveSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "sessionId", nullable = false)
-    private int sessionId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "duration", nullable = false)
     private Time duration;
@@ -25,12 +25,12 @@ public class SaveSession {
     @Column(name = "task", nullable = false)
     private int task;
 
-    public int getSessionId() {
-        return sessionId;
+    public int getId() {
+        return id;
     }
 
-    public void setSessionId(int sessionId) {
-        this.sessionId = sessionId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Time getDuration() {
@@ -70,11 +70,11 @@ public class SaveSession {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SaveSession that = (SaveSession) o;
-        return sessionId == that.sessionId && gamer == that.gamer && mission == that.mission && task == that.task && Objects.equals(duration, that.duration);
+        return id == that.id && gamer == that.gamer && mission == that.mission && task == that.task && Objects.equals(duration, that.duration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sessionId, duration, gamer, mission, task);
+        return Objects.hash(id, duration, gamer, mission, task);
     }
 }

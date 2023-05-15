@@ -9,8 +9,8 @@ import java.util.Objects;
 public class ProgressDeepfake {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "progressId", nullable = false)
-    private int progressId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @ManyToOne
     @JoinColumn(name = "gamer", nullable = false)
     private Gamer gamer;
@@ -18,12 +18,12 @@ public class ProgressDeepfake {
     @JoinColumn(name = "deepfake", nullable = false)
     private Deepfake deepfake;
 
-    public int getProgressId() {
-        return progressId;
+    public int getId() {
+        return id;
     }
 
-    public void setProgressId(int progressId) {
-        this.progressId = progressId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Gamer getGamer() {
@@ -47,11 +47,11 @@ public class ProgressDeepfake {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProgressDeepfake that = (ProgressDeepfake) o;
-        return progressId == that.progressId && gamer == that.gamer && deepfake == that.deepfake;
+        return id == that.id && gamer == that.gamer && deepfake == that.deepfake;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(progressId, gamer, deepfake);
+        return Objects.hash(id, gamer, deepfake);
     }
 }

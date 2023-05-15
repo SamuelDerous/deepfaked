@@ -9,8 +9,8 @@ import java.util.Objects;
 public class LearningObjective {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "learningId", nullable = false)
-    private int learningId;
+    @Column(name = "id", nullable = false)
+    private int id;
     @Basic
     @Column(name = "label", nullable = true, length = -1)
     private String label;
@@ -24,12 +24,12 @@ public class LearningObjective {
     @Column(name = "keywords", nullable = true, length = 200)
     private String keywords;
 
-    public int getLearningId() {
-        return learningId;
+    public int getId() {
+        return id;
     }
 
-    public void setLearningId(int learningId) {
-        this.learningId = learningId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getLabel() {
@@ -69,11 +69,11 @@ public class LearningObjective {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LearningObjective that = (LearningObjective) o;
-        return learningId == that.learningId && subject == that.subject && Objects.equals(label, that.label) && Objects.equals(bloomLevel, that.bloomLevel) && Objects.equals(keywords, that.keywords);
+        return id == that.id && subject == that.subject && Objects.equals(label, that.label) && Objects.equals(bloomLevel, that.bloomLevel) && Objects.equals(keywords, that.keywords);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(learningId, label, subject, bloomLevel, keywords);
+        return Objects.hash(id, label, subject, bloomLevel, keywords);
     }
 }
