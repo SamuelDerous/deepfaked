@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -20,7 +21,7 @@ import javafx.stage.Stage;
  * @author ZENODotus
  */
 public class AnalyticsButton extends Button {
-    
+
     public AnalyticsButton() {
         super();
         ImageView iw = new ImageView(new Image(getClass().getClassLoader().getResource("assets/icons/analyticsImage.png").toString()));
@@ -35,10 +36,12 @@ public class AnalyticsButton extends Button {
                 Scene scene = new Scene(fxmlLoader.load(), 900, 730);
                 stage.setScene(scene);
                 stage.show();
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
             }
-                
         });
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText("Hoe ver sta je in het spel?");
+        this.setTooltip(tooltip);
     }
 }

@@ -5,7 +5,6 @@
 package com.mycompany.deepfaked;
 
 import com.mycompany.deepfaked.database.dao.ChoiceDao;
-import com.mycompany.deepfaked.database.dao.QuestionDao;
 import com.mycompany.deepfaked.database.model.Question;
 import com.mycompany.deepfaked.database.model.QuestionChoice;
 import java.io.IOException;
@@ -36,9 +35,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -54,6 +56,8 @@ public class QuestionsController implements Initializable {
     
     private final MainScreenController mainScreenController;
     
+    private static final ImageView VIEWMONEY = new ImageView(new Image(QuestionsController.class.getClassLoader().getResource("assets/icons/money.png").toString()));
+    private static final ImageView VIEWFOLLOWERS = new ImageView(new Image(QuestionsController.class.getClassLoader().getResource("assets/icons/followers.png").toString()));
     private static double money = 0;
     private static int followers = 0;
     private double amountofmoney;
@@ -127,7 +131,10 @@ public class QuestionsController implements Initializable {
         btnNextQuestion.setVisible(false);
          String intro = "We hebben enkele vragen opgesteld om te kijken of je beslissing om de video als echt of vals aan te vinken gegrond zijn. Elke goede vraag levert je geld op. Als je er klaar voor bent druk dan op c of klik op de knop.";
          lblQuestion.setText(intro);
-         
+         VIEWFOLLOWERS.setFitHeight(25);
+         VIEWFOLLOWERS.setFitWidth(35);
+         VIEWMONEY.setFitHeight(25);
+         VIEWMONEY.setFitWidth(35);
          
     }
 
@@ -226,9 +233,10 @@ public class QuestionsController implements Initializable {
                     if(choices.get(i).getCorrect() == 1) {
                         money += question.getValue().getMoney();
                         followers += question.getValue().getFollowers();
-                        Alert a = new Alert(AlertType.INFORMATION);
-                        a.setContentText("i = " + i + " Correct. Followers: " + question.getValue().getFollowers() + " Money: " + question.getValue().getMoney());
-                        a.show();
+                        AnimatedCoins.create(pnQuestionsField);
+                        
+                    } else {
+                        Loss.animate(pnQuestionsField);
                     }
                     information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback());
                     information.wrappingWidthProperty().bind(pnInformation.widthProperty());
@@ -245,19 +253,20 @@ public class QuestionsController implements Initializable {
         int f = 0;
         int i = 0;
         boolean same = false;
+        boolean incorrect = false;
         List<Integer> corrects = new ArrayList<>();
         for(ToggleButton button : buttons) {
+            
                 if(button.isSelected()) {
                     if(choices.get(i).getCorrect() == 1) {
                         m += question.getValue().getMoney();
                         f += question.getValue().getFollowers();
                         corrects.add(i);
-                        Alert a = new Alert(AlertType.INFORMATION);
-                        a.setContentText("i = " + i + " Correct. Followers: " + question.getValue().getFollowers() + " Money: " + question.getValue().getMoney());
-                        a.show();
+                        
                     } else {
                         m = 0.0;
                         f = 0;
+                        incorrect = true;
                     } 
                     for(int correct : corrects) {
                         if(correct != i) {
@@ -278,6 +287,11 @@ public class QuestionsController implements Initializable {
                 button.setDisable(true);
                 i++;
                 }
+        if(!incorrect) {
+            AnimatedCoins.create(pnQuestionsField);
+        } else {
+            Loss.animate(pnQuestionsField);
+        }
     }
     
     @FXML
@@ -300,20 +314,34 @@ public class QuestionsController implements Initializable {
         
         VBox vbox = new VBox();
         Text intro = new Text("Met het beantwoorden van deze vragen hebt u volgende scores behaald:");
-        Text txtMoney = new Text("Verworven inkomsten: € 0.00");
-        Text txtFollowers = new Text("Nieuwe volgers: 0");
+        HBox hboxMoney = new HBox();
+        Text txtMoney = new Text("€ 0.00");
+        txtMoney.setFont(new Font(16));
+        hboxMoney.getChildren().add(VIEWMONEY);
+        hboxMoney.getChildren().add(txtMoney);
+        hboxMoney.setAlignment(Pos.CENTER);
+        hboxMoney.setPadding(new Insets(5, 5, 5, 5));
+        HBox hboxFollowers = new HBox();
+        Text txtFollowers = new Text("0");
+        txtFollowers.setFont(new Font(16));
+        hboxFollowers.setAlignment(Pos.CENTER);
+        hboxFollowers.setPadding(new Insets(5, 15, 5, 15));
+        hboxFollowers.getChildren().add(VIEWFOLLOWERS);
+        hboxFollowers.getChildren().add(txtFollowers);
+        
+        
         amountofmoney = 0.00;
         amountoffollowers = 0;
         Timeline timelineMoney = new Timeline(new KeyFrame(Duration.millis(20), (ActionEvent event) -> {
              if(amountofmoney < money) {
-                 txtMoney.setText("Verworven inkomsten: € " + amountofmoney + "0");
+                 txtMoney.setText("€ " + amountofmoney + "0");
                  amountofmoney++;
              }
         }));
          
          Timeline timeLineFollowers = new Timeline(new KeyFrame(Duration.millis(20), (ActionEvent event) -> {
             if(amountoffollowers < followers) {
-                txtFollowers.setText("Nieuwe volgers: " + amountoffollowers);
+                txtFollowers.setText("" + amountoffollowers);
                 amountoffollowers++;
             }
         }));
@@ -321,8 +349,8 @@ public class QuestionsController implements Initializable {
         timeLineFollowers.setCycleCount(Animation.INDEFINITE);
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().add(intro);
-        vbox.getChildren().add(txtMoney);
-        vbox.getChildren().add(txtFollowers);
+        vbox.getChildren().add(hboxMoney);
+        vbox.getChildren().add(hboxFollowers);
         Button btnOK = new Button("OK");
         btnOK.setOnAction((event) -> {
             dialogStage.close();
