@@ -46,6 +46,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -510,6 +511,9 @@ public class MainScreenController implements Initializable {
             //dialogImage.set
             
         intro = mission.getIntroduction().replace("<User>", LoginController.getGamer().getUserName());
+        intro += "\n\n";
+        intro += "Het doel van deze missie is " + mission.getGoal().getName() + " (" + mission.getGoal().getDescription() + ").";
+        
         
         Label newText = new Label("");
         //newText.set
@@ -681,7 +685,7 @@ public class MainScreenController implements Initializable {
                     });
                     //lblTask.setTranslateX(10);
                     tasks.get(0).getLabel().setTranslateY(value + plus);
-                    
+                    tasks.get(0).getLabel().setTooltip(new Tooltip(tasks.get(0).getLearningObjective().getLabel()));
                     pnTasks.getChildren().add(tasks.get(0).getLabel());
                     pnTasks.getChildren().add(tasks.get(0).getImage());
                 }
@@ -734,6 +738,7 @@ public class MainScreenController implements Initializable {
                     tasks.get(index).getLabel().setTranslateY(tasks.get(index - 1).getLabel().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
                     tasks.get(index).getImage().setTranslateY(tasks.get(index - 1).getImage().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
                     final int ind = index;
+                    tasks.get(index).getLabel().setTooltip(new Tooltip(tasks.get(index).getLearningObjective().getLabel()));
                     pnTasks.getChildren().add(tasks.get(index).getLabel());
                      tasks.get(index).getImage().setOnMouseClicked((MouseEvent e) -> {
                         completeTask(ind);

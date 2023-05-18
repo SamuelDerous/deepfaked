@@ -12,9 +12,9 @@ public class Mission extends GameComposite {
     @Basic
     @Column(name = "introduction", nullable = false, length = -1)
     private String introduction;
-    @Basic
-    @Column(name = "goal", nullable = false)
-    private int goal;
+    @ManyToOne
+    @JoinColumn(name = "goal", referencedColumnName = "id", nullable=false)
+    private Goal goal;
 
     public String getIntroduction() {
         return introduction;
@@ -24,20 +24,21 @@ public class Mission extends GameComposite {
         this.introduction = introduction;
     }
 
-    public int getGoal() {
+    public Goal getGoal() {
         return goal;
     }
 
-    public void setGoal(int goal) {
+    public void setGoal(Goal goal) {
         this.goal = goal;
     }
 
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mission that = (Mission) o;
-        return getId() == that.getId() && goal == that.goal && Objects.equals(getName(), that.getName()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(introduction, that.introduction);
+        return getId() == that.getId() && goal.equals(that.goal) && Objects.equals(getName(), that.getName()) && Objects.equals(getDescription(), that.getDescription()) && Objects.equals(introduction, that.introduction);
     }
 
     @Override
