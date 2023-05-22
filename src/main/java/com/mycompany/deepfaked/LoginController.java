@@ -154,12 +154,12 @@ public class LoginController implements Initializable {
         try {
         if(BCrypt.checkpw(txtPassword.getText(), newGamer.getPassword())) {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("intro.fxml"));
-            //Scene scene = new Scene(fxmlLoader.load(), 600, 350);
+            Scene scene = new Scene(fxmlLoader.load(), 600, 350);
             introStage = new Stage();
-            Intro test = new Intro();
             introStage.setTitle("Deepfaked");
-            introStage.setScene(test.playScene(INTRO, false, true));
+            introStage.setScene(scene);
             introStage.show();
+            
             gamer = newGamer;
             App.getStage().close();
         } else {

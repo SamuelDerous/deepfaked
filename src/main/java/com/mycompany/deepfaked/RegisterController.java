@@ -128,7 +128,7 @@ public class RegisterController implements Initializable {
     protected void showAvatarScreen() throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("avatar.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
-        scene.getStylesheets().add(getClass().getClassLoader().getResource("assets/border.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/assets/border.css").toExternalForm());
         App.getStage().setScene(scene);
     }  
 

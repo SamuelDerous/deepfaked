@@ -11,22 +11,22 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
         <factcheck>
             <name>Factcheck.org</name>
             <url>https://www.factcheck.org/</url>
-            <image>assets/factcheck/FactCheckLogo.png</image>
+            <image>/assets/factcheck/FactCheckLogo.png</image>
         </factcheck>
         <factcheck>
             <name>Media Bias/Fact check</name>
             <url>https://mediabiasfactcheck.com/</url>
-            <image>assets/factcheck/mediaBiasLogo.png</image>
+            <image>/assets/factcheck/mediaBiasLogo.png</image>
         </factcheck>
         <factcheck>
             <name>Factcheck Nederland</name>
             <url>https://factchecknederland.afp.com/list</url>
-            <image>assets/factcheck/Logo_AFP.png</image>
+            <image>/assets/factcheck/Logo_AFP.png</image>
         </factcheck>
         <factcheck>
             <name>Factcheck Vlaanderen</name>
             <url>https://factcheck.vlaanderen/</url>
-            <image>assets/factcheck/factcheckvlaanderenlogo.png</image>
+            <image>/assets/factcheck/factcheckvlaanderenlogo.png</image>
         </factcheck>
         
     </factchecks>
@@ -35,12 +35,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
         <searchEngine>
             <name>google scolar</name>
             <url>https://scholar.google.com/</url>
-            <image>assets/factcheck/googleScolar.png</image>
+            <image>/assets/factcheck/googleScolar.png</image>
         </searchEngine>
         <searchEngine>
             <name>google images</name>
             <url>https://www.samuelderous.be/searchImages.html</url>
-            <image>assets/factcheck/revearseImageSearch.png</image>
+            <image>/assets/factcheck/revearseImageSearch.png</image>
         </searchEngine>
         
     </searchEngines>

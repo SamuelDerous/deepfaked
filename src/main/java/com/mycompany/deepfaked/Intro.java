@@ -45,10 +45,10 @@ public class Intro {
 
     private static final String MISSIONINTRO = "Geweldig! Dit zijn de missies die we voor jullie hebben voorzien:";
 
-    private static final List<Image> ownerImages = new ArrayList<>(List.of(new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner1.jpg").toString()),
-            new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner2.jpg").toString()),
-            new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner3.jpg").toString()),
-            new Image(Intro.class.getClassLoader().getResource("assets/textures/Owner4.jpg").toString())));
+    private static final List<Image> ownerImages = new ArrayList<>(List.of(new Image(Intro.class.getResource("/assets/textures/Owner1.jpg").toString()),
+            new Image(Intro.class.getResource("/assets/textures/Owner2.jpg").toString()),
+            new Image(Intro.class.getResource("/assets/textures/Owner3.jpg").toString()),
+            new Image(Intro.class.getResource("/assets/textures/Owner4.jpg").toString())));
 
     private final MainScreenController mainScreenController;
 
@@ -99,14 +99,14 @@ public class Intro {
         root = new Pane();
         Scene scene = new Scene(root, 700, 600);
         int randomImage = (int) (Math.random() * 3 + 1);
-        URL resourceBoss = getClass().getClassLoader().getResource("assets/textures/tiktokBoss.Jpg");
+        URL resourceBoss = getClass().getResource("/assets/textures/tiktokBoss.Jpg");
         BackgroundSize backgroundSize = new BackgroundSize(scene.getWidth(), scene.getHeight(), false, false, true, true);
         BackgroundImage bossImage = new BackgroundImage(ownerImages.get(randomImage), BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         //bossImage.setFitHeight(scene.getHeight());
         //bossImage.setFitWidth(scene.getWidth());
         root.setBackground(new Background(bossImage));
-        URL resourceDialog = getClass().getClassLoader().getResource("assets/textures/dialog-translucent.png");
+        URL resourceDialog = getClass().getResource("/assets/textures/dialog-translucent.png");
         dialogImage = new ImageView(new Image(resourceDialog.toString()));
         dialogImage.setTranslateX(50);
         //dialogImage.set
@@ -136,7 +136,7 @@ public class Intro {
 
     private void createYesNoButtons() {
         Button btnYes = new Button("Ja");
-        btnYes.getStylesheets().add(getClass().getClassLoader().getResource("assets/border.css").toString());
+        btnYes.getStylesheets().add(getClass().getResource("/assets/border.css").toString());
         btnYes.getStyleClass().add("button-primary");
         btnYes.setTranslateX(250);
         btnYes.setTranslateY(scene.getHeight() - 40);
@@ -150,7 +150,7 @@ public class Intro {
         btnNo.setScaleX(1.5);
         btnNo.setScaleY(1.5);
         btnNo.setPrefWidth(50);
-        btnNo.getStylesheets().add(getClass().getClassLoader().getResource("assets/border.css").toString());
+        btnNo.getStylesheets().add(getClass().getResource("/assets/border.css").toString());
         btnNo.getStyleClass().add("button-primary");
         btnNo.setTranslateX(400);
         btnNo.setTranslateY(scene.getHeight() - 40);
@@ -175,7 +175,7 @@ public class Intro {
             final String description = missions.get(i).getDescription();
             //System.out.println(teller + " " + heightTeller);
             btnMission = new Button(missions.get(i).getName());
-            btnMission.getStylesheets().add(getClass().getClassLoader().getResource("assets/border.css").toString());
+            btnMission.getStylesheets().add(getClass().getResource("/assets/border.css").toString());
             Tooltip test = new Tooltip(description);
             test.setPrefWidth(150);
             test.setWrapText(true);

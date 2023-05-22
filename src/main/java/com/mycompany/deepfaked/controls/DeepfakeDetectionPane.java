@@ -5,6 +5,8 @@
 package com.mycompany.deepfaked.controls;
 
 import com.mycompany.deepfaked.database.model.Deepfake;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,153 +28,22 @@ import javafx.util.Duration;
  *
  * @author ZENODotus
  */
-public class DeepfakeDetectionPane {
+public class DeepfakeDetectionPane extends AnimationPane {
     
-    private Pane deepfakeDetectionPane;
-    private ScrollPane deepfakeDetectionScrollPane;
-    private ProgressBar progressScanVideo;
-    private Label lblScan;
     private Label lblOverall;
     private Label lblSeferbekov;
     private Label lblAvatarify;
     private Label lblDeepware;
     private Label lblEnsemble;
-    private ImageView imgArrow;
     private Deepfake deepfake;
-    private double amount;
+    
     
     public DeepfakeDetectionPane(Deepfake deepfake) {
         this.deepfake = deepfake;
     }
     
-    public void createPane(double layoutX, double layoutY) {
-        deepfakeDetectionPane = new Pane();
-        deepfakeDetectionScrollPane = new ScrollPane();
-        deepfakeDetectionScrollPane.setLayoutX(layoutX);
-        deepfakeDetectionScrollPane.setLayoutY(layoutY);
-        deepfakeDetectionScrollPane.setPrefSize(300, 400);
-        deepfakeDetectionScrollPane.toFront();
-        
-        lblScan = new Label("Scanning video");
-        lblScan.setLayoutX(60);
-        lblScan.setLayoutY(42);
-        lblScan.setFont(new Font(24));
-        
-        progressScanVideo = new ProgressBar(0);
-        progressScanVideo.setLayoutX(30);
-        progressScanVideo.setLayoutY(127);
-        progressScanVideo.setPrefWidth(240);
-        
-        deepfakeDetectionPane.getChildren().add(lblScan);
-        deepfakeDetectionPane.getChildren().add(progressScanVideo);
-        deepfakeDetectionScrollPane.setContent(deepfakeDetectionPane);
-        scanningAnimation();
-        //createLabels();
-        
-        //System.out.println(factCheckWebsites.size());
-        
-    }
-    
-    private void preparingAnimation() {
-        var i = new SimpleIntegerProperty(0);
-         Timeline testTime = new Timeline(new KeyFrame(Duration.millis(20), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println(i.get() + "test");
-                //hoeveelheid = hoeveelheid + ((hoeveelheid * 180) / 100);
-                progressScanVideo.setProgress(i.get() / 100.0);
-                i.set(i.get() + 1);
-            }
-        }));
-        testTime.setCycleCount(Timeline.INDEFINITE);
-        testTime.play();
-        i.addListener((ov, prevStatus, newStatus) -> {
-            //System.out.println(newStatus.intValue());
-            //System.out.println(prevStatus.intValue());
-            if(newStatus.intValue() > 100) {
-                testTime.stop();
-                try {
-                    Thread.sleep(2000);
-                } catch (Exception ex) {
-                    System.out.println("test");
-                }
-                scanningAnimation();
-                
-                
-            }
-        });
-    }
-    
-     private void scanningAnimation() {
-    
-        Image image = new Image(getClass().getClassLoader().getResource("assets/icons/arrow.png").toString());
-        imgArrow = new ImageView(image);
-        imgArrow.setFitWidth(60);
-        imgArrow.setPreserveRatio(true);
-        double aspectRatio = image.getWidth() / image.getHeight();
-        double realWidth = Math.min(imgArrow.getFitWidth(), imgArrow.getFitHeight() * aspectRatio);
-        double realHeight = imgArrow.getFitWidth() / aspectRatio;
-        imgArrow.setLayoutY(250.0 - (realHeight));
-        imgArrow.setLayoutX(150.0 - (imgArrow.getFitWidth() / 2));
-        imgArrow.setRotate(0);
-        final double upper = calculateAmount() * 180 / 100;
-        System.out.println("upper: " + upper);
-        var i = new SimpleIntegerProperty(0);
-        var j = new SimpleIntegerProperty(0);
-        amount = 0;
-        //hoeveelheid = 1.0;
-        Timeline waitingTime = new Timeline(new KeyFrame(Duration.millis(10), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                j.set(j.get() + 1);
-            }
-        }));
-        Timeline testTime = new Timeline(new KeyFrame(Duration.millis(10), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //hoeveelheid = hoeveelheid + ((hoeveelheid * 180) / 100);
-                imgArrow.setRotate(amount++); 
-                i.set(i.get() + 1);
-                System.out.println(i.get());
-            }
-        }));
-        waitingTime.setCycleCount(Timeline.INDEFINITE);
-        waitingTime.play();
-        j.addListener((ov, prevStatus, newStatus) -> {
-            if(newStatus.intValue() >= 50) {
-                waitingTime.stop();
-                testTime.setCycleCount(Timeline.INDEFINITE);
-                testTime.play();
-                createLabels();
-            }
-        });
-        i.addListener((ov, prevStatus, newStatus) -> {
-            if(newStatus.intValue() >= upper) {
-                testTime.stop();
-                createLabels();
-            }
-        });
-        deepfakeDetectionPane.getChildren().remove(lblScan);
-        deepfakeDetectionPane.getChildren().remove(progressScanVideo);
-        SemiRing semiRing = new SemiRing(150, 250, 120, 100);
-        deepfakeDetectionPane.getChildren().add(semiRing.getSemiRing());
-        deepfakeDetectionPane.getChildren().add(imgArrow);
-        
-        
-        /*System.out.println(imgArrow.getLayoutY());
-        
-        Group root = new Group();
-        root.getChildren().add(drawSemiRing(200, 200, 200, 150, Color.LIGHTGREEN, Color.DARKGREEN));
-        root.getChildren().add(imgArrow);
-        
-        //root.getChildren().add(drawSemiRing(350, 350, 200, 30, Color.LIGHTSKYBLUE, Color.DARKBLUE));
-
-        Scene scene = new Scene(root, 450, 250);
-        primaryStage.setScene(scene);
-        primaryStage.show();*/
-    }
-     
-     public double calculateAmount() {
+    @Override
+    public double calculateAmount() {
          double amount = deepfake.getAvatarify();
          amount += deepfake.getDeepware();
          amount += deepfake.getEnsemble();
@@ -181,7 +52,8 @@ public class DeepfakeDetectionPane {
          return amount / 4;
      }
      
-     private void createLabels() {
+    @Override
+    public List<Label> createLabels() {
          lblAvatarify = new Label();
          lblDeepware = new Label();
          lblSeferbekov = new Label();
@@ -253,19 +125,14 @@ public class DeepfakeDetectionPane {
              lblEnsemble.setTextFill(Color.RED);
              lblEnsemble.setText("Ensemble: deepfake (" + deepfake.getEnsemble() + "%)" );
          }
-         deepfakeDetectionPane.getChildren().add(lblOverall);
-         deepfakeDetectionPane.getChildren().add(lblAvatarify);
-         deepfakeDetectionPane.getChildren().add(lblDeepware);
-         deepfakeDetectionPane.getChildren().add(lblSeferbekov);
-         deepfakeDetectionPane.getChildren().add(lblEnsemble);
-         
+         List<Label> labels = new ArrayList<>();
+         labels.add(lblAvatarify);
+         labels.add(lblDeepware);
+         labels.add(lblSeferbekov);
+         labels.add(lblEnsemble);
+         labels.add(lblOverall);
+         return labels;
          
          
      }
-    
-    public ScrollPane getPane() {
-        return deepfakeDetectionScrollPane;
-    }
-    
-    
 }

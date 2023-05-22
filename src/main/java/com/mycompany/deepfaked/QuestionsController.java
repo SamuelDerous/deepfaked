@@ -35,11 +35,18 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -56,8 +63,8 @@ public class QuestionsController implements Initializable {
     
     private final MainScreenController mainScreenController;
     
-    private static final ImageView VIEWMONEY = new ImageView(new Image(QuestionsController.class.getClassLoader().getResource("assets/icons/money.png").toString()));
-    private static final ImageView VIEWFOLLOWERS = new ImageView(new Image(QuestionsController.class.getClassLoader().getResource("assets/icons/followers.png").toString()));
+    private static final ImageView VIEWMONEY = new ImageView(new Image(QuestionsController.class.getResource("/assets/icons/money.png").toString()));
+    private static final ImageView VIEWFOLLOWERS = new ImageView(new Image(QuestionsController.class.getResource("/assets/icons/followers.png").toString()));
     private static double money = 0;
     private static int followers = 0;
     private double amountofmoney;
@@ -96,12 +103,30 @@ public class QuestionsController implements Initializable {
     @FXML
     private ImageView btnNextQuestion;
     
+    @FXML
+    private Pane pnQuestion;
+    
+    @FXML
+    private Pane overallPane;
+    
+    @FXML
+    private Pane pnDifficulty;
+    
+    @FXML
+    private Label lblDifficulty;
+    
     public QuestionsController(MainScreenController controller) {
         this.mainScreenController = controller;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("questions.fxml"));
             fxmlLoader.setController(this);
             Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
+            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    keyPressed(event);
+                }
+            });
         questionsStage = new Stage();
         questionsStage.setTitle("Questions");
         questionsStage.setScene(scene);
@@ -109,6 +134,7 @@ public class QuestionsController implements Initializable {
         questionsStage.initOwner(
             ((Node)mainScreenController.getParent()).getScene().getWindow());
         questionsStage.show();
+        
         questionsStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent e) {
@@ -129,12 +155,14 @@ public class QuestionsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         btnReady.setVisible(false);
         btnNextQuestion.setVisible(false);
-         String intro = "We hebben enkele vragen opgesteld om te kijken of je beslissing om de video als echt of vals aan te vinken gegrond zijn. Elke goede vraag levert je geld op. Als je er klaar voor bent druk dan op c of klik op de knop.";
+         String intro = "We hebben enkele vragen opgesteld om te kijken of je beslissing om de video als echt of vals aan te vinken gegrond zijn. Elke goede vraag levert je munten op. Als je er klaar voor bent druk dan op c of klik op de knop.";
          lblQuestion.setText(intro);
+         //pnQuestion.getChildren().add(lblQuestion);
          VIEWFOLLOWERS.setFitHeight(25);
          VIEWFOLLOWERS.setFitWidth(35);
          VIEWMONEY.setFitHeight(25);
          VIEWMONEY.setFitWidth(35);
+         overallPane.requestFocus();
          
     }
 
@@ -143,10 +171,32 @@ public class QuestionsController implements Initializable {
         questions = MainScreenController.getQuestions();
         btnContinue.setVisible(false);
         Question testQuestion = getQuestion();
-        lblQuestion.setText(testQuestion.getQuestion());
+        lblQuestion.setText(setTextQuestionsLabel(testQuestion));
+        lblQuestion.setTooltip(new Tooltip("Het leerdoel van deze vraag is: " + testQuestion.getLearningObjective().getLabel()));
+        createLevelPane(testQuestion.getLevel());
+        pnDifficulty.setVisible(true);
         createButtons();
         
     }
+    
+    public String setTextQuestionsLabel(Question question) {
+        String apply = "";
+        if(question.getMulti() == 1) {
+            apply = " (kies alle van toepassing)";
+        }
+        return question.getQuestion() + apply;
+        
+            
+    }
+    
+    /*public void fillPane(Question question) {
+        //LevelNotificationPane levelPane = new LevelNotificationPane(question.getLevel());
+        lblQuestion.setText(setTextQuestionsLabel(question));
+        //levelPane.createPane(20, 20);
+        pnQuestion.getChildren().clear();
+        pnQuestion.getChildren().add(lblQuestion);
+        //pnQuestion.getChildren().add(levelPane.getPane());
+    }*/
     
     /*@FXML
     protected void continuePressed() {
@@ -175,7 +225,7 @@ public class QuestionsController implements Initializable {
             }*/
             return question;
     }
-    
+
     private void createButtons() {
         Collections.shuffle(choices);
         if(buttons != null && !buttons.isEmpty()) {
@@ -183,8 +233,8 @@ public class QuestionsController implements Initializable {
         }
         buttons = new ArrayList<>();
         if(choices != null && !choices.isEmpty()) {
-            int beginY = 275;
-            int layoutY = 325 / choices.size();
+            int beginY = 5;
+            int layoutY = 300 / choices.size();
             ToggleGroup group = new ToggleGroup();
             int i = 0;
                 //buttons = new ArrayList<>();
@@ -196,7 +246,7 @@ public class QuestionsController implements Initializable {
                     }
                     button.setText(choice.getChoice().getAnswer());
                     button.setPrefSize(654, 52);
-                    button.setLayoutX(100);
+                    button.setLayoutX(10);
                     button.setLayoutY(beginY + layoutY * i);
                     buttons.add(button);
                     i++;
@@ -217,12 +267,14 @@ public class QuestionsController implements Initializable {
             } else {
                 checkSingleAnswer();
             }
-        }
-        
         btnNextQuestion.setVisible(true);
         btnReady.setVisible(false);
         pnInformation.setVisible(true);
         mainScreenController.setPrDeepfakeProgress();
+        } else {
+            Alert alert = new Alert(AlertType.WARNING, "Je hebt geen antwoord gegeven op de vraag. Er is altijd ten minste één optie correct");
+        alert.setTitle("De applicatie beëindigen");
+        }
     }
     
     private void checkSingleAnswer() {
@@ -233,10 +285,10 @@ public class QuestionsController implements Initializable {
                     if(choices.get(i).getCorrect() == 1) {
                         money += question.getValue().getMoney();
                         followers += question.getValue().getFollowers();
-                        AnimatedCoins.create(pnQuestionsField);
+                        AnimatedCoins.create(overallPane);
                         
                     } else {
-                        Loss.animate(pnQuestionsField);
+                        Loss.animate(overallPane);
                     }
                     information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback());
                     information.wrappingWidthProperty().bind(pnInformation.widthProperty());
@@ -288,17 +340,21 @@ public class QuestionsController implements Initializable {
                 i++;
                 }
         if(!incorrect) {
-            AnimatedCoins.create(pnQuestionsField);
+            AnimatedCoins.create(overallPane);
         } else {
-            Loss.animate(pnQuestionsField);
+            Loss.animate(overallPane);
         }
     }
     
     @FXML
     protected void nextQuestion() {
+        System.out.println("Dit is een test");
         Question testQuestion = getQuestion();
         if(testQuestion != null) {
-            lblQuestion.setText(testQuestion.getId() + " " + testQuestion.getQuestion());
+            lblQuestion.setText(setTextQuestionsLabel(testQuestion));
+            lblQuestion.setTooltip(new Tooltip("Het leerdoel van deze vraag is: " + testQuestion.getLearningObjective().getLabel()));
+            createLevelPane(testQuestion.getLevel());
+            
             createButtons();
             pnInformation.setVisible(false);
             btnNextQuestion.setVisible(false);
@@ -400,5 +456,29 @@ public class QuestionsController implements Initializable {
     }
     
     
+    private void createLevelPane(int level) {
+        switch(level) {
+            case 1: pnDifficulty.setBackground(new Background(new BackgroundFill(Color.GREEN, new CornerRadii(0), new Insets(0))));
+            lblDifficulty.setText("A");
+            break;
+            case 2: pnDifficulty.setBackground(new Background(new BackgroundFill(Color.ORANGE, new CornerRadii(0), new Insets(0))));
+            lblDifficulty.setText("B");
+            break;
+            case 3: pnDifficulty.setBackground(new Background(new BackgroundFill(Color.RED, new CornerRadii(0), new Insets(0))));
+            lblDifficulty.setText("C");
+            break;
+        }
+    } 
     
+    @FXML
+    protected void keyPressed(KeyEvent event) {
+        if(event.getCode() == KeyCode.C) {
+            if(btnNextQuestion.isVisible()) {
+                nextQuestion();
+            } else if (btnContinue.isVisible()) {
+                continuePressed();
+            }
+        }
+        
+    }
 }

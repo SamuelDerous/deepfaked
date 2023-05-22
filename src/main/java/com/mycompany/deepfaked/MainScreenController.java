@@ -77,8 +77,8 @@ public class MainScreenController implements Initializable {
     
     private static List<Question> questions;
     
-    private final Image imageProfessor = new Image(getClass().getClassLoader().getResource("assets/avatars/professor.Jpg").toString());
-    private final Image imageProfessorRevert = new Image(getClass().getClassLoader().getResource("assets/avatars/professorRevert.Jpg").toString());
+    private final Image imageProfessor = new Image(getClass().getResource("/assets/avatars/professor.jpg").toString());
+    private final Image imageProfessorRevert = new Image(getClass().getResource("/assets/avatars/professorRevert.jpg").toString());
         
     private double incMoney, totalMoney;
     private int incFollowers, totalFollowers;
@@ -236,7 +236,7 @@ public class MainScreenController implements Initializable {
         
         //pnTasks.setPrefHeight(200);
         scrollTasks.setVisible(false);
-        scrollTasks.getStylesheets().add(this.getClass().getClassLoader().getResource("assets/border.css").toString());
+        scrollTasks.getStylesheets().add(this.getClass().getResource("/assets/border.css").toString());
         scrollTasks.getStyleClass().add("paneTasks");
         //pnTasks.setStyle("-fx-background-color: #f2f2f2");
         //pnTasks.setStyle("-fx-border-color: black");
@@ -319,7 +319,7 @@ public class MainScreenController implements Initializable {
         
         WebEngine webEngine = webviewTiktok.getEngine();
         webEngine.loadContent("");
-        webEngine.load(this.getClass().getClassLoader().getResource("assets/html/tiktokMovie.html").toString());
+        webEngine.load("https://dl.dropboxusercontent.com/s/8vo9huv60hq8frq/intro.mp4?dl=0");
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
             if (newState == State.SUCCEEDED) {
                 Document document = webEngine.getDocument();
@@ -489,21 +489,21 @@ public class MainScreenController implements Initializable {
         root.setPrefHeight(600);
         //Scene scene = new Scene(root, 700, 600);
         int randomImage = (int)(Math.random() * 3 + 1);
-        URL resourceBoss = getClass().getClassLoader().getResource("assets/textures/tiktokBoss.Jpg");
+        URL resourceBoss = getClass().getResource("/assets/textures/tiktokBoss.Jpg");
             BackgroundSize backgroundSize = new BackgroundSize(root.getWidth(), root.getHeight(), false, false, true, true);
             BackgroundImage bossImage = new BackgroundImage(Intro.getOwnerImages().get(randomImage), BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             //bossImage.setFitHeight(scene.getHeight());
             //bossImage.setFitWidth(scene.getWidth());
             root.setBackground(new Background(bossImage));
-            URL resourceDialog = getClass().getClassLoader().getResource("assets/textures/dialog-translucent.png");
+            URL resourceDialog = getClass().getResource("/assets/textures/dialog-translucent.png");
             ImageView dialogImage = new ImageView(new Image(resourceDialog.toString()));
             //System.out.println(root.getPrefHeight() - 200);
             dialogImage.setTranslateY(root.getPrefHeight() - 230);
             dialogImage.minWidth(800);
             dialogImage.setFitWidth(600);
             dialogImage.setTranslateX(50);
-            keyImage = new ImageView(new Image(getClass().getClassLoader().getResource("assets/textures/key-C.png").toString()));
+            keyImage = new ImageView(new Image(getClass().getResource("/assets/textures/key-C.png").toString()));
             keyImage.setTranslateY(root.getPrefHeight() - 100);
             keyImage.setTranslateX(588);
             keyImage.setVisible(false);
@@ -733,7 +733,7 @@ public class MainScreenController implements Initializable {
             tasks.get(index).setImage(new Image(CompletedTask.NOT_COMPLETE));
         } else {
                 tasks.get(index).setCompleted(true);
-                tasks.get(index).setImage(new Image(getClass().getClassLoader().getResource("assets/icons/checkcomplete.png").toString()));
+                tasks.get(index).setImage(new Image(getClass().getResource("/assets/icons/checkComplete.png").toString()));
                 if(++index < tasks.size()) {
                     tasks.get(index).getLabel().setTranslateY(tasks.get(index - 1).getLabel().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
                     tasks.get(index).getImage().setTranslateY(tasks.get(index - 1).getImage().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
@@ -788,6 +788,7 @@ public class MainScreenController implements Initializable {
     @FXML
     protected void loadNext() {
         ProgressDeepfakeDao.addCompletedDeepfakeForGamer(gamer, deepfake);
+        tbPaneMainScreen.getTabs().remove(tbPersonal);
         double totalMoney = QuestionsController.getMoney();
         int totalFollowers = QuestionsController.getFollowers();
         if(deepfakeCorrect) {
@@ -859,7 +860,7 @@ public class MainScreenController implements Initializable {
          
         WebEngine webEngine = webviewPersonal.getEngine();
         webEngine.loadContent("");
-        webEngine.load(this.getClass().getClassLoader().getResource("assets/html/result.html").toString());
+        webEngine.load(this.getClass().getResource("/assets/html/result.html").toString());
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
             if (newState == State.SUCCEEDED) {
                 

@@ -74,8 +74,8 @@ public class AnalyticsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        URL resource = getClass().getClassLoader().getResource("assets/icons/award.png");
-        URL resourceGray = getClass().getClassLoader().getResource("assets/icons/award-gray.png");
+        URL resource = getClass().getResource("/assets/icons/award.png");
+        URL resourceGray = getClass().getResource("/assets/icons/award-gray.png");
         List<Gamer> gamers = GamerDao.getGamers();
         ObservableList<Gamer> testList = FXCollections.observableList(gamers);
         List<Pane> badgePanels = new ArrayList<>();

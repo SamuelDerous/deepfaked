@@ -3,7 +3,6 @@ package com.mycompany.deepfaked.database.model;
 import jakarta.persistence.*;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "Question", schema = "Deepfaked", catalog = "")
@@ -15,12 +14,12 @@ public class Question {
     @Basic
     @Column(name = "question", nullable = false, length = 255)
     private String question;
-    @Basic
-    @Column(name = "learningObjective", nullable = false)
-    private int learningObjective;
-    @Basic
-    @Column(name = "video", nullable = false)
-    private int video;
+    @ManyToOne
+    @JoinColumn(name = "learningObjective", referencedColumnName = "id", nullable=false)
+    private LearningObjective learningObjective;
+    @ManyToOne
+    @JoinColumn(name = "video", referencedColumnName = "id", nullable=false)
+    private Deepfake video;
     @Basic
     @Column(name = "level", nullable = false)
     private int level;
@@ -59,19 +58,19 @@ public class Question {
         this.question = question;
     }
 
-    public int getLearningObjective() {
+    public LearningObjective getLearningObjective() {
         return learningObjective;
     }
 
-    public void setLearningObjective(int learningObjective) {
+    public void setLearningObjective(LearningObjective learningObjective) {
         this.learningObjective = learningObjective;
     }
 
-    public int getVideo() {
+    public Deepfake getVideo() {
         return video;
     }
 
-    public void setVideo(int video) {
+    public void setVideo(Deepfake video) {
         this.video = video;
     }
 

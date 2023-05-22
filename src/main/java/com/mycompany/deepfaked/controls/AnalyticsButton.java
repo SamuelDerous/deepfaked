@@ -24,7 +24,7 @@ public class AnalyticsButton extends Button {
 
     public AnalyticsButton() {
         super();
-        ImageView iw = new ImageView(new Image(getClass().getClassLoader().getResource("assets/icons/analyticsImage.png").toString()));
+        ImageView iw = new ImageView(new Image(getClass().getResource("/assets/icons/analyticsImage.png").toString()));
         this.setGraphic(iw);
         this.setPrefWidth(64);
         this.setPrefHeight(64);

@@ -38,7 +38,7 @@ public class WebsiteFiller {
     private void initializeList(String tagName) {
         try {
             websites = new ArrayList<>();
-            InputStream file = WebsitePane.class.getClassLoader().getResourceAsStream("assets/xml/websites.xml");
+            InputStream file = WebsitePane.class.getResourceAsStream("/assets/xml/websites.xml");
             DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = docBuilder.parse(file);
             NodeList nodeList = document.getElementsByTagName(tagName);
@@ -49,7 +49,7 @@ public class WebsiteFiller {
                     Element element = (Element) node;
                     website.setName(element.getElementsByTagName("name").item(0).getTextContent());
                     website.setUrl(element.getElementsByTagName("url").item(0).getTextContent());
-                    website.setImage(new Image(getClass().getClassLoader().getResource(element.getElementsByTagName("image").item(0).getTextContent()).toString(), 280, 0, true, false));
+                    website.setImage(new Image(getClass().getResource(element.getElementsByTagName("image").item(0).getTextContent()).toString(), 280, 0, true, false));
                     websites.add(website);
                     System.out.println(element.getElementsByTagName("image").item(0).getTextContent());
                 }

@@ -59,8 +59,8 @@ public class AvatarController implements Initializable {
             + "-fx-border-width: 3;\n"
             + "-fx-border-style: dashed;\n";
         flowAvatar.getChildren().clear();
-        String preamble = "src/main/resources/";    
-        String directory = "assets/avatars";
+        String preamble = "src/main/resources";    
+        String directory = "/assets/avatars";
         File dir = new File(preamble + directory + "/" + gender + "/");
         List<String> humanFiles = new ArrayList<>();
         List<String> otherFiles = new ArrayList<>();
@@ -72,7 +72,7 @@ public class AvatarController implements Initializable {
                 }
             }));
         for(String humanFile : humanFiles) {
-            URL resource = getClass().getClassLoader().getResource(directory + "/" + gender + "/" + humanFile);
+            URL resource = getClass().getResource(directory + "/" + gender + "/" + humanFile);
             System.out.println(resource.toString());
             ImageView image = new ImageView(new Image(resource.toString()));
             image.setFitHeight(100);

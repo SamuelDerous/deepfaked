@@ -34,7 +34,7 @@ public class AnimatedCoins extends Application {
     private static final double H = 740;
     
     private static AnimationTimerExt timer; // = new AnimationTimerExt(10);
-    public static final Image coin = new Image(AnimatedCoins.class.getClassLoader().getResource("assets/textures/coin.png").toString());
+    public static final Image coin = new Image(AnimatedCoins.class.getResource("/assets/textures/coin.png").toString());
     //public static final ImageView viewCoin = new ImageView(coin);
 
     public static final double D = 20;  // diameter.

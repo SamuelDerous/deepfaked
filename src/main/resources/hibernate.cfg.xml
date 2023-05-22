@@ -4,8 +4,8 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/u549090867_deepfaked</property>
-    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.url">jdbc:mysql://45.84.205.204:3306/u549090867_Deepfaked</property>
+    <property name="hibernate.connection.username">u549090867_ZENODotus</property>
     <property name="hibernate.connection.password">SDLPetra007</property>
     <property name="hibernate.connection.pool_size">5</property>
     <property name="hibernate.id.new_generator_mappings">false</property>

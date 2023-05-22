@@ -23,7 +23,7 @@ public class QuestionDao {
         try (Session session = factory.openSession()) {
             String hql = "from Question where video = :video";
             Query query = session.createQuery(hql, Question.class);
-            query.setParameter("video", deepfake.getId());
+            query.setParameter("video", deepfake);
             return query.getResultList();
         }
     }

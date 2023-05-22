@@ -16,8 +16,8 @@ import javafx.scene.text.Font;
  */
 public class CompletedTask extends Task {
     
-    public final static String COMPLETE = CompletedTask.class.getClassLoader().getResource("assets/icons/checkcomplete.png").toString();
-    public final static String NOT_COMPLETE = CompletedTask.class.getClassLoader().getResource("assets/icons/checknotcomplete.png").toString();
+    public final static String COMPLETE = CompletedTask.class.getResource("/assets/icons/checkComplete.png").toString();
+    public final static String NOT_COMPLETE = CompletedTask.class.getResource("/assets/icons/checknotcomplete.png").toString();
     private static AtomicInteger count = new AtomicInteger(0);
     
     int id;
