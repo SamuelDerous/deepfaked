@@ -144,7 +144,7 @@ public class Intro {
         btnYes.setScaleY(1.5);
         btnYes.setPrefWidth(50);
         btnYes.setOnAction((event) -> {
-            LoginController.getIntroStage().setScene(playScene(MISSIONINTRO, false, false));
+            IntroController.getIntroStage().setScene(playScene(MISSIONINTRO, false, false));
         });
         Button btnNo = new Button("Neen");
         btnNo.setScaleX(1.5);
@@ -195,7 +195,7 @@ public class Intro {
                     Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);
                     stage.setScene(scenetest);
                     stage.show();
-                    LoginController.getIntroStage().hide();
+                    IntroController.getIntroStage().hide();
 
                 } catch (IOException ex) {
                     ex.printStackTrace();

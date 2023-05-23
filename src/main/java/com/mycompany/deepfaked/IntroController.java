@@ -51,9 +51,8 @@ public class IntroController implements Initializable {
 
 
     public void init() throws MalformedURLException, URISyntaxException {
-        System.out.println("Dit is een test");
         // intro = new File(getClass().getClassLoader().getResource("assets/test.mp4").toString());
-        Media media = new Media(getClass().getResource("/assets/test.mp4").toURI().toString());
+        Media media = new Media("https://dl.dropboxusercontent.com/s/8vo9huv60hq8frq/intro.mp4?dl=0");
         //Media media = new Media("http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setOnError(()->
@@ -87,6 +86,8 @@ public class IntroController implements Initializable {
     }
     
     private void createIntroPage() {
+        mediaPlayer.stop();
+        mediaPlayer.dispose();
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("intro.fxml"));
             
             introStage = new Stage();
@@ -96,5 +97,9 @@ public class IntroController implements Initializable {
             introStage.show();
             
             LoginController.getIntroStage().close();
+    }
+    
+    public static Stage getIntroStage() {
+        return introStage;
     }
 }

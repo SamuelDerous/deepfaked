@@ -4,6 +4,7 @@
  */
 package com.mycompany.deepfaked;
 
+import java.io.File;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -14,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -68,8 +71,22 @@ public class Loss extends Application {
                 i++;
             }
         }));
+        try {
+        String wrongFile = Loss.class.getResource("/assets/sound/wrong.mp3").toString();
+        Media soundWrong = new Media(wrongFile);
+        MediaPlayer mediaPlayer = new MediaPlayer(soundWrong);
         testTime.setCycleCount(Timeline.INDEFINITE);
         testTime.play();
+        mediaPlayer.play();
+        mediaPlayer.setOnEndOfMedia(() -> {
+            mediaPlayer.dispose();
+            
+            });
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
         
     }
 

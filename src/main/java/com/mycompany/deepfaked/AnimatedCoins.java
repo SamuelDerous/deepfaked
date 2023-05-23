@@ -4,26 +4,18 @@
  */
 package com.mycompany.deepfaked;
 
-import java.util.ArrayList;
-import java.util.List;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import java.io.File;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  *
@@ -83,7 +75,20 @@ public class AnimatedCoins extends Application {
                   }
             
         };
+        try {
+        String coinsFallingFile = AnimatedCoins.class.getResource("/assets/sound/money.mp3").toURI().toString();
+        Media soundCoins = new Media(coinsFallingFile);
+        MediaPlayer mediaPlayer = new MediaPlayer(soundCoins);
         timer.start();
+        mediaPlayer.play();
+        mediaPlayer.setOnEndOfMedia(() -> {
+            mediaPlayer.dispose();
+            
+            });
+        
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         //timeline.play();
         
         

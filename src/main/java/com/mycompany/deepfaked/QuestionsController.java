@@ -42,6 +42,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -153,6 +157,13 @@ public class QuestionsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        BackgroundSize backgroundSize = new BackgroundSize(overallPane.getWidth(), overallPane.getHeight(), false, false, true, true);
+        BackgroundImage bossImage = new BackgroundImage(new Image(getClass().getResource("/assets/textures/me.jpg").toString()), BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+            //bossImage.setFitHeight(scene.getHeight());
+            //bossImage.setFitWidth(scene.getWidth());
+            overallPane.setBackground(new Background(bossImage));
+            
         btnReady.setVisible(false);
         btnNextQuestion.setVisible(false);
          String intro = "We hebben enkele vragen opgesteld om te kijken of je beslissing om de video als echt of vals aan te vinken gegrond zijn. Elke goede vraag levert je munten op. Als je er klaar voor bent druk dan op c of klik op de knop.";

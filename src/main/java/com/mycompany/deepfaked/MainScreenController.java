@@ -319,7 +319,7 @@ public class MainScreenController implements Initializable {
         
         WebEngine webEngine = webviewTiktok.getEngine();
         webEngine.loadContent("");
-        webEngine.load("https://dl.dropboxusercontent.com/s/8vo9huv60hq8frq/intro.mp4?dl=0");
+        webEngine.load(getClass().getResource("/assets/html/tiktokMovie.html").toString());
         webEngine.getLoadWorker().stateProperty().addListener((observable, oldState, newState) -> {
             if (newState == State.SUCCEEDED) {
                 Document document = webEngine.getDocument();
