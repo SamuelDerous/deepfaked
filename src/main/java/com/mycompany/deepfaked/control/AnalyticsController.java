@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.deepfaked;
+package com.mycompany.deepfaked.control;
 
 import com.mycompany.deepfaked.database.dao.DeepfakeDao;
 import com.mycompany.deepfaked.database.dao.GamerDao;

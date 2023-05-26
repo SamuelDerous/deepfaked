@@ -28,7 +28,7 @@ public class Loss extends Application {
     private static final double W = 885; // canvas dimensions.
     private static final double H = 740;
     
-    private static final Image police = new Image(AnimatedCoins.class.getClassLoader().getResource("assets/textures/police.png").toString());
+    private static final Image police = new Image(AnimatedCoins.class.getResource("/assets/textures/police.png").toString());
     private static final ImageView viewPolice = new ImageView(police);
     
     private static int i = 0;
@@ -72,7 +72,7 @@ public class Loss extends Application {
             }
         }));
         try {
-        String wrongFile = Loss.class.getResource("/assets/sound/wrong.mp3").toString();
+        String wrongFile = Loss.class.getResource("/assets/sound/wrong.mp3").toURI().toString();
         Media soundWrong = new Media(wrongFile);
         MediaPlayer mediaPlayer = new MediaPlayer(soundWrong);
         testTime.setCycleCount(Timeline.INDEFINITE);

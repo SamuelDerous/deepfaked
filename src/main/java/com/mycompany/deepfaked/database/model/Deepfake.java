@@ -18,6 +18,12 @@ public class Deepfake {
     @Column(name = "real", nullable = false)
     private int real;
     @Basic
+    @Column(name = "realComment", nullable = false, length = 255)
+    private String realComment;
+    @Basic
+    @Column(name = "fakeComment", nullable = false, length = 255)
+    private String fakeComment;
+    @Basic
     @Column(name = "label", nullable = false, length = 255)
     private String label;
     @ManyToOne
@@ -83,6 +89,22 @@ public class Deepfake {
         this.label = label;
     }
 
+    public String getRealComment() {
+        return realComment;
+    }
+
+    public void setRealComment(String realComment) {
+        this.realComment = realComment;
+    }
+
+    public String getFakeComment() {
+        return fakeComment;
+    }
+
+    public void setFakeComment(String fakeComment) {
+        this.fakeComment = fakeComment;
+    }
+    
     public Mission getMission() {
         return mission;
     }

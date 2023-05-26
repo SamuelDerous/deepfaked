@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.deepfaked;
+package com.mycompany.deepfaked.control;
 
+import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.database.dao.GamerDao;
 import com.mycompany.deepfaked.database.model.Gamer;
 import java.io.File;

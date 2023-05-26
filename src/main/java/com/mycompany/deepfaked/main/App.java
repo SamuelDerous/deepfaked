@@ -1,4 +1,4 @@
-package com.mycompany.deepfaked;
+package com.mycompany.deepfaked.main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

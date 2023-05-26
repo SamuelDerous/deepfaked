@@ -4,6 +4,10 @@
  */
 package com.mycompany.deepfaked;
 
+import com.mycompany.deepfaked.main.App;
+import com.mycompany.deepfaked.control.MainScreenController;
+import com.mycompany.deepfaked.control.LoginController;
+import com.mycompany.deepfaked.control.IntroController;
 import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.database.dao.MissionsDao;
 import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
@@ -14,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

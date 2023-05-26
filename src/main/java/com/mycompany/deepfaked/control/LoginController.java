@@ -1,5 +1,6 @@
-package com.mycompany.deepfaked;
+package com.mycompany.deepfaked.control;
 
+import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.database.dao.GamerDao;
 import com.mycompany.deepfaked.database.model.Gamer;
 import java.net.URL;

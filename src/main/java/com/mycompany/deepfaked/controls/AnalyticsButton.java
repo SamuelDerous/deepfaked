@@ -4,7 +4,7 @@
  */
 package com.mycompany.deepfaked.controls;
 
-import com.mycompany.deepfaked.App;
+import com.mycompany.deepfaked.main.App;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;

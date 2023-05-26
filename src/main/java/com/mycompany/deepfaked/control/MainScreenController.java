@@ -2,14 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.deepfaked;
+package com.mycompany.deepfaked.control;
 
+import com.mycompany.deepfaked.Intro;
 import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.controls.DeepfakeDetectionPane;
 import com.mycompany.deepfaked.controls.WebsitePane;
 import com.mycompany.deepfaked.database.dao.AccountDao;
 import com.mycompany.deepfaked.database.dao.DeepfakeDao;
 import com.mycompany.deepfaked.database.dao.GamerDao;
+import com.mycompany.deepfaked.database.dao.MissionsDao;
 import com.mycompany.deepfaked.database.dao.ProgressDeepfakeDao;
 import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
 import com.mycompany.deepfaked.database.dao.QuestionDao;
@@ -114,6 +116,7 @@ public class MainScreenController implements Initializable {
     private List<Deepfake> deepfakes;
     private Deepfake deepfake;
     private boolean deepfakeCorrect;
+    private boolean real;
     
     @FXML
     private AnchorPane anchorRoot;
@@ -308,6 +311,12 @@ public class MainScreenController implements Initializable {
                 
     }
     
+    private int checkMissions() {
+        List<Mission> missions = MissionsDao.getMissions();
+        List<Mission> missionsOfGamer = ProgressMissionDao.getMissionsforGamer(gamer);
+        return missions.size() - missionsOfGamer.size();
+    }
+    
     private void createTiktokDeepfake() {
         btnReal.setSelected(false);
         btnFake.setSelected(false);
@@ -394,8 +403,10 @@ public class MainScreenController implements Initializable {
         if((deepfake.getReal() == 1 && btnReal.isSelected()) ||
                 (deepfake.getReal() == 0 && btnFake.isSelected())) {
                 deepfakeCorrect = true;
+                real = true;
         } else {
             deepfakeCorrect = false;
+            real = false;
         }
         showQuestions(event);
         /*WebEngine tiktok = webviewTiktok.getEngine();
@@ -799,7 +810,11 @@ public class MainScreenController implements Initializable {
         
         if(deepfakes == null || deepfakes.isEmpty()) {
             ProgressMissionDao.addCompletedMissionForGamer(gamer, mission);
-            Intro intro = new Intro(this, "Geweldig gedaan. Je hebt de missie voltooid. Ga verder naar een andere missie.");
+            if(checkMissions() > 0) {
+                Intro intro = new Intro(this, "Geweldig gedaan. Je hebt de missie voltooid. Ga verder naar een andere missie.");
+            } else {
+                Intro intro = new Intro(this, "Geweldig gedaan. Je hebt alle missis voltooid.");
+            }
             Intro.getStage().close();
         } else {
             createTiktokDeepfake();
@@ -921,7 +936,13 @@ public class MainScreenController implements Initializable {
                     Element videoSource = document.getElementById("sourceVideo");
                     accountImg.setAttribute("src", avatar);
                     accountName.setTextContent(gamer.getUserName());
-                    deepfakeInformation.setTextContent(deepfake.getLabel());
+                    String comment;
+                    if(real) {
+                        comment = deepfake.getRealComment();
+                    } else {
+                        comment = deepfake.getFakeComment();
+                    }
+                    deepfakeInformation.setTextContent(comment);
                     videoSource.setAttribute("src", deepfake.getLocation());
                     
             //deepfakeInformation.setTextContent(deepfake.getLabel());
