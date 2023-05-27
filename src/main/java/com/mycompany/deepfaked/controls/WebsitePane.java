@@ -5,7 +5,7 @@
 package com.mycompany.deepfaked.controls;
 
 import com.mycompany.deepfaked.main.App;
-import com.mycompany.deepfaked.control.TermsController;
+import com.mycompany.deepfaked.view.TermsController;
 import com.mycompany.deepfaked.model.WebsiteLink;
 import java.io.InputStream;
 import java.util.ArrayList;

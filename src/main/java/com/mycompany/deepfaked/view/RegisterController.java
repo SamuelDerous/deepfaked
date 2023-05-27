@@ -2,12 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.deepfaked.control;
+package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.database.dao.GamerDao;
 import com.mycompany.deepfaked.database.model.Gamer;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -71,7 +70,7 @@ public class RegisterController implements Initializable {
         Hyperlink hyperlink1 = new Hyperlink("Gebruiksvoorwaarden");
         hyperlink1.setOnAction((ActionEvent e) -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("terms.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/terms.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 TermsController controller = fxmlLoader.<TermsController>getController();
                 WebEngine webEngine = controller.getFleTerms().getEngine();
@@ -91,7 +90,7 @@ public class RegisterController implements Initializable {
         Hyperlink hyperlink2 = new Hyperlink("Privacybeleid");
         hyperlink2.setOnAction((ActionEvent e) -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("terms.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/terms.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 TermsController controller = fxmlLoader.<TermsController>getController();
                 WebEngine webEngine = controller.getFleTerms().getEngine();
@@ -120,14 +119,14 @@ public class RegisterController implements Initializable {
 
 @FXML
     protected void showLoginScreen() throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
         App.getStage().setScene(scene);
     }
     
     @FXML
     protected void showAvatarScreen() throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("avatar.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/avatar.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
         scene.getStylesheets().add(getClass().getResource("/assets/border.css").toExternalForm());
         App.getStage().setScene(scene);

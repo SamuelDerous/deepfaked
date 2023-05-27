@@ -7,8 +7,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
-        <javafx.main.class>com.mycompany.deepfaked.App</javafx.main.class>
-        <main.class>com.mycompany.deepfaked.Main</main.class>
+        <javafx.main.class>com.mycompany.deepfaked.main.App</javafx.main.class>
+        <main.class>com.mycompany.deepfaked.main.Main</main.class>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
@@ -145,7 +145,7 @@
                 <configuration>
                     <manifest>
                         <addClassPath>true</addClassPath>
-                        <mainClass>com.mycompany.deepfaked.App.main</mainClass>
+                        <mainClass>com.mycompany.deepfaked.main.App.main</mainClass>
                     </manifest>
                     <release>17</release>
                 </configuration>
@@ -158,7 +158,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.mycompany.deepfaked.Main</mainClass>
+                            <mainClass>com.mycompany.deepfaked.main.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -168,7 +168,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>com.mycompany.deepfaked.App</mainClass>
+                    <mainClass>com.mycompany.deepfaked.main.App</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -216,7 +216,7 @@
                     <archive>
                         <manifest>
                             <!-- Main class -->
-                            <mainClass>com.mycompany.deepfaked.Main</mainClass>
+                            <mainClass>com.mycompany.deepfaked.main.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

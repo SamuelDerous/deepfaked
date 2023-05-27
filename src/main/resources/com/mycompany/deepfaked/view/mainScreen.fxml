@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorRoot" prefHeight="806.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.MainScreenController">
+<AnchorPane id="AnchorPane" fx:id="anchorRoot" prefHeight="806.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.view.MainScreenController">
    <children>
       <ImageView fitHeight="25.0" fitWidth="35.0" layoutX="378.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -68,7 +68,7 @@
          <graphic>
             <ImageView fx:id="btnProfessor" fitWidth="60.0" layoutX="700.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/avatars/professor.jpg" />
+                  <Image url="@../../../../assets/avatars/professor.jpg" />
                </image>
                <viewport>
                   <Rectangle2D />
@@ -86,7 +86,7 @@
          <graphic>
             <ImageView fx:id="btnGPT" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/icons/openai.png" />
+                  <Image url="@../../../../assets/icons/openai.png" />
                </image>
             </ImageView>
          </graphic>
@@ -112,7 +112,7 @@
          <graphic>
             <ImageView fx:id="tgFactCheck" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/icons/factcheck.png" />
+                  <Image url="@../../../../assets/icons/factcheck.png" />
                </image>
             </ImageView>
          </graphic>
@@ -127,7 +127,7 @@
          <graphic>
             <ImageView fx:id="btnGPT11" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/icons/deepfakeDetection.png" />
+                  <Image url="@../../../../assets/icons/deepfakeDetection.png" />
                </image>
             </ImageView>
          </graphic>
@@ -151,7 +151,7 @@
          <graphic>
             <ImageView fx:id="btnGPT111" fitHeight="62.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/icons/search.png" />
+                  <Image url="@../../../../assets/icons/search.png" />
                </image>
             </ImageView>
          </graphic>

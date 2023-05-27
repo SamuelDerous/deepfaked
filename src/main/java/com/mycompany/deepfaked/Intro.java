@@ -5,9 +5,9 @@
 package com.mycompany.deepfaked;
 
 import com.mycompany.deepfaked.main.App;
-import com.mycompany.deepfaked.control.MainScreenController;
-import com.mycompany.deepfaked.control.LoginController;
-import com.mycompany.deepfaked.control.IntroController;
+import com.mycompany.deepfaked.view.MainScreenController;
+import com.mycompany.deepfaked.view.LoginController;
+import com.mycompany.deepfaked.view.IntroController;
 import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.database.dao.MissionsDao;
 import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
@@ -193,7 +193,7 @@ public class Intro {
             btnMission.setOnAction((event) -> {
                 mission = missionsGet;
                 try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("mainScreen.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/mainScreen.fxml"));
                     stage = new Stage();
                     Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);
                     stage.setScene(scenetest);

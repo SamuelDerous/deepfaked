@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.deepfaked.control;
+package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.Intro;
@@ -17,10 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 
@@ -92,7 +89,7 @@ public class IntroController implements Initializable {
     private void createIntroPage() {
         mediaPlayer.stop();
         mediaPlayer.dispose();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("intro.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/intro.fxml"));
             
             introStage = new Stage();
             Intro test = new Intro();

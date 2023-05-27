@@ -4,11 +4,18 @@
  */
 package com.mycompany.deepfaked;
 
+import com.mycompany.deepfaked.database.model.Gamer;
+
 /**
  *
  * @author ZENODotus
  */
 public class GamerFactory {
+    
+    public static Gamer createGamer() {
+        Gamer gamer = new Gamer();
+        return gamer;
+    }
     
 
 }

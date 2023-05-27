@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.deepfaked.control;
+package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.AnimatedCoins;
 import com.mycompany.deepfaked.main.App;
@@ -125,7 +125,7 @@ public class QuestionsController implements Initializable {
     public QuestionsController(MainScreenController controller) {
         this.mainScreenController = controller;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("questions.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/questions.fxml"));
             fxmlLoader.setController(this);
             Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
             scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -448,8 +448,9 @@ public class QuestionsController implements Initializable {
     }
     
     private void endGame(WindowEvent event) {
-        Alert alert = new Alert(AlertType.WARNING, "Weet je zeker dat je het spel wilt afsluiten?\n" +
-                "Al je vooruitgang bij deze deepfake zal hierbij verloren gaan.", ButtonType.YES, ButtonType.NO);
+        Alert alert = new Alert(AlertType.WARNING, """
+                                                   Weet je zeker dat je het spel wilt afsluiten?
+                                                   Al je vooruitgang bij deze deepfake zal hierbij verloren gaan.""", ButtonType.YES, ButtonType.NO);
         alert.setTitle("De applicatie beëindigen");
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.YES) {

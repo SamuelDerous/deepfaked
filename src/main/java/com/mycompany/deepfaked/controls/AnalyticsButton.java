@@ -31,7 +31,7 @@ public class AnalyticsButton extends Button {
         this.setPadding(new Insets(0.5, 0.5, 0.5, 0.5));
         this.setOnAction((event) -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("analytics.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/analytics.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(fxmlLoader.load(), 900, 730);
                 stage.setScene(scene);

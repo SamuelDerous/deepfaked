@@ -13,7 +13,8 @@ public class App extends Application {
     private static Stage guiStage;
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login.fxml"));
+        System.out.println(App.class.getResource("/com/mycompany/deepfaked/view/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
         guiStage = stage;
         guiStage.setTitle("Deepfaked");

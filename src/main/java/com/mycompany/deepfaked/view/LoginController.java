@@ -1,4 +1,4 @@
-package com.mycompany.deepfaked.control;
+package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.database.dao.GamerDao;
@@ -23,8 +23,6 @@ import javafx.stage.Stage;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 public class LoginController implements Initializable {
-    
-    //<a href="https://www.freepik.com/free-vector/multiracial-people-avatars_7085153.htm#query=avatar&position=4&from_view=keyword&track=sph">Image by pikisuperstar</a> on Freepik
     
     private static Stage introStage;
     private static Stage infoStage;
@@ -58,7 +56,7 @@ public class LoginController implements Initializable {
         Hyperlink hyperlink1 = new Hyperlink("Gebruiksvoorwaarden");
         hyperlink1.setOnAction((ActionEvent e) -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("terms.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/terms.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 TermsController controller = fxmlLoader.<TermsController>getController();
                 WebEngine webEngine = controller.getFleTerms().getEngine();
@@ -78,7 +76,7 @@ public class LoginController implements Initializable {
         Hyperlink hyperlink2 = new Hyperlink("Privacybeleid");
         hyperlink2.setOnAction((ActionEvent e) -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("terms.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/terms.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 TermsController controller = fxmlLoader.<TermsController>getController();
                 WebEngine webEngine = controller.getFleTerms().getEngine();
@@ -96,7 +94,7 @@ public class LoginController implements Initializable {
         Hyperlink hyperlink3 = new Hyperlink("cookiebeleid");
         hyperlink3.setOnAction((ActionEvent e) -> {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("terms.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/terms.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 TermsController controller = fxmlLoader.<TermsController>getController();
                 WebEngine webEngine = controller.getFleTerms().getEngine();
@@ -138,7 +136,7 @@ public class LoginController implements Initializable {
     @FXML
     protected void showRegisterScreen() throws Exception {
         lblError.setText("");
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("register.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/register.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
         
         //Stage stage = new Stage();
@@ -154,7 +152,7 @@ public class LoginController implements Initializable {
         if(newGamer != null) {
         try {
         if(BCrypt.checkpw(txtPassword.getText(), newGamer.getPassword())) {
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("intro.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/intro.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 600, 350);
             introStage = new Stage();
             introStage.setTitle("Deepfaked");

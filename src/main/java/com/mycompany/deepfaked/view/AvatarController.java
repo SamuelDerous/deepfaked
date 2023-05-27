@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package com.mycompany.deepfaked.control;
+package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.database.dao.GamerDao;
@@ -151,7 +151,7 @@ public class AvatarController implements Initializable {
 
 @FXML
     protected void showLoginScreen() throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
         App.getStage().setScene(scene);
     }  
