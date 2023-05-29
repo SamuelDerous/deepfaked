@@ -5,7 +5,6 @@
 package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.main.App;
-import com.mycompany.deepfaked.Intro;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.media.Media;
@@ -92,9 +91,9 @@ public class IntroController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/intro.fxml"));
             
             introStage = new Stage();
-            Intro test = new Intro();
+            IntroView test = InfoFactory.createIntroView();
             introStage.setTitle("Deepfaked");
-            introStage.setScene(test.playScene(INTRO, false, true));
+            introStage.setScene(test.playScene(INTRO));
             introStage.show();
             
             LoginController.getIntroStage().close();

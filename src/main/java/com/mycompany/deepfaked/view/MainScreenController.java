@@ -4,7 +4,6 @@
  */
 package com.mycompany.deepfaked.view;
 
-import com.mycompany.deepfaked.Intro;
 import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.controls.DeepfakeDetectionPane;
 import com.mycompany.deepfaked.controls.WebsitePane;
@@ -244,7 +243,7 @@ public class MainScreenController implements Initializable {
         //pnTasks.setStyle("-fx-background-color: #f2f2f2");
         //pnTasks.setStyle("-fx-border-color: black");
         //pnTasks.getChildren().add(new Label("Dit is een test"));
-        mission = Intro.getMission();
+        mission = MissionView.getMission();
         tbInformation.setContent(paneMissionPlay());
         root.sceneProperty().addListener((observable, oldScene, newScene) -> {
         if (newScene != null) {
@@ -502,7 +501,7 @@ public class MainScreenController implements Initializable {
         int randomImage = (int)(Math.random() * 3 + 1);
         URL resourceBoss = getClass().getResource("/assets/textures/tiktokBoss.Jpg");
             BackgroundSize backgroundSize = new BackgroundSize(root.getWidth(), root.getHeight(), false, false, true, true);
-            BackgroundImage bossImage = new BackgroundImage(Intro.getOwnerImages().get(randomImage), BackgroundRepeat.NO_REPEAT,
+            BackgroundImage bossImage = new BackgroundImage(PrntView.getOwnerImages().get(randomImage), BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
             //bossImage.setFitHeight(scene.getHeight());
             //bossImage.setFitWidth(scene.getWidth());
@@ -811,11 +810,11 @@ public class MainScreenController implements Initializable {
         if(deepfakes == null || deepfakes.isEmpty()) {
             ProgressMissionDao.addCompletedMissionForGamer(gamer, mission);
             if(checkMissions() > 0) {
-                Intro intro = new Intro(this, "Geweldig gedaan. Je hebt de missie voltooid. Ga verder naar een andere missie.");
+                MissionView intro = InfoFactory.createMissionView(this, "Geweldig gedaan. Je hebt de missie voltooid. Ga verder naar een andere missie.");
             } else {
-                Intro intro = new Intro(this, "Geweldig gedaan. Je hebt alle missis voltooid.");
+                TextOnlyView intro = InfoFactory.createTextOnlyView(this, "Geweldig gedaan. Je hebt alle missis voltooid.");
             }
-            Intro.getStage().close();
+            PrntView.getStage().close();
         } else {
             createTiktokDeepfake();
             tbTiktok.setDisable(false);
