@@ -12,11 +12,11 @@
 
 <AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane fx:id="overallPane" onKeyPressed="#keyPressed" onKeyTyped="#keyPressed" prefHeight="740.0" prefWidth="885.0" style="-fx-background-image: url('assets/textures/me.jpg'); -fx-background-repeat: no-repeat; -fx-background-size: stretch">
+      <Pane fx:id="overallPane" onKeyPressed="#keyPressed" onKeyTyped="#keyPressed" prefHeight="740.0" prefWidth="885.0">
          <children>
             <ImageView fitHeight="398.0" fitWidth="701.0" layoutX="82.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/textures/dialog-translucent.png" />
+                  <Image url="@../../../../assets/textures/dialog-translucent.png" />
                </image>
             </ImageView>
             <Pane fx:id="pnQuestion" layoutX="106.0" layoutY="63.0">
@@ -38,7 +38,7 @@
             </Pane>
             <ImageView fx:id="btnContinue" fitHeight="96.0" fitWidth="52.0" layoutX="732.0" layoutY="236.0" onMouseClicked="#continuePressed" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/textures/key-C.png" />
+                  <Image url="@../../../../assets/textures/key-C.png" />
                </image>
             </ImageView>
             <Label fx:id="lblMore" layoutX="53.0" layoutY="706.0" prefHeight="17.0" prefWidth="666.0" textFill="#f5f3f3" />
@@ -50,7 +50,7 @@
             <Pane fx:id="pnQuestionsField" layoutX="90.0" layoutY="282.0" prefHeight="280.0" prefWidth="692.0" />
             <ImageView fx:id="btnNextQuestion" fitHeight="96.0" fitWidth="52.0" layoutX="758.0" layoutY="671.0" onMouseClicked="#nextQuestion" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../assets/textures/key-C.png" />
+                  <Image url="@../../../../assets/textures/key-C.png" />
                </image>
             </ImageView>
             <Button fx:id="btnReady" layoutX="737.0" layoutY="579.0" mnemonicParsing="false" onAction="#checkAnswers" text="Klaar" />

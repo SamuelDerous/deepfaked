@@ -93,7 +93,7 @@ public class IntroController implements Initializable {
             introStage = new Stage();
             IntroView test = InfoFactory.createIntroView();
             introStage.setTitle("Deepfaked");
-            introStage.setScene(test.playScene(INTRO));
+            introStage.setScene(test.createScene(INTRO));
             introStage.show();
             
             LoginController.getIntroStage().close();

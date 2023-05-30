@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 
 /**
  *
@@ -21,8 +22,10 @@ public interface InfoView {
             new Image(InfoView.class.getResource("/assets/textures/Owner4.jpg").toString())));
 
     
-    public Scene createScene();
+    public Pane createPane();
+    public Scene createScene(String intro);
     public void createButtons();
-    public Scene playScene(String intro);
+    //public void play(String intro);
+    public Pane play(String intro);
     
 }

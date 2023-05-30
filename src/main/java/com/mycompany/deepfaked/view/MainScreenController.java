@@ -29,7 +29,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Worker.State;
 import javafx.event.ActionEvent;
@@ -244,6 +243,9 @@ public class MainScreenController implements Initializable {
         //pnTasks.setStyle("-fx-border-color: black");
         //pnTasks.getChildren().add(new Label("Dit is een test"));
         mission = MissionView.getMission();
+        intro = mission.getIntroduction().replace("<User>", LoginController.getGamer().getUserName());
+        intro += "\n\n";
+        intro += "Het doel van deze missie is " + mission.getGoal().getName() + " (" + mission.getGoal().getDescription() + ").";
         tbInformation.setContent(paneMissionPlay());
         root.sceneProperty().addListener((observable, oldScene, newScene) -> {
         if (newScene != null) {
@@ -499,7 +501,6 @@ public class MainScreenController implements Initializable {
         root.setPrefHeight(600);
         //Scene scene = new Scene(root, 700, 600);
         int randomImage = (int)(Math.random() * 3 + 1);
-        URL resourceBoss = getClass().getResource("/assets/textures/tiktokBoss.Jpg");
             BackgroundSize backgroundSize = new BackgroundSize(root.getWidth(), root.getHeight(), false, false, true, true);
             BackgroundImage bossImage = new BackgroundImage(PrntView.getOwnerImages().get(randomImage), BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
@@ -535,8 +536,6 @@ public class MainScreenController implements Initializable {
         
         //newText.set
         newText.setPrefWidth(550);
-        SimpleBooleanProperty test;
-        test = new SimpleBooleanProperty(true);
         var i = new SimpleIntegerProperty(0);
         
         //test.bind(Bindings.when);
@@ -562,10 +561,6 @@ public class MainScreenController implements Initializable {
             //KeyCode pressKey = ((KeyEvent)key).getCode();
             if(key.getCode() == KeyCode.C) {
                 handler();
-                whole = "";
-                testTime.play();
-                keyImage.setVisible(false);
-                root.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
             }
         };
         mouseHandler = (MouseEvent event) -> {
@@ -573,12 +568,11 @@ public class MainScreenController implements Initializable {
         };
         testTime.setCycleCount(Timeline.INDEFINITE);
         testTime.play();
-        begin = 0;
+        //begin = 0;
         escapeHandler = (KeyEvent key) -> {
             if(key.getCode() == KeyCode.ESCAPE) {
-                if(intro.length() < value) {
+                if(intro.length() < value) { 
                     newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
-                    long timestamp = System.currentTimeMillis();
                 testTime.stop();
                 keyImage.setVisible(false);
                 root.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
@@ -667,6 +661,40 @@ public class MainScreenController implements Initializable {
         //addUINode()
     }
     
+    private EventHandler<KeyEvent> createEscapeKeyHandler(Timeline timer, Label newText, String intro) {
+            escapeHandler = (KeyEvent key) -> {
+            if(key.getCode() == KeyCode.ESCAPE) {
+                if(intro.length() < value) { 
+                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
+                    long timestamp = System.currentTimeMillis();
+                testTime.stop();
+                keyImage.setVisible(false);
+                root.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+                keyImage.removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
+                PauseTransition pause = new PauseTransition(Duration.seconds(10));
+                pause.setOnFinished(event -> {
+                    
+                    tbTiktok.setDisable(false);
+                    SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
+                    selectionModel.select(tbTiktok);
+                    setTaskPane();
+                });
+                pause.play();
+                } else {
+                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
+                    begin = value - 1;
+                    keyImage.setVisible(true);
+                testTime.pause();
+                value = 2 * value;
+                root.getScene().addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+                keyImage.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
+                }
+                
+
+            }
+        };
+            return escapeHandler;
+        }
     private void setTaskPane() {
         pnTasks.setPrefHeight(50);
         pnTasks.setMaxHeight(50);
@@ -722,6 +750,7 @@ public class MainScreenController implements Initializable {
     }
     
     private void handler() {
+        begin = whole.length();
         whole = "";
         testTime.play();
         keyImage.setVisible(false);

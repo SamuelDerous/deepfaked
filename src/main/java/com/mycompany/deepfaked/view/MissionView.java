@@ -40,7 +40,7 @@ public class MissionView extends PrntView {
         List<Mission> missions = MissionsDao.getMissions();
         List<Button> missionButtons = new ArrayList<>();
         double xBegin = 120;
-        double yBegin = scene.getHeight() - (2 * 50);
+        double yBegin = root.getHeight() - (2 * 50);
         int teller = 0;
         int heightTeller = 0;
         Button btnMission;
