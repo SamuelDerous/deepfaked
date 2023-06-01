@@ -10,10 +10,8 @@ import java.util.List;
  *
  * @author ZENODotus
  */
-public interface Collection<T> {
+public interface QuestionCollection<T> extends Collection {
     
-    public void remove(T object);
-    public T get();
-    public boolean isEmpty();
-    public Iterator iterator();
+    public List<QuestionChoice> getChoices();
+    
 }

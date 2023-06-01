@@ -4,10 +4,6 @@
  */
 package com.mycompany.deepfaked.strategies;
 
-import com.mycompany.deepfaked.database.model.QuestionChoice;
-import java.util.List;
-import javafx.scene.control.ToggleButton;
-
 /**
  *
  * @author ZENODotus
@@ -16,6 +12,12 @@ public abstract class Answer implements AnswerState {
     private int followers;
     private double money;
     private String information;
+    
+    public Answer() {
+        this.followers = 0;
+        this.money = 0.0;
+        this.information = "";
+    }
 
     public int getFollowers() {
         return followers;

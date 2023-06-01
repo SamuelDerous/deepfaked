@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author ZENODotus
  */
-public class QuestionsCollectionImpl implements Collection {
+public class QuestionsCollectionImpl implements QuestionCollection {
     
     private List<Question> questions;
     private List<QuestionChoice> choices;
@@ -59,6 +59,12 @@ public class QuestionsCollectionImpl implements Collection {
         return new QuestionIteratorImpl(questions);
     }
 
+    @Override
+    public boolean isEmpty() {
+        return questions.isEmpty();
+    }
+
+    
     
     private class QuestionIteratorImpl implements Iterator {
         

@@ -65,6 +65,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import com.mycompany.deepfaked.database.model.Collection;
+import com.mycompany.deepfaked.database.model.QuestionCollection;
 
 /**
  * FXML Controller class
@@ -84,7 +85,7 @@ public class QuestionsController implements Initializable {
     
     private Stage questionsStage;
     
-    private Collection<Question> questions;
+    private QuestionCollection<Question> questions;
     private List<QuestionChoice> choices;
     private Question question;
     
@@ -189,7 +190,7 @@ public class QuestionsController implements Initializable {
     protected void continuePressed() {
         questions = MainScreenController.getQuestions();
         btnContinue.setVisible(false);
-        question = questions.get();
+        question = (Question) questions.get();
         choices = questions.getChoices();
         lblQuestion.setText(setTextQuestionsLabel(question));
         lblQuestion.setTooltip(new Tooltip("Het leerdoel van deze vraag is: " + question.getLearningObjective().getLabel()));
@@ -298,8 +299,7 @@ public class QuestionsController implements Initializable {
     
     @FXML
     protected void nextQuestion() {
-        System.out.println("Dit is een test");
-        question = questions.get();
+        question = (Question) questions.get();
         choices = questions.getChoices();
         if(question != null) {
             lblQuestion.setText(setTextQuestionsLabel(question));

@@ -4,16 +4,13 @@
  */
 package com.mycompany.deepfaked.database.model;
 
-import java.util.List;
-
 /**
  *
  * @author ZENODotus
  */
-public interface Collection<T> {
+public interface DeepfakeCollection<Deepfake> extends Collection {
     
-    public void remove(T object);
-    public T get();
-    public boolean isEmpty();
-    public Iterator iterator();
+    public int getProgress();
+    public int getProgressMission();
+    public int getProgressDeepfake();
 }

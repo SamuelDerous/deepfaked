@@ -68,6 +68,9 @@ import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import com.mycompany.deepfaked.database.model.Collection;
+import com.mycompany.deepfaked.database.model.DeepfakeCollection;
+import com.mycompany.deepfaked.database.model.DeepfakeCollectionImpl;
+import com.mycompany.deepfaked.database.model.QuestionCollection;
 
 /**
  * FXML Controller class
@@ -77,7 +80,7 @@ import com.mycompany.deepfaked.database.model.Collection;
 public class MainScreenController implements Initializable {
     
     
-    private static Collection questions;
+    private static QuestionCollection<Question> questions;
     
     private final Image imageProfessor = new Image(getClass().getResource("/assets/avatars/professor.jpg").toString());
     private final Image imageProfessorRevert = new Image(getClass().getResource("/assets/avatars/professorRevert.jpg").toString());
@@ -113,7 +116,7 @@ public class MainScreenController implements Initializable {
     private String intro;
     private String whole;
     
-    private List<Deepfake> deepfakes;
+    private DeepfakeCollection<Deepfake> deepfakes;
     private Deepfake deepfake;
     private boolean deepfakeCorrect;
     private boolean real;
@@ -209,10 +212,6 @@ public class MainScreenController implements Initializable {
     
     private WebsitePane searchEnginePane;
     
-    private int progressDeepfake;
-    private int progressMission;
-    private int progress;
-    
     private int begin;
     /**
      * Initializes the controller class.
@@ -226,7 +225,6 @@ public class MainScreenController implements Initializable {
         analyticsButton.setTranslateY(12);
         anchorRoot.getChildren().add(analyticsButton);
         prMission.setProgress(0);
-        progress = 0;
         //progressDeepfake = 0; //DeepfakeDao.getDeepfakesForMission(mission).size();
         prDeepfake.setProgress(0);
         tbPaneMainScreen.getTabs().remove(tbPersonal);
@@ -255,9 +253,9 @@ public class MainScreenController implements Initializable {
         }
       });
         
-        deepfakes = DeepfakeDao.getDeepfakesForMission(mission);
+        deepfakes = new DeepfakeCollectionImpl(mission, gamer);
         
-        List<Deepfake> newList = new ArrayList<>();
+        /*List<Deepfake> newList = new ArrayList<>();
         List<Deepfake> completedDeepfakes = ProgressDeepfakeDao.getCompletedDeepfakesforGamer(gamer);
         for(Deepfake deep : deepfakes) {
             boolean istaken = false;
@@ -278,8 +276,8 @@ public class MainScreenController implements Initializable {
         }
         deepfakes.clear();
         deepfakes.addAll(newList);
-        
-        prMission.setProgress(progress * 1.0 / progressMission);
+        */
+        prMission.setProgress(deepfakes.getProgress() * 1.0 / deepfakes.getProgressMission());
         
         isProfessorPressed = false;
         isGPTPressed = false;
@@ -325,9 +323,7 @@ public class MainScreenController implements Initializable {
         btnFake.setSelected(false);
         btnReal.setDisable(true);
         btnFake.setDisable(true);
-        deepfake = getRandomDeepfake();
-        progressDeepfake = TaskDao.getTasksForDeepfake(deepfake).size();
-        progressDeepfake += QuestionDao.getQuestionsForDeepfake(deepfake).size();
+        deepfake = (Deepfake) deepfakes.get();
         
         WebEngine webEngine = webviewTiktok.getEngine();
         webEngine.loadContent("");
@@ -365,7 +361,7 @@ public class MainScreenController implements Initializable {
             return accounts.get(accountNumber);
         }
     
-    private Deepfake getRandomDeepfake() {
+    /*private Deepfake getRandomDeepfake() {
             Deepfake deepfake = null;
             if(!deepfakes.isEmpty()) {
                 int min = 0;
@@ -377,7 +373,7 @@ public class MainScreenController implements Initializable {
             }
             return deepfake;
         }
-    
+    */
     @FXML
     protected void sendMessage() {
         Label message = new Label(txtMessage.getText().trim());
@@ -800,8 +796,8 @@ public class MainScreenController implements Initializable {
                         
                     }
                 }
-        prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / progressDeepfake));
-        prMission.setProgress(prMission.getProgress() + (1.0 / progressMission));
+        prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / deepfakes.getProgressDeepfake()));
+        prMission.setProgress(prMission.getProgress() + (1.0 / deepfakes.getProgressMission()));
         if(amountOfCompleted == tasks.size() - 1) {
             btnReal.setDisable(false);
             btnFake.setDisable(false);
@@ -820,8 +816,8 @@ public class MainScreenController implements Initializable {
     }
 
     public void setPrDeepfakeProgress() {
-        prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / progressDeepfake));
-        prMission.setProgress(prMission.getProgress() + (1.0 / progressMission));
+        prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / deepfakes.getProgressDeepfake()));
+        prMission.setProgress(prMission.getProgress() + (1.0 / deepfakes.getProgressMission()));
     }
     
     
@@ -984,7 +980,7 @@ public class MainScreenController implements Initializable {
         //tbPersonal.
     }
     
-    public static Collection getQuestions() {
+    public static QuestionCollection<Question> getQuestions() {
         return questions;
     }
 
