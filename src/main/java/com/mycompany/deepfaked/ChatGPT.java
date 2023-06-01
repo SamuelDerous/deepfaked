@@ -10,6 +10,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONObject;
 
+/**
+ * The OpenAI functionallity on the mainscreen.
+ * @author ZENODotus
+ */
+
 public class ChatGPT {
     private static final String API_KEY = "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";
     

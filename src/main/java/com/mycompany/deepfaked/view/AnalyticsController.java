@@ -15,6 +15,7 @@ import com.mycompany.deepfaked.database.model.Mission;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -66,12 +67,20 @@ public class AnalyticsController implements Initializable {
     @FXML
     private Button btnClose;
     
+    /**
+     * The action on the close-button
+     */
     @FXML
     protected void closeScreen() {
         Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * the design of the page on startup
+     * @param location
+     * @param resources 
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         URL resource = getClass().getResource("/assets/icons/award.png");
@@ -84,7 +93,8 @@ public class AnalyticsController implements Initializable {
         List<Deepfake> completedDeepfakes = ProgressDeepfakeDao.getCompletedDeepfakesforGamer(LoginController.getGamer());
         Map<Mission, Integer> totalDeepfakes = new HashMap<>();
         Map<Mission, List<Deepfake>> completedDeeps = new HashMap<>(); 
-        for(Mission mission : missions) {
+        for (Iterator<Mission> it = missions.iterator(); it.hasNext();) {
+            Mission mission = it.next();
             if(!completedMissions.contains(mission)) {
                 List<Deepfake> deeps = DeepfakeDao.getDeepfakesForMission(mission);
                 //System.out.println(deeps.size());
@@ -94,7 +104,8 @@ public class AnalyticsController implements Initializable {
                 }
             }
         }
-        for(Deepfake completed : completedDeepfakes) {
+        for(Iterator<Deepfake> it = completedDeepfakes.iterator(); it.hasNext();) {
+            Deepfake completed = it.next();
             if(!completedMissions.contains(completed.getMission())) {
                 completedDeeps.get(completed.getMission()).add(completed);
             }

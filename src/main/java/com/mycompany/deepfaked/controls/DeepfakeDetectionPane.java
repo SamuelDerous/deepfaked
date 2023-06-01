@@ -7,25 +7,12 @@ package com.mycompany.deepfaked.controls;
 import com.mycompany.deepfaked.database.model.Deepfake;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 
 /**
- *
+ * The pane for the deepfake-detection algorithms.
  * @author ZENODotus
  */
 public class DeepfakeDetectionPane extends AnimationPane {
@@ -42,6 +29,10 @@ public class DeepfakeDetectionPane extends AnimationPane {
         this.deepfake = deepfake;
     }
     
+    /**
+     * calculate the percentage of all the algorithms together
+     * @return the amount
+     */
     @Override
     public double calculateAmount() {
          double amount = deepfake.getAvatarify();
@@ -51,7 +42,11 @@ public class DeepfakeDetectionPane extends AnimationPane {
          
          return amount / 4;
      }
-     
+    
+    /**
+     * create the labels for all algoritms seperately.
+     * @return a list with all the labels
+     */
     @Override
     public List<Label> createLabels() {
          lblAvatarify = new Label();

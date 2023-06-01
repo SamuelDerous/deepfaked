@@ -21,6 +21,7 @@ import com.mycompany.deepfaked.database.model.Deepfake;
 import com.mycompany.deepfaked.database.model.Gamer;
 import com.mycompany.deepfaked.database.model.Mission;
 import com.mycompany.deepfaked.database.model.Question;
+import com.mycompany.deepfaked.database.model.QuestionsCollectionImpl;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,7 @@ import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import com.mycompany.deepfaked.database.model.Collection;
 
 /**
  * FXML Controller class
@@ -75,7 +77,7 @@ import org.w3c.dom.Element;
 public class MainScreenController implements Initializable {
     
     
-    private static List<Question> questions;
+    private static Collection questions;
     
     private final Image imageProfessor = new Image(getClass().getResource("/assets/avatars/professor.jpg").toString());
     private final Image imageProfessorRevert = new Image(getClass().getResource("/assets/avatars/professorRevert.jpg").toString());
@@ -742,7 +744,7 @@ public class MainScreenController implements Initializable {
     
     private void showQuestions(ActionEvent event) throws Exception {
         QuestionsController controller = new QuestionsController(this);
-        questions = QuestionDao.getQuestionsForDeepfake(deepfake);
+        questions = new QuestionsCollectionImpl(deepfake);
     }
     
     public ToggleButton getParent() {
@@ -982,7 +984,7 @@ public class MainScreenController implements Initializable {
         //tbPersonal.
     }
     
-    public static List<Question> getQuestions() {
+    public static Collection getQuestions() {
         return questions;
     }
 

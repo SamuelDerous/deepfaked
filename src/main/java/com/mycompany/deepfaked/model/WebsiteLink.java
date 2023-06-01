@@ -7,7 +7,7 @@ package com.mycompany.deepfaked.model;
 import javafx.scene.image.Image;
 
 /**
- *
+ * The entity class for the websitelinks in the xml
  * @author ZENODotus
  */
 public class WebsiteLink {

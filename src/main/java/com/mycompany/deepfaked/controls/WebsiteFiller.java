@@ -28,13 +28,17 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- *
+ * The class that destills the links out of the XML.
  * @author ZENODotus
  */
 public class WebsiteFiller {
     
     private static List<WebsiteLink> websites;
     
+    /**
+     * create the list
+     * @param tagName the tagname in the XML
+     */
     private void initializeList(String tagName) {
         try {
             websites = new ArrayList<>();
@@ -62,6 +66,11 @@ public class WebsiteFiller {
         }
     }
     
+    /**
+     * design the list
+     * @param tagName tagname in the XML
+     * @return return a VBOX with all the links.
+     */
     public VBox createVbox(String tagName) {
         initializeList(tagName);
         VBox vbox = new VBox();
@@ -92,7 +101,6 @@ public class WebsiteFiller {
             
             
         }
-        //vbox.setAlignment(Pos.CENTER);
         return vbox;
     }
 }

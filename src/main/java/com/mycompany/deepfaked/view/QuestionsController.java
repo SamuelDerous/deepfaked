@@ -10,6 +10,10 @@ import com.mycompany.deepfaked.Loss;
 import com.mycompany.deepfaked.database.dao.ChoiceDao;
 import com.mycompany.deepfaked.database.model.Question;
 import com.mycompany.deepfaked.database.model.QuestionChoice;
+import com.mycompany.deepfaked.strategies.Answer;
+import com.mycompany.deepfaked.strategies.AnswerContext;
+import com.mycompany.deepfaked.strategies.MultipleAnswers;
+import com.mycompany.deepfaked.strategies.SingleAnswer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -60,6 +64,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import com.mycompany.deepfaked.database.model.Collection;
 
 /**
  * FXML Controller class
@@ -79,7 +84,7 @@ public class QuestionsController implements Initializable {
     
     private Stage questionsStage;
     
-    private List<Question> questions;
+    private Collection<Question> questions;
     private List<QuestionChoice> choices;
     private Question question;
     
@@ -184,10 +189,11 @@ public class QuestionsController implements Initializable {
     protected void continuePressed() {
         questions = MainScreenController.getQuestions();
         btnContinue.setVisible(false);
-        Question testQuestion = getQuestion();
-        lblQuestion.setText(setTextQuestionsLabel(testQuestion));
-        lblQuestion.setTooltip(new Tooltip("Het leerdoel van deze vraag is: " + testQuestion.getLearningObjective().getLabel()));
-        createLevelPane(testQuestion.getLevel());
+        question = questions.get();
+        choices = questions.getChoices();
+        lblQuestion.setText(setTextQuestionsLabel(question));
+        lblQuestion.setTooltip(new Tooltip("Het leerdoel van deze vraag is: " + question.getLearningObjective().getLabel()));
+        createLevelPane(question.getLevel());
         pnDifficulty.setVisible(true);
         createButtons();
         
@@ -220,32 +226,13 @@ public class QuestionsController implements Initializable {
         createButtons();
     }*/
     
-    private Question getQuestion() {
-        question = null;
-            if(!questions.isEmpty()) {
-                int min = 0;
-                int max = questions.size();
-                int questionNumber = (int) (Math.random() * (max - min) + min);
-                question = questions.get(0); //questionNumber);
-                questions.remove(0); //questionNumber);
-                //System.out.println(question.getQuestion());
-                choices = ChoiceDao.getChoicesForQuestion(question);
-                /*for(int i = 0; i < choices.size(); i++) {
-                    System.out.println(choices.get(i).getChoice().getAnswer());
-                }*/
-            }
-            /*if(question.getChoices() != null) {
-                System.out.println(question.getChoices());
-            }*/
-            return question;
-    }
-
     private void createButtons() {
         Collections.shuffle(choices);
         if(buttons != null && !buttons.isEmpty()) {
             pnQuestionsField.getChildren().removeAll(buttons);
         }
         buttons = new ArrayList<>();
+        System.out.println(choices);
         if(choices != null && !choices.isEmpty()) {
             int beginY = 5;
             int layoutY = 300 / choices.size();
@@ -277,9 +264,9 @@ public class QuestionsController implements Initializable {
     protected void checkAnswers() {
         if(buttons != null && !buttons.isEmpty()) {
             if(question.getMulti() == 1) {
-                checkMultipleAnswers();
+                checkAnswer(new MultipleAnswers());
             } else {
-                checkSingleAnswer();
+                checkAnswer(new SingleAnswer());
             }
         btnNextQuestion.setVisible(true);
         btnReady.setVisible(false);
@@ -291,83 +278,33 @@ public class QuestionsController implements Initializable {
         }
     }
     
-    private void checkSingleAnswer() {
-        Text information = new Text();
-        int i = 0;
-        for(ToggleButton button : buttons) {
-                if(button.isSelected()) {
-                    if(choices.get(i).getCorrect() == 1) {
-                        money += question.getValue().getMoney();
-                        followers += question.getValue().getFollowers();
-                        AnimatedCoins.create(overallPane);
-                        
-                    } else {
-                        Loss.animate(overallPane);
-                    }
-                    information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback());
-                    information.wrappingWidthProperty().bind(pnInformation.widthProperty());
-                    pnInformation.setContent(information);
-                }
-                button.setDisable(true);
-                i++;
-                }
-    }
+    //public boolean checkAnswer(List<ToggleButton> buttons, List<QuestionChoice> choices, double money, int followers) {
     
-    private void checkMultipleAnswers() {
-        Text information = new Text();
-        double m = 0.0;
-        int f = 0;
-        int i = 0;
-        boolean same = false;
-        boolean incorrect = false;
-        List<Integer> corrects = new ArrayList<>();
-        for(ToggleButton button : buttons) {
-            
-                if(button.isSelected()) {
-                    if(choices.get(i).getCorrect() == 1) {
-                        m += question.getValue().getMoney();
-                        f += question.getValue().getFollowers();
-                        corrects.add(i);
-                        
-                    } else {
-                        m = 0.0;
-                        f = 0;
-                        incorrect = true;
-                    } 
-                    for(int correct : corrects) {
-                        if(correct != i) {
-                            if(choices.get(correct).getChoice().getConsequence().getFeedback().equals(
-                                choices.get(i).getChoice().getConsequence().getFeedback())) {
-                                same = true;
-                            }
-                        }
-                    }
-                    if(!same) {
-                        information.setText(information.getText() + choices.get(i).getChoice().getConsequence().getFeedback() + "\n");
-                    }
-                    information.wrappingWidthProperty().bind(pnInformation.widthProperty());
-                    pnInformation.setContent(information);
-                }
-                money += m;
-                followers += f;
-                button.setDisable(true);
-                i++;
-                }
-        if(!incorrect) {
+    private void checkAnswer(Answer answer) {
+        AnswerContext context = new AnswerContext();
+        context.setState(answer);
+        var correct = context.checkAnswer(buttons, choices, question.getValue().getMoney(), question.getValue().getFollowers());
+        if(correct) {
             AnimatedCoins.create(overallPane);
         } else {
             Loss.animate(overallPane);
-        }
+        } 
+        money += context.getState().getMoney();
+        followers += context.getState().getFollowers();
+        Text information = new Text(context.getState().getInformation());
+        information.wrappingWidthProperty().bind(pnInformation.widthProperty());
+        pnInformation.setContent(information);
     }
     
     @FXML
     protected void nextQuestion() {
         System.out.println("Dit is een test");
-        Question testQuestion = getQuestion();
-        if(testQuestion != null) {
-            lblQuestion.setText(setTextQuestionsLabel(testQuestion));
-            lblQuestion.setTooltip(new Tooltip("Het leerdoel van deze vraag is: " + testQuestion.getLearningObjective().getLabel()));
-            createLevelPane(testQuestion.getLevel());
+        question = questions.get();
+        choices = questions.getChoices();
+        if(question != null) {
+            lblQuestion.setText(setTextQuestionsLabel(question));
+            lblQuestion.setTooltip(new Tooltip("Het leerdoel van deze vraag is: " + question.getLearningObjective().getLabel()));
+            createLevelPane(question.getLevel());
             
             createButtons();
             pnInformation.setVisible(false);

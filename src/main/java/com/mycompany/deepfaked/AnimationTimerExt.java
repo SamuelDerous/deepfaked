@@ -2,6 +2,11 @@ package com.mycompany.deepfaked;
 
 import javafx.animation.AnimationTimer;
 
+/**
+ * An extention to the animation timer, to let the coins fall.
+ * @author ZENODotus
+ */
+
 public abstract class AnimationTimerExt extends AnimationTimer {
 
     private long sleepNs = 0;

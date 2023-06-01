@@ -16,11 +16,14 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
- *
+ * The button that is almost on every screen where you can see your progress within the game.
  * @author ZENODotus
  */
 public class AnalyticsButton extends Button {
 
+    /**
+     * The design and action on clicking the button.
+     */
     public AnalyticsButton() {
         super();
         ImageView iw = new ImageView(new Image(getClass().getResource("/assets/icons/analyticsImage.png").toString()));

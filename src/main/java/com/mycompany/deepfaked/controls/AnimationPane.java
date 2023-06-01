@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 
 /**
- *
+ * The pane for the deepfake detection; the overall pane
  * @author ZENODotus
  */
 public abstract class AnimationPane {

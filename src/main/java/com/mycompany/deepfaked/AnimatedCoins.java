@@ -14,6 +14,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 /**
+ * An animation for answering questions correctly.
  *
  * @author ZENODotus
  */
@@ -28,6 +29,10 @@ public class AnimatedCoins {
 
     public static final double D = 20;  // diameter.
 
+    /**
+     * The animation for a single coin
+     * @param pane the pane the animation has to be performed on.
+     */
     public static void animate(Pane pane) {
         DoubleProperty x = new SimpleDoubleProperty();
         DoubleProperty y = new SimpleDoubleProperty();
@@ -65,6 +70,10 @@ public class AnimatedCoins {
         }
     }
 
+    /**
+     * the animation for 50 coins at once.
+     * @param pane the pane the animation has to be performed on.
+     */
     public static void create(Pane pane) {
         for (int i = 0; i < 50; i++) {
             animate(pane);

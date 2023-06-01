@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
+ * Animation when a question is answered incorrectly.
  *
  * @author ZENODotus
  */
@@ -36,7 +37,10 @@ public class Loss extends Application {
     private static Timeline testTime = new Timeline();
     private static Timeline timeline = new Timeline();
 
-    
+    /**
+     * The actual animation
+     * @param pane the pane where the animation has to be performed on.
+     */
     public static void animate(Pane pane) {
         viewPolice.setFitWidth(100);
         viewPolice.setPreserveRatio(true);

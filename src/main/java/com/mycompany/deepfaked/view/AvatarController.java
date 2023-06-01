@@ -31,7 +31,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.FileChooser;
 
 /**
- * FXML Controller class
+ * FXML Controller class for the AVATar scene
  *
  * @author ZENODotus
  */
@@ -102,7 +102,7 @@ public class AvatarController implements Initializable {
         }
     }
     /**
-     * Initializes the controller class.
+     * Initializes the controller class with the images catagorized human
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

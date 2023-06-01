@@ -4,36 +4,17 @@
  */
 package com.mycompany.deepfaked.controls;
 
-import com.mycompany.deepfaked.main.App;
-import com.mycompany.deepfaked.view.TermsController;
 import com.mycompany.deepfaked.model.WebsiteLink;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.binding.Bindings;
-import javafx.event.Event;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.WebEngine;
-import javafx.stage.Stage;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
- *
+ * create the pane for the links
  * @author ZENODotus
  */
 public class WebsitePane {

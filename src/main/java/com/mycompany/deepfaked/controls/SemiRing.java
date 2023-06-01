@@ -15,7 +15,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
 /**
- *
+ * create a semi-ring used in the deepfakedetection algorithm pane.
  * @author ZENODotus
  */
 public class SemiRing {
