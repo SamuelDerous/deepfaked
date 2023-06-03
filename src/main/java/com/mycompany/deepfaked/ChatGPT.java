@@ -4,10 +4,12 @@
  */
 package com.mycompany.deepfaked;
 
+import com.mycompany.deepfaked.controls.PropertiesHolder;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Properties;
 import org.json.JSONObject;
 
 /**
@@ -16,7 +18,7 @@ import org.json.JSONObject;
  */
 
 public class ChatGPT {
-    private static final String API_KEY = "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";
+    private static final String API_KEY = PropertiesHolder.getInstance().getProperty("gptKey"); //"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";
     
     public static String chatGPT(String text) throws Exception {
         String url = "https://api.openai.com/v1/completions";

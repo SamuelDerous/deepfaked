@@ -4,6 +4,7 @@
  */
 package com.mycompany.deepfaked.view;
 
+import com.mycompany.deepfaked.controls.PropertiesHolder;
 import com.mycompany.deepfaked.main.App;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.scene.media.MediaView;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -88,8 +90,7 @@ public class IntroController implements Initializable {
     private void createIntroPage() {
         mediaPlayer.stop();
         mediaPlayer.dispose();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/intro.fxml"));
-            
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(PropertiesHolder.getInstance().getProperty("defaultmap") + "/view/intro.fxml"));
             introStage = new Stage();
             IntroView test = InfoFactory.createIntroView();
             introStage.setTitle("Deepfaked");

@@ -65,6 +65,7 @@ public abstract class PrntView implements InfoView {
 
     public PrntView() {
         mainScreenController = new MainScreenController();
+        
     }
 
     public PrntView(MainScreenController controller, String intro) {
@@ -77,6 +78,7 @@ public abstract class PrntView implements InfoView {
         introStage.setScene(createScene(intro));
 
         introStage.show();
+        
 
     }
     
@@ -84,6 +86,7 @@ public abstract class PrntView implements InfoView {
     public final Scene createScene(String intro) {
         Scene scene = new Scene(play(intro), 700, 600);
         root.addEventHandler(KeyEvent.KEY_PRESSED, createEscapeKeyHandler(testTime, intro));
+        createAnalyticsButton();
         return scene;
     }
 

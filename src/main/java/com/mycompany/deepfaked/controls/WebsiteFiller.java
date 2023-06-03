@@ -81,7 +81,8 @@ public class WebsiteFiller {
             imageView.setFitWidth(100);
             imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, eventFilter -> {
                 try {
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("terms.fxml"));
+                    System.out.println(PropertiesHolder.getInstance().getProperty("defaultMap"));
+                FXMLLoader fxmlLoader = new FXMLLoader(WebsiteFiller.class.getResource(PropertiesHolder.getInstance().getProperty("defaultMap") + "/view/terms.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 TermsController controller = fxmlLoader.<TermsController>getController();
                 WebEngine webEngine = controller.getFleTerms().getEngine();
@@ -90,7 +91,7 @@ public class WebsiteFiller {
                 infoStage.setScene(scene);
                 infoStage.show();
             } catch(Exception ex) {
-                
+                ex.printStackTrace();
             }
             });
             imageView.setOnMouseEntered((Event event) -> {

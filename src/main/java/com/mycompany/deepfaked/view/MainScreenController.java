@@ -8,12 +8,10 @@ import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.controls.DeepfakeDetectionPane;
 import com.mycompany.deepfaked.controls.WebsitePane;
 import com.mycompany.deepfaked.database.dao.AccountDao;
-import com.mycompany.deepfaked.database.dao.DeepfakeDao;
 import com.mycompany.deepfaked.database.dao.GamerDao;
 import com.mycompany.deepfaked.database.dao.MissionsDao;
 import com.mycompany.deepfaked.database.dao.ProgressDeepfakeDao;
 import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
-import com.mycompany.deepfaked.database.dao.QuestionDao;
 import com.mycompany.deepfaked.database.dao.TaskDao;
 import com.mycompany.deepfaked.database.model.Account;
 import com.mycompany.deepfaked.database.model.CompletedTask;
@@ -37,7 +35,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -67,10 +64,17 @@ import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import com.mycompany.deepfaked.database.model.Collection;
 import com.mycompany.deepfaked.database.model.DeepfakeCollection;
 import com.mycompany.deepfaked.database.model.DeepfakeCollectionImpl;
 import com.mycompany.deepfaked.database.model.QuestionCollection;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  * FXML Controller class
@@ -110,7 +114,7 @@ public class MainScreenController implements Initializable {
     //private boolean isTaskComplete;
     
     
-    private final VBox chatBox = new VBox(5);
+    //private final VBox chatBox = new VBox(5);
     private final List<Label> messages = new ArrayList<>();
     private final int indexMessages = 0;
     private String intro;
@@ -136,6 +140,9 @@ public class MainScreenController implements Initializable {
     
     @FXML
     private Pane pnGPT;
+    
+    @FXML
+    private GridPane gridGPT;
     
     @FXML
     private ScrollPane scrollTasks;
@@ -299,9 +306,9 @@ public class MainScreenController implements Initializable {
         tgGPT.setDisable(true);
         tglDeepfakeDetection.setDisable(true);
         tglSearchEngines.setDisable(true);
-        chatBox.setPadding(new Insets(10, 10, 10, 10));
+        //chatBox.setPadding(new Insets(10, 10, 10, 10));
         scrollMessage.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollMessage.setContent(chatBox);
+        
         //pnGPT.setBorder(new Border(new BorderStroke()));
         /*for(int i = 0; i < deepfakes.size(); i++) {
             System.out.println(deepfakes.get(i).getLocation());
@@ -376,23 +383,87 @@ public class MainScreenController implements Initializable {
     */
     @FXML
     protected void sendMessage() {
-        Label message = new Label(txtMessage.getText().trim());
+        /*Label message = new Label(txtMessage.getText().trim());
         message.setPrefWidth(scrollMessage.getWidth() - 30);
         message.setLayoutX(message.getLayoutX() + 10);
-        Label answer = new Label("Ik heb het antwoord!");
-        answer.setPrefWidth(scrollMessage.getWidth() - 30);
         message.setAlignment(Pos.CENTER_LEFT);
-        answer.setAlignment(Pos.CENTER_RIGHT);
+        message.setWrapText(true);
         messages.add(message);
-        messages.add(answer);
         chatBox.getChildren().add(message);
+        
+        Label answer = new Label();
+        try {
+            answer = new Label("Dit is een extra lange test om te kijkehn of dit werkt. IK bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"); //ChatGPT.chatGPT(message.getText().trim()));
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        answer.setAlignment(Pos.CENTER_RIGHT);
+        answer.setPrefWidth(scrollMessage.getWidth() - 70);
+        
+        answer.setWrapText(true);
+        messages.add(answer);
         chatBox.getChildren().add(answer);
         txtMessage.setText("");
         txtMessage.requestFocus();
+        */
+        Text message = new Text(txtMessage.getText().trim());
+        message.setWrappingWidth(180);
+        var messageFlow = new TextFlow(message); //txtMessage.getText().trim());
+        //messageFlow.setPrefWidth(scrollMessage.getWidth() - 70);
+        //messageFlow.setWrappingWidth(true);
+        var rowIndex = gridGPT.getRowCount();
+        final var rowSpan = 1;
+        VBox vBox = getVBox(message,messageFlow);
+        gridGPT.add(vBox, 0, rowIndex, 2, rowSpan);
+        txtMessage.setText("");
+        txtMessage.requestFocus();
+        Text answer = new Text("Dit is een extra lange test om te kijkehn of dit werkt. IK bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla");
+        answer.setWrappingWidth(180);
+        final var answerFlow = new TextFlow(answer); //"Dit is een extra lange test om te kijkehn of dit werkt. IK bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla");
+        //answerFlow.setPrefWidth(scrollMessage.getWidth() - 70);
+        //answerFlow.setWrapText(true);
+        
+        rowIndex = gridGPT.getRowCount();
+        vBox = getVBox(answer, answerFlow);
+        gridGPT.add(vBox, 1, rowIndex, 2, rowSpan);
+        /*Platform.runLater(new Runnable() {
+    @Override
+    public void run() {
+        scrollMessage.setVvalue(1.0);
+        DoubleProperty wProperty = new SimpleDoubleProperty();
+        wProperty.bind(gridGPT.heightProperty());
+        wProperty.addListener(new ChangeListener() {
+        @Override
+        public void changed(ObservableValue ov, Object t, Object t1) {
+           //when ever Hbox width chnages set ScrollPane Hvalue
+           System.out.println("vertical: " + wProperty.getValue());
+         scrollMessage.setVvalue(1.0); 
+        }
+    }) ;
+    }
+});*/
+        
+        DoubleProperty wProperty = new SimpleDoubleProperty();
+        wProperty.bind(gridGPT.heightProperty());
+        wProperty.addListener(new ChangeListener() {
+        @Override
+        public void changed(ObservableValue ov, Object t, Object t1) {
+           //when ever Hbox width chnages set ScrollPane Hvalue
+        
+         scrollMessage.setVvalue(1.0); 
+        }
+    }) ;
         
         
         
         
+        
+    }
+    
+    private static VBox getVBox(Node... nodes) {
+        final var vBox = new VBox(nodes);
+        vBox.setPadding(new Insets(10));
+        return vBox;
     }
     
     @FXML
