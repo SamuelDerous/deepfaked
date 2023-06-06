@@ -2,7 +2,7 @@ Korte handleiding voor de app “Deepfaked”
 
 Bij het opstarten van de app word je meteen in het programma gestort. Het eerste scherm dat je dan ook te zien krijgt is een login-scherm:
 
-
+![login scherm] (https://github.com/SamuelDerous/deepfaked/blob/main/manual/login.png?raw=true)
 
 
 
