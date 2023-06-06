@@ -1,4 +1,6 @@
-Korte handleiding voor de app “Deepfaked”
+Vul eerst de <a href="https://deepfaked.limesurvey.net/426559?newtest=Y&lang=nl"> pre-survey</a> in.
+
+<h1>Korte handleiding voor de app “Deepfaked”</h1>
 
 Bij het opstarten van de app word je meteen in het programma gestort. Het eerste scherm dat je dan ook te zien krijgt is een login-scherm:
 <div style="text-align:center;">
@@ -104,5 +106,7 @@ Onderaan zie je ook meteen hoever je staat in de deepfake zelf, maar ook in de m
 
 </div>
 
+Vul nu de <a href="https://deepfaked.limesurvey.net/731265?newtest=Y&lang=nl"> post-survey</a> in.
 
+Door deze twee enquètes kunnen we zien of het beoogde doel van de app bereikt wordt.
 
