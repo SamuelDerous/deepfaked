@@ -74,7 +74,6 @@ public class AvatarController implements Initializable {
             }));
         for(String humanFile : humanFiles) {
             URL resource = getClass().getResource(directory + "/" + gender + "/" + humanFile);
-            System.out.println(resource.toString());
             ImageView image = new ImageView(new Image(resource.toString()));
             image.setFitHeight(100);
             image.setFitWidth(100);
@@ -126,7 +125,6 @@ public class AvatarController implements Initializable {
         if(file != null) {
             try {
             selectedURL = file.toURI().toString();
-            System.out.println(selectedURL);
             Image image = new Image(selectedURL);
             imageSelected.setImage(image);
             } catch(Exception ex) {

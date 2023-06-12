@@ -6,9 +6,9 @@
 <?import javafx.scene.image.*?>
 
 
-<AnchorPane fx:id="mediaPane" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.VideoMedia">
+<AnchorPane fx:id="mediaPane" prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.VideoVLC">
    <children>
-      <MediaView fx:id="mediaIntro" fitHeight="${mediaPane.height}" fitWidth="${mediaPane.width}" layoutX="7.0" layoutY="8.0" />
+      <ImageView fx:id="mediaIntro" fitHeight="${mediaPane.height}" fitWidth="${mediaPane.width}" layoutX="7.0" layoutY="8.0" />
       <Button fx:id="btnSkipIntro" layoutX="521.0" layoutY="311.0" mnemonicParsing="false" onAction="#skipIntro" text="Skip intro" />
    </children>
 </AnchorPane>

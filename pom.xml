@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mycompanty</groupId>
     <artifactId>Deepfaked</artifactId>
-    <version>0.1</version>
+    <version>0.1Linux</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
@@ -19,6 +19,17 @@
             <version>19</version>
             <classifier>win</classifier>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.20.0</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.20.0</version>
+</dependency>
         <dependency>      
 <groupId>org.springframework.security</groupId>
     <artifactId>spring-security-crypto</artifactId>
@@ -42,6 +53,12 @@
             <version>20-ea+3</version>
             <classifier>win</classifier>
         </dependency> 
+        
+        <dependency>
+    <groupId>uk.co.caprica</groupId>
+    <artifactId>vlcj-javafx</artifactId>
+    <version>1.2.0</version>
+</dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>

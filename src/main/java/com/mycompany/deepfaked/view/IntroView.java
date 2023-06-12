@@ -4,8 +4,13 @@
  */
 package com.mycompany.deepfaked.view;
 
+import com.mycompany.deepfaked.MediaFactory;
+import java.util.Optional;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -34,7 +39,7 @@ public class IntroView extends PrntView {
         btnYes.setScaleY(1.5);
         btnYes.setPrefWidth(50);
         btnYes.setOnAction((event) -> {
-            IntroController.getIntroStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
+            MediaFactory.getIntroStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
         });
         Button btnNo = new Button("Neen");
         btnNo.setScaleX(1.5);
@@ -45,7 +50,7 @@ public class IntroView extends PrntView {
         btnNo.setTranslateX(400);
         btnNo.setTranslateY(root.getHeight() - 40);
         btnNo.setOnAction((event) -> {
-            System.out.println("no is clicked");
+            createGoodbye();
         });
         root.getChildren().add(btnYes);
         root.getChildren().add(btnNo);
@@ -55,12 +60,24 @@ public class IntroView extends PrntView {
     private EventHandler<KeyEvent> createYesNoEvent() {
         EventHandler<KeyEvent> yesNoHandler = (KeyEvent key) -> {
             if (key.getCode() == KeyCode.J) {
-                IntroController.getIntroStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
+                MediaFactory.getIntroStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
                 
             } else if (key.getCode() == KeyCode.N) {
-                System.out.println("No pressed!");
+                createGoodbye();
             }
         };
         return yesNoHandler;
+    }
+    
+    private void createGoodbye() {
+        Alert alert = new Alert(AlertType.CONFIRMATION, "Spijtig dat we je niet warm kunnen maken voor een aanstelling in ons bedrijf. Misschien een volgende keer.");
+        alert.setTitle("Tot de volgende keer!");
+        alert.setHeaderText("Afsluiten van het programma.");
+        Optional<ButtonType> result = alert.showAndWait();
+        result.ifPresent(btnType -> {
+            if(btnType == ButtonType.OK) {
+                System.exit(0);
+            }
+        });
     }
 }

@@ -1,11 +1,14 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.deepfaked.view;
+package com.mycompany.deepfaked;
 
 import com.mycompany.deepfaked.controls.PropertiesHolder;
 import com.mycompany.deepfaked.main.App;
+import com.mycompany.deepfaked.view.InfoFactory;
+import com.mycompany.deepfaked.view.IntroView;
+import com.mycompany.deepfaked.view.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.media.MediaPlayer;
@@ -24,7 +27,7 @@ import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 
-public class IntroController implements Initializable {
+public class VideoMedia implements Initializable {
     
     private static Stage introStage;
     
@@ -72,6 +75,7 @@ public class IntroController implements Initializable {
 
         mediaPlayer.setOnPlaying(new Runnable() {
             public void run() {
+                System.out.println("Dit is een test in media");
                 /*if (stopRequested) {
                     mediaPlayer.pause();
                     stopRequested = false;
@@ -111,7 +115,7 @@ public class IntroController implements Initializable {
             introStage.setScene(test.createScene(INTRO));
             introStage.show();
             
-            LoginController.getIntroStage().close();
+            MediaFactory.getIntroStage().close();
     }
     
     public static Stage getIntroStage() {

@@ -1,11 +1,13 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.deepfaked.view;
-
+package com.mycompany.deepfaked;
 import com.mycompany.deepfaked.controls.PropertiesHolder;
 import com.mycompany.deepfaked.main.App;
+import com.mycompany.deepfaked.view.InfoFactory;
+import com.mycompany.deepfaked.view.IntroView;
+import com.mycompany.deepfaked.view.LoginController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.media.MediaPlayer;
@@ -15,16 +17,20 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 
 import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
+import uk.co.caprica.vlcj.javafx.videosurface.ImageViewVideoSurface;
+import uk.co.caprica.vlcj.player.base.MediaPlayerEventAdapter;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 
-public class IntroController implements Initializable {
+public class VideoVLC implements Initializable {
     
     private static Stage introStage;
     
@@ -39,8 +45,7 @@ public class IntroController implements Initializable {
     private MediaPlayer mediaPlayer;
 
     @FXML
-    private MediaView mediaIntro;
-    //private ImageView mediaIntro;
+    private ImageView mediaIntro;
     
     private MediaPlayerFactory mediaPlayerFactory;
 
@@ -61,57 +66,50 @@ public class IntroController implements Initializable {
 
     public void init() throws MalformedURLException, URISyntaxException {
         // intro = new File(getClass().getClassLoader().getResource("assets/test.mp4").toString());
-        Media media = new Media("https://dl.dropboxusercontent.com/s/8vo9huv60hq8frq/intro.mp4?dl=0");
-        //Media media = new Media("http://download.oracle.com/otndocs/products/javafx/oow2010-2.flv");
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setOnError(()->
-                System.out.println("media error"+mediaPlayer.getError().toString()));
-        //mediaPlayer.setAutoPlay(true);
-        mediaIntro.setMediaPlayer(mediaPlayer);
-        mediaPlayer.play();
-
-        mediaPlayer.setOnPlaying(new Runnable() {
-            public void run() {
-                /*if (stopRequested) {
-                    mediaPlayer.pause();
-                    stopRequested = false;
-                } else {
-                    playButton.setText("||");
-                }*/
-       /*this.mediaPlayerFactory = new MediaPlayerFactory();
+        String media = "https://dl.dropboxusercontent.com/s/8vo9huv60hq8frq/intro.mp4?dl=0";
+        
+        this.mediaPlayerFactory = new MediaPlayerFactory();
         this.embeddedMediaPlayer = mediaPlayerFactory.mediaPlayers().newEmbeddedMediaPlayer();
         this.embeddedMediaPlayer.events().addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+            @Override
+            public void finished(uk.co.caprica.vlcj.player.base.MediaPlayer mediaPlayer) {
+                System.out.println("Dit is een test dat de mediaplayer stopt");
+                Platform.runLater(() -> { 
+                    createIntroPage();
+                });
+            }
             
         });
+        
         embeddedMediaPlayer.videoSurface().set(new ImageViewVideoSurface(this.mediaIntro));
-        embeddedMediaPlayer.media().play("https://dl.dropboxusercontent.com/s/8vo9huv60hq8frq/intro.mp4?dl=0");
-         }*/
-        }});
-        mediaPlayer.setOnEndOfMedia(() -> {
-            createIntroPage();
-            
-            });
-        //mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
-        //mediaIntro.setMediaPlayer(mediaPlayerComponent);
+        embeddedMediaPlayer.media().play(media);
 
 }
     
     @FXML
     protected void skipIntro() {
+         embeddedMediaPlayer.controls().stop();
+        embeddedMediaPlayer.release();
+        mediaPlayerFactory.release();
         createIntroPage();
     }
     
     private void createIntroPage() {
-        mediaPlayer.stop();
-        mediaPlayer.dispose();
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(PropertiesHolder.getInstance().getProperty("defaultmap") + "/view/intro.fxml"));
+        System.out.println("in intropageCreation");
+        //embeddedMediaPlayer.controls().stop();
+        //embeddedMediaPlayer.release();
+        //mediaPlayerFactory.release();
+        System.out.println("gestopt");
+        //embeddedMediaPlayer.stop();
+        //mediaPlayer.dispose();
+        //FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(PropertiesHolder.getInstance().getProperty("defaultmap") + "/view/intro.fxml"));
             introStage = new Stage();
             IntroView test = InfoFactory.createIntroView();
             introStage.setTitle("Deepfaked");
             introStage.setScene(test.createScene(INTRO));
             introStage.show();
             
-            LoginController.getIntroStage().close();
+            MediaFactory.getIntroStage().close();
     }
     
     public static Stage getIntroStage() {

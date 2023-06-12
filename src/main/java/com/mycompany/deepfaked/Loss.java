@@ -25,7 +25,7 @@ import javafx.util.Duration;
  *
  * @author ZENODotus
  */
-public class Loss extends Application {
+public class Loss extends Application implements CorrectState {
     private static final double W = 885; // canvas dimensions.
     private static final double H = 740;
     
@@ -41,7 +41,7 @@ public class Loss extends Application {
      * The actual animation
      * @param pane the pane where the animation has to be performed on.
      */
-    public static void animate(Pane pane) {
+    public void animate(Pane pane) {
         viewPolice.setFitWidth(100);
         viewPolice.setPreserveRatio(true);
         viewPolice.setLayoutX(380);
@@ -68,7 +68,7 @@ public class Loss extends Application {
             public void handle(ActionEvent event) {
                 if (i == 50) {
                     timeline.play();
-                } else if (i > 50) {
+                } else if (i > 150) {
                     testTime.stop();
                     
                 }
@@ -92,6 +92,10 @@ public class Loss extends Application {
         }
         
         
+    }
+    
+    public void create(Pane pane) {
+        animate(pane);
     }
 
    @Override public void start(Stage stage) {

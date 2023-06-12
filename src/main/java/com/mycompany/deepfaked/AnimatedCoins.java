@@ -18,7 +18,7 @@ import javafx.scene.media.MediaPlayer;
  *
  * @author ZENODotus
  */
-public class AnimatedCoins {
+public class AnimatedCoins implements CorrectState {
 
     private static final double W = 885; // canvas dimensions.
     private static final double H = 740;
@@ -33,7 +33,7 @@ public class AnimatedCoins {
      * The animation for a single coin
      * @param pane the pane the animation has to be performed on.
      */
-    public static void animate(Pane pane) {
+    public void animate(Pane pane) {
         DoubleProperty x = new SimpleDoubleProperty();
         DoubleProperty y = new SimpleDoubleProperty();
         ImageView viewCoin = new ImageView(coin);
@@ -45,7 +45,6 @@ public class AnimatedCoins {
         pane.setPrefSize(W, H);
         pane.getChildren().add(viewCoin);
         int test = (int) (Math.random() * 50);
-        System.out.println(test);
         timer = new AnimationTimerExt(test) {
             @Override
             public void handle() {
@@ -74,7 +73,7 @@ public class AnimatedCoins {
      * the animation for 50 coins at once.
      * @param pane the pane the animation has to be performed on.
      */
-    public static void create(Pane pane) {
+    public void create(Pane pane) {
         for (int i = 0; i < 50; i++) {
             animate(pane);
         }

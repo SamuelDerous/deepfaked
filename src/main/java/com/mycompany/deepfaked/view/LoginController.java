@@ -1,5 +1,6 @@
 package com.mycompany.deepfaked.view;
 
+import com.mycompany.deepfaked.MediaFactory;
 import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.database.dao.GamerDao;
 import com.mycompany.deepfaked.database.model.Gamer;
@@ -152,15 +153,8 @@ public class LoginController implements Initializable {
         if(newGamer != null) {
         try {
         if(BCrypt.checkpw(txtPassword.getText(), newGamer.getPassword())) {
-            FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/intro.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 350);
-            introStage = new Stage();
-            introStage.setTitle("Deepfaked");
-            introStage.setScene(scene);
-            introStage.show();
-            
             gamer = newGamer;
-            App.getStage().close();
+            MediaFactory.createIntro();
         } else {
             errorMessage = "Je login is niet correct.";
             lblError.setText(errorMessage);

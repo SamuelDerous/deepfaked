@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
@@ -65,12 +66,14 @@ public class MissionView extends PrntView {
             btnMission.setOnAction((event) -> {
                 mission = missionsGet;
                 try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/mainScreen.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(MissionView.class.getResource("/com/mycompany/deepfaked/view/mainScreen.fxml"));
                     stage = new Stage();
                     Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);
                     stage.setScene(scenetest);
                     stage.show();
                     IntroController.getIntroStage().hide();
+                    Stage toClose = (Stage)((Node) event.getSource()).getScene().getWindow();
+                    toClose.hide();
 
                 } catch (IOException ex) {
                     ex.printStackTrace();

@@ -4,13 +4,9 @@
  */
 package com.mycompany.deepfaked.strategies;
 
-import com.mycompany.deepfaked.AnimatedCoins;
-import com.mycompany.deepfaked.Loss;
 import com.mycompany.deepfaked.database.model.QuestionChoice;
 import java.util.List;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.text.Text;
 
 /**
  *

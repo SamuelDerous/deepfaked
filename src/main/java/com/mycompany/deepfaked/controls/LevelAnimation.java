@@ -39,7 +39,6 @@ public class LevelAnimation {
         imgArrow.setLayoutX(150.0 - (imgArrow.getFitWidth() / 2));
         imgArrow.setRotate(0);
         final double upper = calculation * 180 / 100;
-        System.out.println("upper: " + upper);
         var i = new SimpleIntegerProperty(0);
         var j = new SimpleIntegerProperty(0);
         amount = 0;
@@ -56,7 +55,6 @@ public class LevelAnimation {
                 //hoeveelheid = hoeveelheid + ((hoeveelheid * 180) / 100);
                 imgArrow.setRotate(amount++); 
                 i.set(i.get() + 1);
-                System.out.println(i.get());
             }
         }));
         waitingTime.setCycleCount(Timeline.INDEFINITE);

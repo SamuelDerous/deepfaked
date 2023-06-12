@@ -36,7 +36,6 @@ public class PropertiesHolder {
             InputStream in = getClass().getClassLoader().getResourceAsStream("general.properties");
             props.load(in);
             in.close();
-            System.out.println(props.toString());
             return props;
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -4,7 +4,6 @@
  */
 package com.mycompany.deepfaked.database.dao;
 
-import com.mycompany.deepfaked.database.model.GameComponent;
 import com.mycompany.deepfaked.database.factory.DeepfakedFactory;
 import com.mycompany.deepfaked.database.model.Mission;
 import java.util.List;
@@ -27,7 +26,7 @@ public class MissionsDao {
         }
     }
 
-    public static GameComponent getMission(int index) {
+    public static Mission getMission(int index) {
         SessionFactory factory = DeepfakedFactory.getSessionFactory();
         try (Session session = factory.openSession()) {
             String hql = "from Mission where id = :id";

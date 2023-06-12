@@ -54,6 +54,4 @@ public class Goal {
     public int hashCode() {
         return Objects.hash(getId(), getName(), getDescription());
     }
-
-       
 }

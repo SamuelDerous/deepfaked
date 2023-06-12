@@ -117,7 +117,6 @@ public abstract class PrntView implements InfoView {
         //newText.set
         newText.setFont(Font.font(16));
         newText.setLayoutX(60);
-        System.out.println("Height: " + root.getPrefHeight());
         newText.setTranslateY(root.getPrefHeight() - 170);
         root.getChildren().add(dialogImage);
         root.getChildren().add(newText);

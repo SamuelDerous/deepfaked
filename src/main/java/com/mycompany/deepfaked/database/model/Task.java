@@ -104,6 +104,4 @@ public class Task {
     public int hashCode() {
         return Objects.hash(getId(), getName(), getDescription(), goal, learningObjective, video);
     }
-
-    
 }

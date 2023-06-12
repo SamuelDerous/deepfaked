@@ -5,9 +5,9 @@
 package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.AnimatedCoins;
+import com.mycompany.deepfaked.CorrectContext;
 import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.Loss;
-import com.mycompany.deepfaked.database.dao.ChoiceDao;
 import com.mycompany.deepfaked.database.model.Question;
 import com.mycompany.deepfaked.database.model.QuestionChoice;
 import com.mycompany.deepfaked.strategies.Answer;
@@ -64,7 +64,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import com.mycompany.deepfaked.database.model.Collection;
 import com.mycompany.deepfaked.database.model.QuestionCollection;
 
 /**
@@ -233,7 +232,6 @@ public class QuestionsController implements Initializable {
             pnQuestionsField.getChildren().removeAll(buttons);
         }
         buttons = new ArrayList<>();
-        System.out.println(choices);
         if(choices != null && !choices.isEmpty()) {
             int beginY = 5;
             int layoutY = 300 / choices.size();
@@ -285,11 +283,14 @@ public class QuestionsController implements Initializable {
         AnswerContext context = new AnswerContext();
         context.setState(answer);
         var correct = context.checkAnswer(buttons, choices, question.getValue().getMoney(), question.getValue().getFollowers());
+        CorrectContext correctCtx;
         if(correct) {
-            AnimatedCoins.create(overallPane);
+            correctCtx = new CorrectContext(new AnimatedCoins(), overallPane);
+            
         } else {
-            Loss.animate(overallPane);
+            correctCtx = new CorrectContext(new Loss(), overallPane);
         } 
+        correctCtx.animate();
         money += context.getState().getMoney();
         followers += context.getState().getFollowers();
         Text information = new Text(context.getState().getInformation());
@@ -379,7 +380,6 @@ public class QuestionsController implements Initializable {
         stage.close();
         questionsStage.close();
         mainScreenController.createPersonalTiktok();
-        System.out.println("test");
         //MainScreenController.getQuestionsStage().
         
     }

@@ -8,7 +8,43 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "Mission", schema = "Deepfaked", catalog = "")
-public class Mission extends GameComposite {
+public class Mission {
+    @GeneratedValue(strategy = GenerationType.TABLE, generator="GameCompositeGenerator")
+    @TableGenerator(table="SEQUENCES", name="GameCompositeGenerator")
+    @Id
+    @Column(name = "id", nullable = false)
+    private int id;
+    @Basic
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
+    @Basic
+    @Column(name = "description", nullable = true, length = 255)
+    private String description;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
     @Basic
     @Column(name = "introduction", nullable = false, length = -1)
     private String introduction;
@@ -45,16 +81,4 @@ public class Mission extends GameComposite {
     public int hashCode() {
         return Objects.hash(getId(), getName(), getDescription(), introduction, goal);
     }
-
-    @Override
-    public GameComponent getchild(int index) {
-        return MissionsDao.getMission(index);
-    }
-
-    @Override
-    public Iterator<? extends GameComponent> createIterator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-   
 }

@@ -55,7 +55,6 @@ public class WebsiteFiller {
                     website.setUrl(element.getElementsByTagName("url").item(0).getTextContent());
                     website.setImage(new Image(getClass().getResource(element.getElementsByTagName("image").item(0).getTextContent()).toString(), 280, 0, true, false));
                     websites.add(website);
-                    System.out.println(element.getElementsByTagName("image").item(0).getTextContent());
                 }
                 
             }
@@ -81,7 +80,6 @@ public class WebsiteFiller {
             imageView.setFitWidth(100);
             imageView.addEventFilter(MouseEvent.MOUSE_CLICKED, eventFilter -> {
                 try {
-                    System.out.println(PropertiesHolder.getInstance().getProperty("defaultMap"));
                 FXMLLoader fxmlLoader = new FXMLLoader(WebsiteFiller.class.getResource(PropertiesHolder.getInstance().getProperty("defaultMap") + "/view/terms.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 600, 400);
                 TermsController controller = fxmlLoader.<TermsController>getController();

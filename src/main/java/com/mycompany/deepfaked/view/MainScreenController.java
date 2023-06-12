@@ -4,6 +4,7 @@
  */
 package com.mycompany.deepfaked.view;
 
+import com.mycompany.deepfaked.ChatGPT;
 import com.mycompany.deepfaked.controls.AnalyticsButton;
 import com.mycompany.deepfaked.controls.DeepfakeDetectionPane;
 import com.mycompany.deepfaked.controls.WebsitePane;
@@ -227,7 +228,6 @@ public class MainScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
         AnalyticsButton analyticsButton = new AnalyticsButton();
-        System.out.println(anchorRoot.getPrefWidth());
         analyticsButton.setTranslateX(anchorRoot.getPrefWidth() - 150);
         analyticsButton.setTranslateY(12);
         anchorRoot.getChildren().add(analyticsButton);
@@ -406,6 +406,7 @@ public class MainScreenController implements Initializable {
         txtMessage.setText("");
         txtMessage.requestFocus();
         */
+        try {
         Text message = new Text(txtMessage.getText().trim());
         message.setWrappingWidth(180);
         var messageFlow = new TextFlow(message); //txtMessage.getText().trim());
@@ -417,7 +418,12 @@ public class MainScreenController implements Initializable {
         gridGPT.add(vBox, 0, rowIndex, 2, rowSpan);
         txtMessage.setText("");
         txtMessage.requestFocus();
-        Text answer = new Text("Dit is een extra lange test om te kijkehn of dit werkt. IK bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla");
+        Text answer = new Text(ChatGPT.chatGPT(message.getText().trim())); /*"In de eerste verzen van hoofdstuk 3 van het Johannesevangelie worden we met een centraal begrip uit het christendom geconfronteerd. Een begrip dat bij Nikodemus, een Farizeeër en een Joodse leider, niet erg bekend was: \n\n"
+            + "1Zo was er een farizeeër, een van de Joodse leiders, met de naam Nikodemus. 2Hij kwam in de nacht naar Jezus toe. ‘Rabbi,’ zei hij, ‘wij weten dat U een leraar bent die van God gekomen is, want alleen met Gods hulp kan iemand de tekenen verrichten die U verricht.’ 3Jezus zei: ‘Werkelijk, Ik verzeker u, alleen wie opnieuw wordt geboren, kan het koninkrijk van God zien.’ 4‘Hoe kan iemand geboren worden als hij al oud is?’ vroeg Nikodemus. ‘Hij kan toch niet voor de tweede keer de moederschoot in gaan en weer geboren worden?’ 5Jezus antwoordde: ‘Werkelijk, Ik verzeker u, niemand kan het koninkrijk van God binnengaan tenzij hij geboren wordt uit water en Geest.” - Johannes 3:1-5 \n\n"
+            + "De woorden die in dit vers vertaald worden met 'opnieuw geboren worden', kunnen ook vertaald worden met 'van boven geboren worden'.\n\n" 
+            + "Natuurlijk bedoelde Jezus niet zoals Nikodemus blijkbaar dacht, dat een mens werkelijk opnieuw geboren moest worden, dan zouden we namelijk gemakkelijk naar de Oosterse godsdiensten kunnen kijken en de leer van de reïncarnatie.\n\n" 
+            + "Maar wat Jezus hier bedoelt, is niet letterlijk. We dienen herboren te worden in de geest. Christen zijn is dan ook niet een vrijblijvend lidmaatschap van één of andere kerk. Het is een volledige transformatie naar voorbeeld van degene die we zo willen navolgen, Jezus Christus. We worden herboren in de geest. We doen zoals Paulus het in zekere zin anders verwoordde, een nieuwe persoonlijkheid aan.\n\n" 
+            + "Dit is veel intenser en belangrijker dan angst voor straf wanneer men gezondigd heeft, of iets fout doet, het is de liefde en het volledig naar God toegekeerd zijn dat ons denken leidt en ons dan ook bij zonde niet angstig maakt voor de straf, maar treurig omdat we God hebben gekwetst, net zoals we dat zouden zijn als we een geliefde pijn zouden doen.ChatGPT.chatGPT(message.getText().trim()))");*/
         answer.setWrappingWidth(180);
         final var answerFlow = new TextFlow(answer); //"Dit is een extra lange test om te kijkehn of dit werkt. IK bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla");
         //answerFlow.setPrefWidth(scrollMessage.getWidth() - 70);
@@ -426,6 +432,9 @@ public class MainScreenController implements Initializable {
         rowIndex = gridGPT.getRowCount();
         vBox = getVBox(answer, answerFlow);
         gridGPT.add(vBox, 1, rowIndex, 2, rowSpan);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         /*Platform.runLater(new Runnable() {
     @Override
     public void run() {
@@ -473,9 +482,14 @@ public class MainScreenController implements Initializable {
         if((deepfake.getReal() == 1 && btnReal.isSelected()) ||
                 (deepfake.getReal() == 0 && btnFake.isSelected())) {
                 deepfakeCorrect = true;
-                real = true;
         } else {
             deepfakeCorrect = false;
+            
+        }
+        
+        if(btnReal.isSelected()) {
+            real = true;
+        } else {
             real = false;
         }
         showQuestions(event);
@@ -513,7 +527,6 @@ public class MainScreenController implements Initializable {
     @FXML
     protected void showScanning() {
         isScanningPressed = !isScanningPressed;
-        System.out.println("test");
         createScanning();
         /*if(isscanningPressed) {
             createScanning();
@@ -684,7 +697,6 @@ public class MainScreenController implements Initializable {
                 
             }
             if((newStatus.intValue() >= intro.length())) {
-                System.out.println(newStatus.intValue() + " == " + intro.length());
                 //System.out.println(whole.charAt(i.get()));
                 long timestamp = System.currentTimeMillis();
                 testTime.stop();
@@ -770,7 +782,6 @@ public class MainScreenController implements Initializable {
         CompletedTask.resetCounter();
         pnTasks.getChildren().clear();
         //tasks.clear();
-        System.out.println(deepfake.getLabel());
                 tasks = TaskDao.getTasksForDeepfake(deepfake);
                 //tasks = new ArrayList<>();
                 /*completedTasks = tasks.stream().collect(Collectors.toMap(Function.identity(), (a) -> Boolean.FALSE));
@@ -848,9 +859,8 @@ public class MainScreenController implements Initializable {
                     final int ind = index;
                     tasks.get(index).getLabel().setTooltip(new Tooltip(tasks.get(index).getLearningObjective().getLabel()));
                     pnTasks.getChildren().add(tasks.get(index).getLabel());
-                     tasks.get(index).getImage().setOnMouseClicked((MouseEvent e) -> {
+                    tasks.get(index).getImage().setOnMouseClicked((MouseEvent e) -> {
                         completeTask(ind);
-                        System.out.println("Index: " + ind);
                     });
                     pnTasks.getChildren().add(tasks.get(index).getImage());
                     
@@ -862,7 +872,6 @@ public class MainScreenController implements Initializable {
                         height += tasks.get(i).getLabel().getHeight() + 20;
                         amountOfCompleted++;
                     } else if (tasks.get(i - 1).isCompleted()) {
-                        System.out.println(tasks.get(i).getDescription());
                         height += tasks.get(i).getLabel().getHeight() + 20;
                         
                     }
@@ -880,7 +889,6 @@ public class MainScreenController implements Initializable {
         height += 50;
         pnTasks.setPrefHeight(height);
         pnTasks.setMaxHeight(height);
-        System.out.println("height: " + height);
         scrollTasks.setContent(pnTasks);
         scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         
@@ -934,7 +942,6 @@ public class MainScreenController implements Initializable {
         tbTiktok.setDisable(true);
         isGPTPressed = false;
         isProfessorPressed = false;
-        System.out.print("test tiktok");
         SingleSelectionModel<Tab> selectionModel = tbPaneMainScreen.getSelectionModel();
         selectionModel.select(tbPersonal);
         webviewPersonal = new WebView();

@@ -102,18 +102,7 @@
                 <Tooltip text="Stel een vraag aan de kunstmatig intelligente professor" />
             </tooltip>
         </ToggleButton>
-        <!--<Pane fx:id="pnGPT" layoutX="15.0" layoutY="72.0" prefHeight="392.0" prefWidth="470.0" visible="false">
-           <children>
-              <ScrollPane fx:id="scrollMessage" prefHeight="331.0" prefWidth="470.0">
-                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                </content>
-              </ScrollPane>
-              <TextField fx:id="txtMessage" layoutX="14.0" layoutY="342.0" onAction="#sendMessage" prefHeight="25.0" prefWidth="375.0" />
-              <Button fx:id="btnSend" layoutX="404.0" layoutY="342.0" mnemonicParsing="false" onAction="#sendMessage" text="Zend" />
-           </children>
-        </Pane>-->
-        <Pane fx:id="pnGPT" layoutX="15.0" style="-fx-background-color: WHITE;" layoutY="72.0" prefHeight="392.0" prefWidth="470.0" visible="false">
+        <Pane fx:id="pnGPT" layoutX="15.0" style="-fx-background-color: WHITE;" layoutY="72.0" prefHeight="392.0" prefWidth="470.0" visible="false" xmlns:fx="http://javafx.com/fxml/1">
             <children>
                 <ScrollPane fx:id="scrollMessage" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" pannable="true" prefHeight="340.0" prefWidth="470.0">
                     <content>
@@ -185,7 +174,7 @@
                 <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
             </padding>
             <tooltip>
-                <Tooltip text="Zoek of abeelding of trefwoord" />
+                <Tooltip text="Zoek op abeelding of trefwoord" />
             </tooltip>
         </ToggleButton>
     </children>
