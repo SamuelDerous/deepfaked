@@ -4,7 +4,7 @@
 <?import javafx.scene.web.WebView?>
 
 
-<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.view.TermsController">
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.deepfaked.view.TermsController">
    <children>
       <WebView fx:id="fleTerms" prefHeight="400.0" prefWidth="600.0" />
    </children>

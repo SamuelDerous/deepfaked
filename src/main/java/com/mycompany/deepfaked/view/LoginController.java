@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
@@ -64,6 +65,8 @@ public class LoginController implements Initializable {
                 webEngine.load("https://www.tiktok.com/legal/page/eea/terms-of-service/NL");
                 if(infoStage == null) {
                     infoStage = new Stage();
+                    infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                    infoStage.setTitle("Deepfaked");
                     infoStage.setX(1100.00);
                     infoStage.setY(300.00);
                 }
@@ -84,6 +87,8 @@ public class LoginController implements Initializable {
                 webEngine.load("https://www.tiktok.com/legal/page/eea/privacy-policy/NL");
                 if(infoStage == null) {
                     infoStage = new Stage();
+                    infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                    infoStage.setTitle("Deepfaked");
                 }
                 infoStage.setScene(scene);
                 infoStage.show();
@@ -102,6 +107,8 @@ public class LoginController implements Initializable {
                 webEngine.load("https://www.tiktok.com/legal/page/global/tiktok-website-cookies-policy/NL");
                 if(infoStage == null) {
                     infoStage = new Stage();
+                    infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                    infoStage.setTitle("Deepfaked");
                 }
                 infoStage.setScene(scene);
                 infoStage.show();
@@ -126,6 +133,25 @@ public class LoginController implements Initializable {
         flTerms.getChildren().add(text4);
     }
     
+    @FXML
+    protected void showManual() {
+        try {
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/terms.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 800, 500);
+                TermsController controller = fxmlLoader.<TermsController>getController();
+                WebEngine webEngine = controller.getFleTerms().getEngine();
+                webEngine.load(getClass().getResource("/assets/html/manual/manual.html").toString());
+                if(infoStage == null) {
+                    infoStage = new Stage();
+                    infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                    infoStage.setTitle("Deepfaked");
+                }
+                infoStage.setScene(scene);
+                infoStage.show();
+            } catch(Exception ex) {
+                
+            }
+    }
     @FXML
     protected void enterPressed(KeyEvent event) throws Exception {
         if(event.getCode() == KeyCode.ENTER) {

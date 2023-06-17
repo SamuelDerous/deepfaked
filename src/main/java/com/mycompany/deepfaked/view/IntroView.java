@@ -5,14 +5,18 @@
 package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.MediaFactory;
+import com.mycompany.deepfaked.main.App;
 import java.util.Optional;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
 /**
  *
@@ -39,7 +43,7 @@ public class IntroView extends PrntView {
         btnYes.setScaleY(1.5);
         btnYes.setPrefWidth(50);
         btnYes.setOnAction((event) -> {
-            MediaFactory.getIntroStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
+            MediaFactory.getViewStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
         });
         Button btnNo = new Button("Neen");
         btnNo.setScaleX(1.5);
@@ -60,9 +64,11 @@ public class IntroView extends PrntView {
     private EventHandler<KeyEvent> createYesNoEvent() {
         EventHandler<KeyEvent> yesNoHandler = (KeyEvent key) -> {
             if (key.getCode() == KeyCode.J) {
-                MediaFactory.getIntroStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
+                System.out.println("keycode");
+                MediaFactory.getViewStage().setScene(InfoFactory.createMissionView().createScene("Geweldig! Dit zijn de missies die we voor je hebben verzameld:"));
                 
             } else if (key.getCode() == KeyCode.N) {
+                System.out.println("keycode");
                 createGoodbye();
             }
         };
@@ -71,6 +77,7 @@ public class IntroView extends PrntView {
     
     private void createGoodbye() {
         Alert alert = new Alert(AlertType.CONFIRMATION, "Spijtig dat we je niet warm kunnen maken voor een aanstelling in ons bedrijf. Misschien een volgende keer.");
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         alert.setTitle("Tot de volgende keer!");
         alert.setHeaderText("Afsluiten van het programma.");
         Optional<ButtonType> result = alert.showAndWait();

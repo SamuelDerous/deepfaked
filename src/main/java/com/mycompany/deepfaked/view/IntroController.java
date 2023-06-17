@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
@@ -107,6 +108,7 @@ public class IntroController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(PropertiesHolder.getInstance().getProperty("defaultmap") + "/view/intro.fxml"));
             introStage = new Stage();
             IntroView test = InfoFactory.createIntroView();
+            introStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
             introStage.setTitle("Deepfaked");
             introStage.setScene(test.createScene(INTRO));
             introStage.show();

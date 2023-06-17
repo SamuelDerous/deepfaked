@@ -86,6 +86,8 @@ public class WebsiteFiller {
                 WebEngine webEngine = controller.getFleTerms().getEngine();
                 webEngine.load(website.getUrl());
                 Stage infoStage = new Stage();
+                infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                infoStage.setTitle("Info");
                 infoStage.setScene(scene);
                 infoStage.show();
             } catch(Exception ex) {

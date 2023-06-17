@@ -4,7 +4,7 @@
  */
 package com.mycompany.deepfaked.strategies;
 
-import com.mycompany.deepfaked.AnimatedCoins;
+import com.mycompany.deepfaked.Win;
 import com.mycompany.deepfaked.Loss;
 import com.mycompany.deepfaked.database.model.QuestionChoice;
 import java.util.ArrayList;

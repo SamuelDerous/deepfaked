@@ -19,7 +19,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div>
                             <a href="#">
-                                <img src="https://sf16-scmcdn-sg.ibytedtos.com/goofy/tiktok/web/node/_next/static/images/logo-whole-c555aa707602e714ec956ac96e9db366.svg">
+                                <img src="deepfakedlogo.png">
                             </a>
                         </div>
                         <div class="d-flex align-items-center">
@@ -103,5 +103,8 @@
         comments.innerHTML = numComments + "K";
         var numShares = Math.floor(Math.random() * 200 + 1);
         shares.innerHTML = numShares + "K";
+        document.getElementsByTagName('video')[0].addEventListener('error', function(event) { console.log("Something went wrong") }, true);
+
+        
     </script>
 </html>

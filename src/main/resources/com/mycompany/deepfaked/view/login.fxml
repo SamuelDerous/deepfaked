@@ -22,5 +22,6 @@
       <Label layoutX="44.0" layoutY="507.0" text="Heb je geen account?" />
       <Label fx:id="lblError" layoutX="14.0" layoutY="98.0" prefHeight="46.0" prefWidth="291.0" textAlignment="CENTER" textFill="#e10606" wrapText="true" />
       <TextFlow fx:id="flTerms" layoutX="16.0" layoutY="424.0" prefHeight="72.0" prefWidth="291.0" />
+      <Hyperlink id="txtRegister" layoutX="67.0" layoutY="527.0" onAction="#showManual" prefHeight="23.0" prefWidth="170.0" text="Leer het programma kennen" />
    </children>
 </Pane>

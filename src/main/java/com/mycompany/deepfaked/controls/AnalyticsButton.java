@@ -35,6 +35,8 @@ public class AnalyticsButton extends Button {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/analytics.fxml"));
                 Stage stage = new Stage();
+                stage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                stage.setTitle("Analytics");
                 Scene scene = new Scene(fxmlLoader.load(), 900, 730);
                 stage.setScene(scene);
                 stage.show();

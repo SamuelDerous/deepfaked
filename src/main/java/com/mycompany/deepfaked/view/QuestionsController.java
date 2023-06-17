@@ -4,7 +4,7 @@
  */
 package com.mycompany.deepfaked.view;
 
-import com.mycompany.deepfaked.AnimatedCoins;
+import com.mycompany.deepfaked.Win;
 import com.mycompany.deepfaked.CorrectContext;
 import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.Loss;
@@ -139,7 +139,9 @@ public class QuestionsController implements Initializable {
                     keyPressed(event);
                 }
             });
+        scene.getStylesheets().add(getClass().getResource("/assets/border.css").toExternalForm());
         questionsStage = new Stage();
+        questionsStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         questionsStage.setTitle("Questions");
         questionsStage.setScene(scene);
         questionsStage.initModality(Modality.WINDOW_MODAL);
@@ -171,7 +173,7 @@ public class QuestionsController implements Initializable {
             //bossImage.setFitHeight(scene.getHeight());
             //bossImage.setFitWidth(scene.getWidth());
             overallPane.setBackground(new Background(bossImage));
-            
+           
         btnReady.setVisible(false);
         btnNextQuestion.setVisible(false);
          String intro = "We hebben enkele vragen opgesteld om te kijken of je beslissing om de video als echt of vals aan te vinken gegrond zijn. Elke goede vraag levert je munten op. Als je er klaar voor bent druk dan op c of klik op de knop.";
@@ -240,6 +242,13 @@ public class QuestionsController implements Initializable {
                 //buttons = new ArrayList<>();
                 for(QuestionChoice choice : choices) {
                     ToggleButton button = new ToggleButton();
+                    button.setOnAction(e -> {
+                        if(button.isSelected()) {
+                            button.getStyleClass().add("questionsButtonPressed");
+                        } else {
+                            button.getStyleClass().remove("questionsButtonPressed");
+                        }
+                    });
                     button.setWrapText(true);
                     if(question.getMulti() == 0) {
                         button.setToggleGroup(group);
@@ -285,7 +294,7 @@ public class QuestionsController implements Initializable {
         var correct = context.checkAnswer(buttons, choices, question.getValue().getMoney(), question.getValue().getFollowers());
         CorrectContext correctCtx;
         if(correct) {
-            correctCtx = new CorrectContext(new AnimatedCoins(), overallPane);
+            correctCtx = new CorrectContext(new Win(), overallPane);
             
         } else {
             correctCtx = new CorrectContext(new Loss(), overallPane);
@@ -318,6 +327,8 @@ public class QuestionsController implements Initializable {
     
     private void amountOfFollowers() {
         Stage dialogStage = new Stage();
+        dialogStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+        dialogStage.setTitle("Resultaten");
         dialogStage.initModality(Modality.WINDOW_MODAL);
         
         VBox vbox = new VBox();
@@ -389,6 +400,7 @@ public class QuestionsController implements Initializable {
                                                    Weet je zeker dat je het spel wilt afsluiten?
                                                    Al je vooruitgang bij deze deepfake zal hierbij verloren gaan.""", ButtonType.YES, ButtonType.NO);
         alert.setTitle("De applicatie beëindigen");
+        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get() == ButtonType.YES) {
             System.exit(0);

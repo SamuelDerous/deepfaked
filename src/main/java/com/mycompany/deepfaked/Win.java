@@ -5,6 +5,7 @@
 package com.mycompany.deepfaked;
 
 import java.net.URISyntaxException;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.Image;
@@ -18,13 +19,13 @@ import javafx.scene.media.MediaPlayer;
  *
  * @author ZENODotus
  */
-public class AnimatedCoins implements CorrectState {
+public class Win implements CorrectState {
 
     private static final double W = 885; // canvas dimensions.
     private static final double H = 740;
 
     private static AnimationTimerExt timer; // = new AnimationTimerExt(10);
-    public static final Image coin = new Image(AnimatedCoins.class.getResource("/assets/textures/coin.png").toString());
+    public static final Image coin = new Image(Win.class.getResource("/assets/textures/coin.png").toString());
     //public static final ImageView viewCoin = new ImageView(coin);
 
     public static final double D = 20;  // diameter.
@@ -55,18 +56,24 @@ public class AnimatedCoins implements CorrectState {
                 }
             }
         };
-        try {
-            String coinsFallingFile = AnimatedCoins.class.getResource("/assets/sound/money.mp3").toURI().toString();
+            timer.start();
+            try {
+            String coinsFallingFile = Win.class.getResource("/assets/sound/money.mp3").toURI().toString();
             Media soundCoins = new Media(coinsFallingFile);
             MediaPlayer mediaPlayer = new MediaPlayer(soundCoins);
-            timer.start();
+            
             mediaPlayer.play();
             mediaPlayer.setOnEndOfMedia(() -> {
                 mediaPlayer.dispose();
             });
-        } catch (URISyntaxException ex) {
-            
-        }
+            mediaPlayer.setOnError(() -> {
+                mediaPlayer.dispose();
+                
+            });
+            }catch(Exception ex) {
+                
+            }
+        
     }
 
     /**

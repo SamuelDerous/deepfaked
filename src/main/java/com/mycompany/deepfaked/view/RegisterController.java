@@ -21,6 +21,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -77,6 +78,8 @@ public class RegisterController implements Initializable {
                 webEngine.load("https://www.tiktok.com/legal/page/eea/terms-of-service/NL");
                 if(infoStage == null) {
                     infoStage = new Stage();
+                    infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                    infoStage.setTitle("Deepfaked");
                     infoStage.setX(1100.00);
                     infoStage.setY(300.00);
                 }
@@ -97,6 +100,8 @@ public class RegisterController implements Initializable {
                 webEngine.load("https://www.tiktok.com/legal/page/eea/privacy-policy/NL");
                 if(infoStage == null) {
                     infoStage = new Stage();
+                    infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                    infoStage.setTitle("Deepfaked");
                 }
                 infoStage.setScene(scene);
                 infoStage.show();

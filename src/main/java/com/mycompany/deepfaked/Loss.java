@@ -29,7 +29,7 @@ public class Loss extends Application implements CorrectState {
     private static final double W = 885; // canvas dimensions.
     private static final double H = 740;
     
-    private static final Image police = new Image(AnimatedCoins.class.getResource("/assets/textures/police.png").toString());
+    private static final Image police = new Image(Win.class.getResource("/assets/textures/police.png").toString());
     private static final ImageView viewPolice = new ImageView(police);
     
     private static int i = 0;
@@ -75,23 +75,22 @@ public class Loss extends Application implements CorrectState {
                 i++;
             }
         }));
+        testTime.setCycleCount(Timeline.INDEFINITE);
+        testTime.play();
         try {
         String wrongFile = Loss.class.getResource("/assets/sound/wrong.mp3").toURI().toString();
         Media soundWrong = new Media(wrongFile);
         MediaPlayer mediaPlayer = new MediaPlayer(soundWrong);
-        testTime.setCycleCount(Timeline.INDEFINITE);
-        testTime.play();
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(() -> {
             mediaPlayer.dispose();
             
             });
-        
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        mediaPlayer.setOnError(() -> {
+            mediaPlayer.dispose();
+        });
+        } catch(Exception ex) {
         }
-        
-        
     }
     
     public void create(Pane pane) {
@@ -114,7 +113,7 @@ public class Loss extends Application implements CorrectState {
         //timer.start();
         //timeline.play();
     }
-    
-    public static void main(String[] args) { launch(args); }
+   
+   public static void main(String[] args) { launch(args); }
     
 }

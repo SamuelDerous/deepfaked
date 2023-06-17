@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 
 import java.io.IOException;
+import javafx.scene.image.Image;
 
 public class App extends Application {
 
@@ -17,6 +18,7 @@ public class App extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
         guiStage = stage;
         guiStage.setTitle("Deepfaked");
+        guiStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         guiStage.setScene(scene);
         guiStage.show();
     }

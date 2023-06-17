@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="240.0" prefWidth="338.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="com.mycompany.deepfaked.view.DeepfakeDetectionController">
+<AnchorPane id="AnchorPane" prefHeight="240.0" prefWidth="338.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17" fx:controller="com.mycompany.deepfaked.view.DeepfakeDetectionController">
    <children>
       <Label layoutX="60.0" layoutY="42.0" prefHeight="17.0" prefWidth="232.0" text="Scanning video" textAlignment="CENTER">
          <font>
