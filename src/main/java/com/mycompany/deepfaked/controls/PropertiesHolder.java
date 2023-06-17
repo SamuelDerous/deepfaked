@@ -29,6 +29,10 @@ public class PropertiesHolder {
     public String getProperty(String key) {
         return props.getProperty(key);
     }
+    
+    public void setProperty(String key, String value) {
+        props.setProperty(key, value);
+    }
 
     private Properties load() {
         try {

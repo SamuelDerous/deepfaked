@@ -5,6 +5,7 @@
 package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.MediaFactory;
+import com.mycompany.deepfaked.controls.PropertiesHolder;
 import com.mycompany.deepfaked.database.dao.MissionsDao;
 import com.mycompany.deepfaked.database.dao.ProgressMissionDao;
 import com.mycompany.deepfaked.database.model.Mission;
@@ -70,6 +71,10 @@ public class MissionView extends PrntView {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(MissionView.class.getResource("/com/mycompany/deepfaked/view/mainScreen.fxml"));
                     stage = new Stage();
+                    stage.setOnHiding(eventOnHiding -> {
+                            System.exit(0);
+                        });
+                    stage.setResizable(false);
                     stage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
                     stage.setTitle("Missions");
                     Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);

@@ -25,6 +25,8 @@ public class SingleAnswer extends Answer {
                     this.setFollowers(this.getFollowers() + followers);
                     correct = true;
 
+                } else {
+                    button.getStyleClass().add("questionsButtonWrong");
                 }
                 this.setInformation(this.getInformation() + choices.get(i).getChoice().getConsequence().getFeedback());
 

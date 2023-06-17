@@ -21,6 +21,7 @@ import javafx.stage.Stage;
  */
 public class AnalyticsButton extends Button {
 
+    private Stage stage;
     /**
      * The design and action on clicking the button.
      */
@@ -34,13 +35,21 @@ public class AnalyticsButton extends Button {
         this.setOnAction((event) -> {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/analytics.fxml"));
-                Stage stage = new Stage();
-                stage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
-                stage.setTitle("Analytics");
-                Scene scene = new Scene(fxmlLoader.load(), 900, 730);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
+                    if(PropertiesHolder.getInstance().getProperty("analytics") == null || PropertiesHolder.getInstance().getProperty("analytics").equals("false")) {
+                        stage = new Stage();
+                        stage.setOnHiding(eventOnHiding -> {
+                            PropertiesHolder.getInstance().setProperty("analytics", "false");
+                        });
+                        stage.setResizable(false);
+                        stage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                        stage.setTitle("Analytics");
+                        Scene scene = new Scene(fxmlLoader.load(), 900, 730);
+                        stage.setScene(scene);
+                        stage.show();
+                        PropertiesHolder.getInstance().setProperty("analytics", "true");
+                    }
+                    
+                } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });

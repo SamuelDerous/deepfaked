@@ -17,6 +17,7 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 569);
         guiStage = stage;
+        guiStage.setResizable(false);
         guiStage.setTitle("Deepfaked");
         guiStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         guiStage.setScene(scene);

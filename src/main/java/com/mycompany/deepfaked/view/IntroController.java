@@ -108,6 +108,7 @@ public class IntroController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(PropertiesHolder.getInstance().getProperty("defaultmap") + "/view/intro.fxml"));
             introStage = new Stage();
             IntroView test = InfoFactory.createIntroView();
+            introStage.setResizable(false);
             introStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
             introStage.setTitle("Deepfaked");
             introStage.setScene(test.createScene(INTRO));

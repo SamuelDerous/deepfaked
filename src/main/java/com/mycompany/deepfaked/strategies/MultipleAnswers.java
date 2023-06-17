@@ -35,6 +35,7 @@ public class MultipleAnswers extends Answer {
                 } else {
                     money = 0.0;
                     followers = 0;
+                    button.getStyleClass().add("questionsButtonWrong");
                     incorrect = true;
                 }
                 for (int correct : corrects) {

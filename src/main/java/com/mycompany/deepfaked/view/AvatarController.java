@@ -8,12 +8,17 @@ import com.mycompany.deepfaked.main.App;
 import com.mycompany.deepfaked.database.dao.GamerDao;
 import com.mycompany.deepfaked.database.model.Gamer;
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,8 +42,14 @@ import javafx.stage.FileChooser;
  */
 public class AvatarController implements Initializable {
     
+    private static final int HUMAN = 8;
+    private static final int OTHER = 22;
+    
     private List<ImageView> humanImages = new ArrayList<>();
     private List<ImageView> otherImages = new ArrayList<>();
+    
+    private List<String> humans = new ArrayList<>();
+    private List<String> other = new ArrayList<>();
     
     private String selectedURL;
     
@@ -53,7 +64,17 @@ public class AvatarController implements Initializable {
     @FXML
     private ImageView imageSelected;
     
+    private void fillImages() {
+        for(int i = 0; i < HUMAN; i++) {
+            humans.add("avatarHuman" + i + ".png");
+        }
+        for(int i = 0; i < OTHER; i++) {
+            other.add("avatarThing" + i + ".png");
+        }
+    }
+    
     private void initImages(String gender) {
+        
         try {
             String cssDefault = "-fx-border-color: blue;\n"
             + "-fx-border-insets: 5;\n"
@@ -62,16 +83,31 @@ public class AvatarController implements Initializable {
         flowAvatar.getChildren().clear();
         String preamble = "src/main/resources";    
         String directory = "/assets/avatars";
-        File dir = new File(preamble + directory + "/" + gender + "/");
-        List<String> humanFiles = new ArrayList<>();
-        List<String> otherFiles = new ArrayList<>();
-        humanFiles = Arrays.asList(dir.list(
+        URL resourceTest = getClass().getResource("/assets/avatars/human/");
+        
+        
+        /*String folder = getClass().getResource(directory + "/" + gender + "/").getFile();
+        File[] dir = new File(folder).listFiles();
+        for(int i = 0; i < dir.length; i++) {
+            System.out.println(dir[i]);
+        }*/
+        //var paths = Files.newDirectoryStream(Paths.get(resourceTest.toURI()));
+        /*humanFiles = Arrays.asList(dir.list(
             new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
                     return name.endsWith(".png");
                 }
             }));
+        */
+        List<String> humanFiles = new ArrayList<>();
+        if(gender.equals("human")) {
+            humanFiles.addAll(humans);
+        } else {
+            humanFiles.addAll(other);
+        }
+            
+        //paths.forEach(path -> System.out.println(path));
         for(String humanFile : humanFiles) {
             URL resource = getClass().getResource(directory + "/" + gender + "/" + humanFile);
             ImageView image = new ImageView(new Image(resource.toString()));
@@ -105,6 +141,7 @@ public class AvatarController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        fillImages();
         initImages("human");
     }
     

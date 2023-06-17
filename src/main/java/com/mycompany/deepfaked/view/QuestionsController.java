@@ -141,6 +141,7 @@ public class QuestionsController implements Initializable {
             });
         scene.getStylesheets().add(getClass().getResource("/assets/border.css").toExternalForm());
         questionsStage = new Stage();
+        questionsStage.setResizable(false);
         questionsStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         questionsStage.setTitle("Questions");
         questionsStage.setScene(scene);
@@ -246,9 +247,17 @@ public class QuestionsController implements Initializable {
                         if(button.isSelected()) {
                             button.getStyleClass().add("questionsButtonPressed");
                         } else {
+                            System.out.println("Not pressed anymore");
                             button.getStyleClass().remove("questionsButtonPressed");
                         }
                     });
+                    button.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+                        if(newValue == false) {
+                            button.getStyleClass().remove("questionsButtonPressed");
+                        }
+                    }));
+                     
+                    
                     button.setWrapText(true);
                     if(question.getMulti() == 0) {
                         button.setToggleGroup(group);
@@ -327,6 +336,7 @@ public class QuestionsController implements Initializable {
     
     private void amountOfFollowers() {
         Stage dialogStage = new Stage();
+        dialogStage.setResizable(false);
         dialogStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         dialogStage.setTitle("Resultaten");
         dialogStage.initModality(Modality.WINDOW_MODAL);

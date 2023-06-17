@@ -68,6 +68,7 @@ public class MediaFactory {
                 try {
         Scene scene = new Scene(loader.load(), 600, 350);
             introStage = new Stage();
+            introStage.setResizable(false);
             introStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
             introStage.setTitle("Deepfaked");
             introStage.setScene(scene);
@@ -81,6 +82,10 @@ public class MediaFactory {
     protected void createIntroPage() {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(PropertiesHolder.getInstance().getProperty("defaultmap") + "/view/intro.fxml"));
             viewStage = new Stage();
+            viewStage.setOnHiding(eventOnHiding -> {
+                System.exit(0);
+            });
+            viewStage.setResizable(false);
             IntroView test = InfoFactory.createIntroView();
             viewStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
             viewStage.setTitle("Deepfaked");

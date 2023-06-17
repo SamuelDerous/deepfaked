@@ -111,7 +111,7 @@ public class MainScreenController implements Initializable {
     private int value = 450;
     private Mission mission;
     private List<CompletedTask> tasks;
-
+    private double progressMission;
     private MediaPlayer mediaplayer;
 
     private Gamer gamer;
@@ -297,7 +297,8 @@ public class MainScreenController implements Initializable {
         deepfakes.addAll(newList);
          */
         prMission.setProgress(deepfakes.getProgress() * 1.0 / deepfakes.getProgressMission());
-
+        System.out.println(prMission.getProgress());
+        progressMission = prMission.getProgress();
         isProfessorPressed = false;
         isGPTPressed = false;
         isFactCheckPressed = false;
@@ -381,6 +382,7 @@ public class MainScreenController implements Initializable {
                         try {
                             Scene scene = new Scene(loader.load(), 600, 350);
                             Stage videoStage = new Stage();
+                            videoStage.setResizable(false);
                             videoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
                             videoStage.setTitle("Deepfaked");
                             videoStage.setScene(scene);
@@ -879,10 +881,12 @@ public class MainScreenController implements Initializable {
                 tasks.get(t).setImage(new Image(CompletedTask.NOT_COMPLETE));
                 pnTasks.getChildren().remove(tasks.get(t).getLabel());
                 pnTasks.getChildren().remove(tasks.get(t).getImage());
-
+                
             }
             tasks.get(index).setCompleted(false);
             tasks.get(index).setImage(new Image(CompletedTask.NOT_COMPLETE));
+            
+        
         } else {
             tasks.get(index).setCompleted(true);
             tasks.get(index).setImage(new Image(getClass().getResource("/assets/icons/checkComplete.png").toString()));
@@ -898,6 +902,7 @@ public class MainScreenController implements Initializable {
                 pnTasks.getChildren().add(tasks.get(index).getImage());
 
             }
+            
         }
         int amountOfCompleted = 0;
         for (int i = 1; i < tasks.size(); i++) {
@@ -909,8 +914,20 @@ public class MainScreenController implements Initializable {
 
             }
         }
-        prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / deepfakes.getProgressDeepfake()));
-        prMission.setProgress(prMission.getProgress() + (1.0 / deepfakes.getProgressMission()));
+        int completed = 0;
+        for(int i = 0; i < tasks.size(); i++) {
+            if(tasks.get(i).isCompleted()) {
+                completed++;
+            }
+        }
+        prDeepfake.setProgress(0.0);
+        prMission.setProgress(progressMission);
+        for(int i = 0; i < completed; i++) {
+            prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / deepfakes.getProgressDeepfake()));
+            prMission.setProgress(prMission.getProgress() + (1.0 / deepfakes.getProgressMission()));    
+        }
+        //prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / deepfakes.getProgressDeepfake()));
+        //prMission.setProgress(prMission.getProgress() + (1.0 / deepfakes.getProgressMission()));
         if (amountOfCompleted == tasks.size() - 1) {
             btnReal.setDisable(false);
             btnFake.setDisable(false);
@@ -960,6 +977,7 @@ public class MainScreenController implements Initializable {
             setTaskPane();
         }
         prDeepfake.setProgress(0);
+        progressMission = prMission.getProgress();
     }
 
     public void createPersonalTiktok() {

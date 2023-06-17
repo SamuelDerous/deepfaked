@@ -70,6 +70,7 @@ public class LoginController implements Initializable {
                     infoStage.setX(1100.00);
                     infoStage.setY(300.00);
                 }
+                infoStage.setResizable(false);
                 infoStage.setScene(scene);
                 infoStage.show();
             } catch(Exception ex) {
@@ -90,6 +91,7 @@ public class LoginController implements Initializable {
                     infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
                     infoStage.setTitle("Deepfaked");
                 }
+                infoStage.setResizable(false);
                 infoStage.setScene(scene);
                 infoStage.show();
             } catch(Exception ex) {
@@ -110,6 +112,7 @@ public class LoginController implements Initializable {
                     infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
                     infoStage.setTitle("Deepfaked");
                 }
+                infoStage.setResizable(false);
                 infoStage.setScene(scene);
                 infoStage.show();
             } catch(Exception ex) {
@@ -146,6 +149,7 @@ public class LoginController implements Initializable {
                     infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
                     infoStage.setTitle("Deepfaked");
                 }
+                infoStage.setResizable(false);
                 infoStage.setScene(scene);
                 infoStage.show();
             } catch(Exception ex) {

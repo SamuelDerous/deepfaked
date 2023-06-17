@@ -5,6 +5,7 @@
 package com.mycompany.deepfaked.view;
 
 import com.mycompany.deepfaked.controls.AnalyticsButton;
+import com.mycompany.deepfaked.controls.PropertiesHolder;
 import com.mycompany.deepfaked.main.App;
 import java.net.URL;
 import java.util.List;
@@ -75,6 +76,10 @@ public abstract class PrntView implements InfoView {
         //fxmlLoader.setController(this);
         //Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
         introStage = new Stage();
+        introStage.setOnHiding(eventOnHiding -> {
+            System.exit(0);
+        });
+        introStage.setResizable(false);
         introStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         introStage.setTitle("Missies");
         introStage.setScene(createScene(intro));
