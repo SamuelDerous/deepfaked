@@ -30,6 +30,11 @@ public class SingleAnswer extends Answer {
                 }
                 this.setInformation(this.getInformation() + choices.get(i).getChoice().getConsequence().getFeedback());
 
+            } else {
+                if(choices.get(i).getCorrect() == 1) {
+                    button.getStyleClass().add("questionsButtonNotPressed");
+                    this.setInformation(this.getInformation() + choices.get(i).getChoice().getConsequence().getFeedback());
+                }
             }
             button.setDisable(true);
             i++;

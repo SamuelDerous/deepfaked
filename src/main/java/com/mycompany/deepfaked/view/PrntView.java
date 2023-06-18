@@ -76,14 +76,14 @@ public abstract class PrntView implements InfoView {
         //fxmlLoader.setController(this);
         //Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
         introStage = new Stage();
-        introStage.setOnHiding(eventOnHiding -> {
+        /*introStage.setOnHiding(eventOnHiding -> {
             System.exit(0);
-        });
+        });*/
         introStage.setResizable(false);
         introStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         introStage.setTitle("Missies");
         introStage.setScene(createScene(intro));
-
+        System.out.println("Missies");
         introStage.show();
         
 

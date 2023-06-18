@@ -24,13 +24,15 @@ public class MultipleAnswers extends Answer {
         boolean same = false;
         boolean incorrect = false;
         List<Integer> corrects = new ArrayList<>();
+        int correctAnswers = 0;
         for (ToggleButton button : buttons) {
-
+            
             if (button.isSelected()) {
                 if (choices.get(i).getCorrect() == 1) {
                     this.setMoney(money);
                     this.setFollowers(followers);
                     corrects.add(i);
+                    correctAnswers++;
 
                 } else {
                     money = 0.0;
@@ -38,7 +40,13 @@ public class MultipleAnswers extends Answer {
                     button.getStyleClass().add("questionsButtonWrong");
                     incorrect = true;
                 }
-                for (int correct : corrects) {
+            } else {
+                if(choices.get(i).getCorrect() == 1) {
+                    button.getStyleClass().add("questionsButtonNotPressed");
+                    corrects.add(i);
+                }
+            }
+            for (int correct : corrects) {
                     if (correct != i) {
                         if (choices.get(correct).getChoice().getConsequence().getFeedback().equals(
                                 choices.get(i).getChoice().getConsequence().getFeedback())) {
@@ -49,7 +57,10 @@ public class MultipleAnswers extends Answer {
                 if (!same) {
                     this.setInformation(this.getInformation() + choices.get(i).getChoice().getConsequence().getFeedback() + "\n");
                 }
-
+            if(correctAnswers != choices.size()) {
+                incorrect = true;
+                money = 0.0;
+                followers = 0;
             }
             button.setDisable(true);
             i++;

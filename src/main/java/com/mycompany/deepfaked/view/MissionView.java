@@ -80,11 +80,16 @@ public class MissionView extends PrntView {
                     Scene scenetest = new Scene(fxmlLoader.load(), 700, 800);
                     stage.setScene(scenetest);
                     stage.show();
-                    MediaFactory.getViewStage().hide();
-                    Stage toClose = (Stage)((Node) event.getSource()).getScene().getWindow();
+                    /*if(MediaFactory.getViewStage() != null) {
+                        MediaFactory.getViewStage().hide();
+                    }*/
+                    var toClose = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     toClose.hide();
+                    
 
                 } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             });

@@ -238,11 +238,11 @@ public class MainScreenController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-        AnalyticsButton analyticsButton = new AnalyticsButton();
-        analyticsButton.setTranslateX(anchorRoot.getPrefWidth() - 150);
-        analyticsButton.setTranslateY(12);
-        anchorRoot.getChildren().add(analyticsButton);
+        try {
+        //AnalyticsButton analyticsButton = new AnalyticsButton();
+        //analyticsButton.setTranslateX(anchorRoot.getPrefWidth() - 150);
+        //analyticsButton.setTranslateY(12);
+        //anchorRoot.getChildren().add(analyticsButton);
         prMission.setProgress(0);
         //progressDeepfake = 0; //DeepfakeDao.getDeepfakesForMission(mission).size();
         prDeepfake.setProgress(0);
@@ -327,6 +327,9 @@ public class MainScreenController implements Initializable {
             System.out.println(deepfakes.get(i).getLocation());
         }*/
         createTiktokDeepfake();
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -959,6 +962,7 @@ public class MainScreenController implements Initializable {
             totalMoney += deepfake.getValue().getMoney();
             totalFollowers += deepfake.getValue().getFollowers();
         }
+        System.out.println(totalMoney);
         GamerDao.addValue(gamer, totalMoney, totalFollowers);
 
         if (deepfakes == null || deepfakes.isEmpty()) {

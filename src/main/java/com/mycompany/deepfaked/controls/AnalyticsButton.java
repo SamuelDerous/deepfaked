@@ -40,6 +40,7 @@ public class AnalyticsButton extends Button {
                         stage.setOnHiding(eventOnHiding -> {
                             PropertiesHolder.getInstance().setProperty("analytics", "false");
                         });
+                        
                         stage.setResizable(false);
                         stage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
                         stage.setTitle("Analytics");

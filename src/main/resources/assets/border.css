@@ -17,6 +17,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-background-color: lightgreen;
 }
 
+.questionsButtonNotPressed {
+    -fx-background-color: lightseagreen;
+}
+
 .questionsButtonWrong {
     -fx-background-color: red;
 }

@@ -311,6 +311,7 @@ public class QuestionsController implements Initializable {
         correctCtx.animate();
         money += context.getState().getMoney();
         followers += context.getState().getFollowers();
+        System.out.println(context.getState().getMoney());
         Text information = new Text(context.getState().getInformation());
         information.wrappingWidthProperty().bind(pnInformation.widthProperty());
         pnInformation.setContent(information);

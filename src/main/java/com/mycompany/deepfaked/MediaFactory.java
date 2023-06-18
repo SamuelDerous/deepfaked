@@ -82,7 +82,7 @@ public class MediaFactory {
     protected void createIntroPage() {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(PropertiesHolder.getInstance().getProperty("defaultmap") + "/view/intro.fxml"));
             viewStage = new Stage();
-            viewStage.setOnHiding(eventOnHiding -> {
+            viewStage.setOnCloseRequest(eventOnHiding -> {
                 System.exit(0);
             });
             viewStage.setResizable(false);
