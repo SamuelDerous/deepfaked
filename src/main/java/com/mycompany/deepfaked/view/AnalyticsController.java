@@ -184,8 +184,9 @@ public class AnalyticsController implements Initializable {
             //totalMissions--;
         }
         //System.out.println("DeepfakeProgress = " + deepfakeProgress);
-        double progress = (completedMissions.size() * 100) + (deepfakeProgress) / totalMissions;
-        //System.out.println(progress);
+        double progress = (completedMissions.size() * 100) / totalMissions + (deepfakeProgress); // / totalMissions;
+        System.out.println(progress);
+        System.out.println(deepfakeProgress);
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
             new PieChart.Data("Missies", 100 - progress),
             new PieChart.Data("Vervolledigd", progress));

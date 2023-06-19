@@ -37,6 +37,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 public class RegisterController implements Initializable {
     
     private static final String DATE_PATTERN = "dd/MM/yyyy";
+    private static final String regex = "^(?=[a-zA-Z0-9._]{2,20}$)(?!.*[_.]{2})[^_.].*[^_.]$";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
     private static Stage infoStage;
     
@@ -147,9 +148,9 @@ public class RegisterController implements Initializable {
     @FXML
     protected void codeEntered() throws Exception {
         try {
-            if(txtUser.getText().length() > 0 && txtPassword.getText().length() > 0 && txtConfirm.getText().length() > 0 && 
+            if(txtUser.getText().trim().length() > 0 && txtPassword.getText().trim().length() > 0 && txtConfirm.getText().trim().length() > 0 && 
                     txtPassword.getText().equals(txtConfirm.getText())
-                 &&   dtBirthDate.getValue().toString().length() > 0) {
+                 &&   dtBirthDate.getValue().toString().trim().length() > 0 && txtUser.getText().trim().matches(regex)) {
                 btnNext.setDisable(false);
                 
             } else {
@@ -166,9 +167,10 @@ public class RegisterController implements Initializable {
         boolean error = false;
         String errorMessage = "";
         LocalDate thirteen = LocalDate.now().minusYears(13);
+        LocalDate nineteen = LocalDate.now().minusYears(19);
         
-        if(dtBirthDate.getValue().isAfter(thirteen)) {
-            errorMessage = "Je dient 13 jaar of ouder te zijn om je aan te melden op deze applicatie.\n";
+        if(dtBirthDate.getValue().isAfter(thirteen) || dtBirthDate.getValue().isBefore(nineteen)) {
+            errorMessage = "Je dient tussen de 13 en 18 jaar oud te zijn om je aan te melden op deze applicatie.\n";
             error = true;
         }
         if(GamerDao.gamerDuplicate(txtUser.getText().trim())) {
