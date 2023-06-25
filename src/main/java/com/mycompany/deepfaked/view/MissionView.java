@@ -71,7 +71,7 @@ public class MissionView extends PrntView {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(MissionView.class.getResource("/com/mycompany/deepfaked/view/mainScreen.fxml"));
                     stage = new Stage();
-                    stage.setOnHiding(eventOnHiding -> {
+                    stage.setOnCloseRequest(eventOnHiding -> {
                             System.exit(0);
                         });
                     stage.setResizable(false);

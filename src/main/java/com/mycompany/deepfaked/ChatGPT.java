@@ -31,7 +31,7 @@ public class ChatGPT {
         JSONObject data = new JSONObject();
         data.put("model", "text-davinci-003");
         data.put("prompt", text);
-        data.put("max_tokens", 100);
+        data.put("max_tokens", 1000);
         data.put("temperature", 1.0);
 
         con.setDoOutput(true);
@@ -84,6 +84,6 @@ public class ChatGPT {
     //}
 
     public static void main(String[] args) throws Exception {
-        chatGPT("Ken je Nederlands?");
+        System.out.println(chatGPT("Wie is Mark Zuckerberg?"));
     }
 }

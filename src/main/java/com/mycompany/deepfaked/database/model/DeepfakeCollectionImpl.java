@@ -67,7 +67,7 @@ public class DeepfakeCollectionImpl implements DeepfakeCollection {
                 progressDeepfake = TaskDao.getTasksForDeepfake(deepfake).size();
                 progressDeepfake += QuestionDao.getQuestionsForDeepfake(deepfake).size();
         
-                remove(deepfake);
+                deepfakes.remove(deepfake);
                 
             }
             return deepfake;

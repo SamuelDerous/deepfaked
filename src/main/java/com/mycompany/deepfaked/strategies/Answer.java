@@ -4,6 +4,9 @@
  */
 package com.mycompany.deepfaked.strategies;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  *
  * @author ZENODotus
@@ -12,11 +15,13 @@ public abstract class Answer implements AnswerState {
     private int followers;
     private double money;
     private String information;
+    private Set<String> hyperlinks;
     
     public Answer() {
         this.followers = 0;
         this.money = 0.0;
         this.information = "";
+        hyperlinks = new TreeSet<>();
     }
 
     public int getFollowers() {
@@ -42,4 +47,18 @@ public abstract class Answer implements AnswerState {
     public void setInformation(String information) {
         this.information = information;
     }
+
+    public Set<String> getHyperlinks() {
+        return hyperlinks;
+    }
+
+    public void setHyperlinks(Set<String> hyperlinks) {
+        this.hyperlinks = hyperlinks;
+    }
+    
+    public void addHyperlink(String hyperlink) {
+        hyperlinks.add(hyperlink);
+    }
+    
+    
 }

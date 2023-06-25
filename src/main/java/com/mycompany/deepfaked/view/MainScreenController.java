@@ -80,6 +80,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -113,7 +114,8 @@ public class MainScreenController implements Initializable {
     private List<CompletedTask> tasks;
     private double progressMission;
     private MediaPlayer mediaplayer;
-
+    
+    
     private Gamer gamer;
 
     //private Map<Task, Boolean> completedTasks; 
@@ -143,7 +145,7 @@ public class MainScreenController implements Initializable {
     @FXML
     private WebView webviewTiktok;
 
-    private Pane pnTasks;
+    private VBox pnTasks;
 
     private DeepfakeDetectionPane pnScanning;
 
@@ -239,10 +241,10 @@ public class MainScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-        //AnalyticsButton analyticsButton = new AnalyticsButton();
-        //analyticsButton.setTranslateX(anchorRoot.getPrefWidth() - 150);
-        //analyticsButton.setTranslateY(12);
-        //anchorRoot.getChildren().add(analyticsButton);
+        AnalyticsButton analyticsButton = new AnalyticsButton();
+        analyticsButton.setTranslateX(anchorRoot.getPrefWidth() - 150);
+        analyticsButton.setTranslateY(12);
+        anchorRoot.getChildren().add(analyticsButton);
         prMission.setProgress(0);
         //progressDeepfake = 0; //DeepfakeDao.getDeepfakesForMission(mission).size();
         prDeepfake.setProgress(0);
@@ -250,15 +252,15 @@ public class MainScreenController implements Initializable {
         gamer = LoginController.getGamer();
         lblMoney.setText("€ " + gamer.getMoney() + "0");
         lblFollowers.setText("" + gamer.getFollowers());
-        pnTasks = new Pane();
+        pnTasks = new VBox();
         isScanningPressed = false;
         isScanningCreated = false;
 
-        //pnTasks.setPrefHeight(200);
+        pnTasks.setPrefHeight(200);
         scrollTasks.setVisible(false);
-        scrollTasks.getStylesheets().add(this.getClass().getResource("/assets/border.css").toString());
+        //scrollTasks.getStylesheets().add(this.getClass().getResource("/assets/border.css").toString());
         scrollTasks.getStyleClass().add("paneTasks");
-        //pnTasks.setStyle("-fx-background-color: #f2f2f2");
+        pnTasks.setStyle("-fx-background-color: #f2f2f2");
         //pnTasks.setStyle("-fx-border-color: black");
         //pnTasks.getChildren().add(new Label("Dit is een test"));
         mission = MissionView.getMission();
@@ -273,7 +275,6 @@ public class MainScreenController implements Initializable {
         });
         
         deepfakes = new DeepfakeCollectionImpl(mission, gamer);
-
         /*List<Deepfake> newList = new ArrayList<>();
         List<Deepfake> completedDeepfakes = ProgressDeepfakeDao.getCompletedDeepfakesforGamer(gamer);
         for(Deepfake deep : deepfakes) {
@@ -297,7 +298,6 @@ public class MainScreenController implements Initializable {
         deepfakes.addAll(newList);
          */
         prMission.setProgress(deepfakes.getProgress() * 1.0 / deepfakes.getProgressMission());
-        System.out.println(prMission.getProgress());
         progressMission = prMission.getProgress();
         isProfessorPressed = false;
         isGPTPressed = false;
@@ -406,7 +406,7 @@ public class MainScreenController implements Initializable {
         webEngine.getLoadWorker().exceptionProperty().addListener(new ChangeListener<Throwable>() {
             @Override
             public void changed(ObservableValue<? extends Throwable> ov, Throwable t, Throwable t1) {
-                System.out.println("Received exception: " + t1.getMessage());
+                
             }
         });
     }
@@ -699,7 +699,7 @@ public class MainScreenController implements Initializable {
         escapeHandler = (KeyEvent key) -> {
             if (key.getCode() == KeyCode.ESCAPE) {
                 if (intro.length() < value) {
-                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
+                    newText.setText(intro.substring(begin, intro.length() < value ? intro.length() : value));
                     testTime.stop();
                     keyImage.setVisible(false);
                     root.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
@@ -714,11 +714,11 @@ public class MainScreenController implements Initializable {
                     });
                     pause.play();
                 } else {
-                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
+                    newText.setText(intro.substring(begin, intro.length() < value ? intro.length() : value));
                     begin = value - 1;
                     keyImage.setVisible(true);
                     testTime.pause();
-                    value = 2 * value;
+                    value = value + begin;
                     root.getScene().addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
                     keyImage.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
                 }
@@ -732,8 +732,9 @@ public class MainScreenController implements Initializable {
 
             if ((newStatus.intValue() > value) && intro.charAt(i.get()) == ' ') {
                 keyImage.setVisible(true);
+                begin = value - 1;
                 testTime.pause();
-                value = 2 * value;
+                value = value + begin;
                 root.getScene().addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
                 keyImage.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
 
@@ -780,14 +781,24 @@ public class MainScreenController implements Initializable {
         //addUINode()
     }
 
-    private EventHandler<KeyEvent> createEscapeKeyHandler(Timeline timer, Label newText, String intro) {
+    /*private EventHandler<KeyEvent> createEscapeKeyHandler(Timeline timer, Label newText, String intro) {
         escapeHandler = (KeyEvent key) -> {
             if (key.getCode() == KeyCode.ESCAPE) {
                 if (intro.length() < value) {
-                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
+                    newText.setText(intro.substring(begin, value));
                     long timestamp = System.currentTimeMillis();
                     testTime.stop();
+                    keyImage.setVisible(true);
+                    root.getScene().addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
+                    keyImage.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
+                    
+                } else {
+                    newText.setText(intro.substring(begin, intro.length()));
+                    System.out.println("begin + value" + value + begin);
+                    begin = value - 1;
                     keyImage.setVisible(false);
+                    testTime.pause();
+                    value = value + begin;
                     root.getScene().removeEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
                     keyImage.removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
                     PauseTransition pause = new PauseTransition(Duration.seconds(10));
@@ -799,24 +810,16 @@ public class MainScreenController implements Initializable {
                         setTaskPane();
                     });
                     pause.play();
-                } else {
-                    newText.setText(intro.substring(begin, value < intro.length() ? value : intro.length()));
-                    begin = value - 1;
-                    keyImage.setVisible(true);
-                    testTime.pause();
-                    value = 2 * value;
-                    root.getScene().addEventHandler(KeyEvent.KEY_PRESSED, keyHandler);
-                    keyImage.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseHandler);
                 }
 
             }
         };
         return escapeHandler;
-    }
+    }*/
 
     private void setTaskPane() {
-        pnTasks.setPrefHeight(50);
-        pnTasks.setMaxHeight(50);
+        pnTasks.setPrefHeight(200);
+        //pnTasks.setMaxHeight(50);
         CompletedTask.resetCounter();
         pnTasks.getChildren().clear();
         //tasks.clear();
@@ -832,7 +835,7 @@ public class MainScreenController implements Initializable {
             //Label lblTask = new Label("\u2022\t" + tasks.get(0).getText());
             //ImageView imageComplete = new ImageView(new Image(getClass().getClassLoader().getResource("assets/icons/checknotcomplete.png").toString()));
             //imageComplete.setTranslateX(220);
-            tasks.get(0).getImage().setTranslateY(value + plus - 5);
+            //tasks.get(0).getImage().setTranslateY(value + plus - 5);
             tasks.get(0).getImage().setOnMouseClicked((MouseEvent e) -> {
                 completeTask(0);
             });
@@ -840,13 +843,15 @@ public class MainScreenController implements Initializable {
                 completeTask(0);
             });
             //lblTask.setTranslateX(10);
-            tasks.get(0).getLabel().setTranslateY(value + plus);
-            tasks.get(0).getLabel().setTooltip(new Tooltip(tasks.get(0).getLearningObjective().getLabel()));
-            pnTasks.getChildren().add(tasks.get(0).getLabel());
-            pnTasks.getChildren().add(tasks.get(0).getImage());
+            //tasks.get(0).getLabel().setTranslateY(value + plus);
+            //tasks.get(0).getHorizontalBox()..setTooltip(new Tooltip(tasks.get(0).getLearningObjective().getLabel()));
+            //tasks.get(0).getLabel().setWrapText(true);
+            
+            pnTasks.getChildren().add(tasks.get(0).getHorizontalBox());
         }
         scrollTasks.setContent(pnTasks);
-        scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        scrollTasks.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollTasks.setVisible(true);
         tglTasks.setDisable(false);
         isProfessorPressed = true;
@@ -868,7 +873,7 @@ public class MainScreenController implements Initializable {
     }
 
     private void handler() {
-        begin = whole.length();
+        //begin = whole.length();
         whole = "";
         testTime.play();
         keyImage.setVisible(false);
@@ -879,12 +884,14 @@ public class MainScreenController implements Initializable {
     private void completeTask(int index) {
         double height = 20;
         if (tasks.get(index).isCompleted()) {
-            for (int t = index + 1; t < tasks.size(); t++) {
+            int t;
+            for (t = index + 1; t < tasks.size(); t++) {
                 tasks.get(t).setCompleted(false);
                 tasks.get(t).setImage(new Image(CompletedTask.NOT_COMPLETE));
-                pnTasks.getChildren().remove(tasks.get(t).getLabel());
-                pnTasks.getChildren().remove(tasks.get(t).getImage());
+                pnTasks.getChildren().remove(tasks.get(t).getHorizontalBox());
                 
+                //pnTasks.getChildren().remove(tasks.get(t).getImage());
+                //pnTasks.setPrefHeight(pnTasks.getPrefHeight() - tasks.get(t).getLabel().getPrefHeight());
             }
             tasks.get(index).setCompleted(false);
             tasks.get(index).setImage(new Image(CompletedTask.NOT_COMPLETE));
@@ -894,21 +901,38 @@ public class MainScreenController implements Initializable {
             tasks.get(index).setCompleted(true);
             tasks.get(index).setImage(new Image(getClass().getResource("/assets/icons/checkComplete.png").toString()));
             if (++index < tasks.size()) {
-                tasks.get(index).getLabel().setTranslateY(tasks.get(index - 1).getLabel().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
-                tasks.get(index).getImage().setTranslateY(tasks.get(index - 1).getImage().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
+                //tasks.get(index).getLabel().setTranslateY(tasks.get(index - 1).getLabel().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
+                //tasks.get(index).getImage().setTranslateY(tasks.get(index - 1).getImage().translateYProperty().doubleValue() + tasks.get(index - 1).getLabel().getHeight() + 5);
                 final int ind = index;
-                tasks.get(index).getLabel().setTooltip(new Tooltip(tasks.get(index).getLearningObjective().getLabel()));
-                pnTasks.getChildren().add(tasks.get(index).getLabel());
+                //horizontalBox.add(new HBox());
+                //tasks.get(index).getLabel().setTooltip(new Tooltip(tasks.get(index).getLearningObjective().getLabel()));
+                //tasks.get(index).getLabel().setPrefWidth(200);
+                //tasks.get(index).getLabel().setWrapText(true);
+                
+                //pnTasks.setPrefHeight(pnTasks.getPrefHeight() + tasks.get(index).getLabel().getPrefHeight());
                 tasks.get(index).getImage().setOnMouseClicked((MouseEvent e) -> {
                     completeTask(ind);
                 });
-                pnTasks.getChildren().add(tasks.get(index).getImage());
+                tasks.get(index).getLabel().setOnMouseClicked((MouseEvent e) -> {
+                    completeTask(ind);
+                });
+                pnTasks.getChildren().add(tasks.get(index).getHorizontalBox());
+                //scrollTasks.setContent(pnTasks);
 
             }
             
         }
         int amountOfCompleted = 0;
-        for (int i = 1; i < tasks.size(); i++) {
+        DoubleProperty wProperty = new SimpleDoubleProperty();
+        wProperty.bind(pnTasks.prefHeightProperty());
+        wProperty.addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue ov, Object t, Object t1) {
+                //when ever Hbox width chnages set ScrollPane Hvalue
+                scrollTasks.setVvalue(1.0);
+            }
+        });
+        /*for (int i = 1; i < tasks.size(); i++) {
             if (tasks.get(i).isCompleted()) {
                 height += tasks.get(i).getLabel().getHeight() + 20;
                 amountOfCompleted++;
@@ -916,7 +940,7 @@ public class MainScreenController implements Initializable {
                 height += tasks.get(i).getLabel().getHeight() + 20;
 
             }
-        }
+        }*/
         int completed = 0;
         for(int i = 0; i < tasks.size(); i++) {
             if(tasks.get(i).isCompleted()) {
@@ -931,7 +955,7 @@ public class MainScreenController implements Initializable {
         }
         //prDeepfake.setProgress(prDeepfake.getProgress() + (1.0 / deepfakes.getProgressDeepfake()));
         //prMission.setProgress(prMission.getProgress() + (1.0 / deepfakes.getProgressMission()));
-        if (amountOfCompleted == tasks.size() - 1) {
+        if (completed == tasks.size()) {
             btnReal.setDisable(false);
             btnFake.setDisable(false);
         } else {
@@ -939,11 +963,11 @@ public class MainScreenController implements Initializable {
             btnFake.setDisable(true);
         }
 
-        height += 50;
-        pnTasks.setPrefHeight(height);
-        pnTasks.setMaxHeight(height);
+        //height += 50;
+        //pnTasks.setPrefHeight(height);
+        //pnTasks.setMaxHeight(height);
         scrollTasks.setContent(pnTasks);
-        scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollTasks.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
     }
 
@@ -956,13 +980,13 @@ public class MainScreenController implements Initializable {
     protected void loadNext() {
         ProgressDeepfakeDao.addCompletedDeepfakeForGamer(gamer, deepfake);
         tbPaneMainScreen.getTabs().remove(tbPersonal);
+        scrollTasks.setVvalue(0.0);
         double totalMoney = QuestionsController.getMoney();
         int totalFollowers = QuestionsController.getFollowers();
         if (deepfakeCorrect) {
             totalMoney += deepfake.getValue().getMoney();
             totalFollowers += deepfake.getValue().getFollowers();
         }
-        System.out.println(totalMoney);
         GamerDao.addValue(gamer, totalMoney, totalFollowers);
 
         if (deepfakes == null || deepfakes.isEmpty()) {
@@ -970,7 +994,7 @@ public class MainScreenController implements Initializable {
             if (checkMissions() > 0) {
                 MissionView intro = InfoFactory.createMissionView(this, "Geweldig gedaan. Je hebt de missie voltooid. Ga verder naar een andere missie.");
             } else {
-                TextOnlyView intro = InfoFactory.createTextOnlyView(this, "Geweldig gedaan. Je hebt alle missis voltooid.");
+                TextOnlyView intro = InfoFactory.createTextOnlyView(this, "Geweldig gedaan. Je hebt alle missies voltooid.");
             }
             PrntView.getStage().close();
         } else {

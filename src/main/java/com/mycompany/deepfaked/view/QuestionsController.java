@@ -65,6 +65,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import com.mycompany.deepfaked.database.model.QuestionCollection;
+import java.util.Iterator;
+import java.util.Set;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.web.WebEngine;
 
 /**
  * FXML Controller class
@@ -82,6 +86,8 @@ public class QuestionsController implements Initializable {
     private double amountofmoney;
     private int amountoffollowers;
     
+    private Stage infoStage;
+    
     private Stage questionsStage;
     
     private QuestionCollection<Question> questions;
@@ -89,6 +95,9 @@ public class QuestionsController implements Initializable {
     private Question question;
     
     private List<ToggleButton> buttons;
+    
+    @FXML
+    private Label lblMoreInformation;
     
     @FXML
     private Parent root;
@@ -127,12 +136,15 @@ public class QuestionsController implements Initializable {
     @FXML
     private Label lblDifficulty;
     
+    @FXML
+    private Pane pnMore;
+    
     public QuestionsController(MainScreenController controller) {
         this.mainScreenController = controller;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/questions.fxml"));
             fxmlLoader.setController(this);
-            Scene scene = new Scene(fxmlLoader.load(), 885, 740); 
+            Scene scene = new Scene(fxmlLoader.load(), 885, 827); 
             scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
                 @Override
                 public void handle(KeyEvent event) {
@@ -141,7 +153,7 @@ public class QuestionsController implements Initializable {
             });
         scene.getStylesheets().add(getClass().getResource("/assets/border.css").toExternalForm());
         questionsStage = new Stage();
-        questionsStage.setResizable(false);
+        questionsStage.setResizable(true);
         questionsStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
         questionsStage.setTitle("Questions");
         questionsStage.setScene(scene);
@@ -235,7 +247,7 @@ public class QuestionsController implements Initializable {
             pnQuestionsField.getChildren().removeAll(buttons);
         }
         buttons = new ArrayList<>();
-        if(choices != null && !choices.isEmpty()) {
+        //if(choices != null && !choices.isEmpty()) {
             int beginY = 5;
             int layoutY = 300 / choices.size();
             ToggleGroup group = new ToggleGroup();
@@ -272,9 +284,9 @@ public class QuestionsController implements Initializable {
                 
                 pnQuestionsField.getChildren().addAll(buttons);
                 btnReady.setVisible(true);
-        } else {
+        /*} else {
             nextQuestion();
-        }
+        }*/
     }
     
     @FXML
@@ -315,6 +327,46 @@ public class QuestionsController implements Initializable {
         Text information = new Text(context.getState().getInformation());
         information.wrappingWidthProperty().bind(pnInformation.widthProperty());
         pnInformation.setContent(information);
+        if(!context.getState().getHyperlinks().isEmpty()) {
+            lblMoreInformation.setVisible(true);
+            createHyperlinks(context.getState().getHyperlinks());
+            pnMore.setVisible(true);
+        }
+    }
+    
+    private void createHyperlinks(Set<String> hyperlinks) {
+        Iterator<String> itHyperlinks = hyperlinks.iterator();
+        
+        while(itHyperlinks.hasNext()) {
+            Hyperlink hyperlink = new Hyperlink();
+            hyperlink.setText(itHyperlinks.next());
+            hyperlink.setOnAction((ActionEvent e) -> {
+                try {
+                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/mycompany/deepfaked/view/terms.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                TermsController controller = fxmlLoader.<TermsController>getController();
+                WebEngine webEngine = controller.getFleTerms().getEngine();
+                webEngine.load(hyperlink.getText());
+                if(infoStage == null) {
+                    infoStage = new Stage();
+                    infoStage.getIcons().add(new Image(App.class.getResource("/assets/DeepfakedSplash.png").toString()));
+                    infoStage.setTitle("Deepfaked - Meer informatie");
+                    infoStage.setX(1100.00);
+                    infoStage.setY(300.00);
+                }
+                infoStage.setResizable(true);
+                infoStage.setScene(scene);
+                infoStage.show();
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+            //double value = hyperlinks.size();
+            //double height = pnMore.getPrefHeight() / value;
+            //hyperlink.setLayoutY(height + value);
+            pnMore.getChildren().add(hyperlink);
+            
+        }
     }
     
     @FXML
@@ -329,6 +381,9 @@ public class QuestionsController implements Initializable {
             createButtons();
             pnInformation.setVisible(false);
             btnNextQuestion.setVisible(false);
+            lblMoreInformation.setVisible(false);
+            pnMore.setVisible(false);
+            pnMore.getChildren().clear();
         } else {
             amountOfFollowers();
         }
@@ -363,14 +418,14 @@ public class QuestionsController implements Initializable {
         amountofmoney = 0.00;
         amountoffollowers = 0;
         Timeline timelineMoney = new Timeline(new KeyFrame(Duration.millis(20), (ActionEvent event) -> {
-             if(amountofmoney < money) {
+             if(amountofmoney <= money) {
                  txtMoney.setText("€ " + amountofmoney + "0");
                  amountofmoney++;
              }
         }));
          
          Timeline timeLineFollowers = new Timeline(new KeyFrame(Duration.millis(20), (ActionEvent event) -> {
-            if(amountoffollowers < followers) {
+            if(amountoffollowers <= followers) {
                 txtFollowers.setText("" + amountoffollowers);
                 amountoffollowers++;
             }

@@ -5,10 +5,12 @@
 package com.mycompany.deepfaked.database.model;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -22,23 +24,28 @@ public class CompletedTask extends Task {
     
     int id;
     boolean completed;
-    Label label;
+    Text label;
     ImageView image;
+    HBox horizontalBox;
     
     public CompletedTask(Task task) {
         super(task);
         //this.setText("\u2022\t" + this.getText());
         id = count.getAndIncrement();
         this.completed = false;
-        label = new Label("\u2022\t" + task.getDescription());
+        label = new Text("\u2022\t" + task.getDescription());
         label.setTranslateX(20);
-        label.setPrefWidth(200);
+        //label.setPrefWidth(170);
+        label.setWrappingWidth(200);
         label.setFont(Font.font(16));
-        label.setWrapText(true);
         image = new ImageView();
         image.setImage(new Image(NOT_COMPLETE));
-        image.setTranslateX(220);
-        
+        image.setTranslateX(50);
+        //image.setTranslateX(170);
+        horizontalBox = new HBox(label, image);
+        horizontalBox.setPrefWidth(200);
+        Tooltip tooltip = new Tooltip(this.getLearningObjective().getLabel());
+        Tooltip.install(horizontalBox, tooltip);
     }
     
     public static void resetCounter() {
@@ -62,11 +69,11 @@ public class CompletedTask extends Task {
         this.completed = completed;
     }
 
-    public Label getLabel() {
+    public Text getLabel() {
         return label;
     }
 
-    public void setLabel(Label label) {
+    public void setLabel(Text label) {
         this.label = label;
     }
 
@@ -77,6 +84,15 @@ public class CompletedTask extends Task {
     public void setImage(Image image) {
         this.image.setImage(image);
     }
+
+    public HBox getHorizontalBox() {
+        return horizontalBox;
+    }
+
+    public void setHorizontalBox(HBox horizontalBox) {
+        this.horizontalBox = horizontalBox;
+    }
+    
     
     
     

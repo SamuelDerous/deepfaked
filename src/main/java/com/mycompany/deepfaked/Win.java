@@ -22,7 +22,7 @@ import javafx.scene.media.MediaPlayer;
 public class Win implements CorrectState {
 
     private static final double W = 885; // canvas dimensions.
-    private static final double H = 740;
+    private static final double H = 827;
 
     private static AnimationTimerExt timer; // = new AnimationTimerExt(10);
     public static final Image coin = new Image(Win.class.getResource("/assets/textures/coin.png").toString());
@@ -49,7 +49,7 @@ public class Win implements CorrectState {
         timer = new AnimationTimerExt(test) {
             @Override
             public void handle() {
-                if (viewCoin.getY() < H - 20) {
+                if (viewCoin.getY() < H - 27) {
                     viewCoin.setY(viewCoin.getY() + 20.0);
                 } else {
                     viewCoin.setX(viewCoin.getX() + 20.0);

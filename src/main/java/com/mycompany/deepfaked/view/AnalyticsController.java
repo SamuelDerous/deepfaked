@@ -97,7 +97,6 @@ public class AnalyticsController implements Initializable {
             Mission mission = it.next();
             if(!completedMissions.contains(mission)) {
                 List<Deepfake> deeps = DeepfakeDao.getDeepfakesForMission(mission);
-                //System.out.println(deeps.size());
                 if(!deeps.isEmpty()) {
                     totalDeepfakes.put(mission, deeps.size());
                     completedDeeps.put(mission, new ArrayList<>());
@@ -177,16 +176,16 @@ public class AnalyticsController implements Initializable {
         int totalMissions = missions.size();
         double deepfakeProgress = 0.0;
         for(Map.Entry<Mission, Integer> entry : totalDeepfakes.entrySet()) {
-            deepfakeProgress += completedDeeps.get(entry.getKey()).size() * 100 / entry.getValue();
+            if(!completedDeeps.get(entry.getKey()).isEmpty()) {
+                deepfakeProgress += completedDeeps.get(entry.getKey()).size() * 100 / entry.getValue();
             //System.out.println(completedDeeps.get(entry.getKey()).size() + "* 100 / " + entry.getValue() + " = " + completedDeeps.get(entry.getKey()).size() * 100 / entry.getValue() );
             //System.out.println("mission: " + entry.getKey().getName() + "    " + completedDeeps.get(entry.getKey()).size());
             
             //totalMissions--;
+            }
         }
         //System.out.println("DeepfakeProgress = " + deepfakeProgress);
-        double progress = (completedMissions.size() * 100) / totalMissions + (deepfakeProgress); // / totalMissions;
-        System.out.println(progress);
-        System.out.println(deepfakeProgress);
+        double progress = ((completedMissions.size() * 100.0) / totalMissions) + (deepfakeProgress * ((100.0 / totalMissions) / 100.0));
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
             new PieChart.Data("Missies", 100 - progress),
             new PieChart.Data("Vervolledigd", progress));

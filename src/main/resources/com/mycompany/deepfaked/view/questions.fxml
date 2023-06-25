@@ -8,11 +8,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" onKeyPressed="#keyPressed" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane fx:id="overallPane" onKeyPressed="#keyPressed" onKeyTyped="#keyPressed" prefHeight="740.0" prefWidth="885.0">
+      <Pane fx:id="overallPane" onKeyPressed="#keyPressed" onKeyTyped="#keyPressed" prefHeight="821.0" prefWidth="885.0">
          <children>
             <ImageView fitHeight="398.0" fitWidth="701.0" layoutX="82.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -54,6 +55,9 @@
                </image>
             </ImageView>
             <Button fx:id="btnReady" layoutX="737.0" layoutY="579.0" mnemonicParsing="false" onAction="#checkAnswers" text="Klaar" />
+            <Label fx:id="lblMoreInformation" layoutX="82.0" layoutY="727.0" text="Verdere informatie" textFill="WHITE" visible="false" />
+            <VBox fx:id="pnMore" layoutX="203.0" layoutY="723.0" prefHeight="98.0" prefWidth="578.0" />
          </children></Pane>
+            <Label>test</Label>
    </children>
 </AnchorPane>
